@@ -1,13 +1,26 @@
 package com.example.demo.auction;
 
-import com.example.demo.product.Product;
-import com.example.demo.user.User;
-import jakarta.persistence.*;
-import lombok.*;
+import java.util.Date;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.Date;
+import com.example.demo.product.Product;
+import com.example.demo.user.Users;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
@@ -23,7 +36,7 @@ public class Auction {
     @ManyToOne
     @JoinColumn(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User seller;
+    private Users seller;
 
     private int min;
     private int max;
