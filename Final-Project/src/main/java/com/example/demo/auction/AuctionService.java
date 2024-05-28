@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.product.Product;
 import com.example.demo.user.Users;
 
 @Service
@@ -41,6 +42,15 @@ public class AuctionService {
 	}
 	public ArrayList<AuctionDto> getBySeller(Users seller){
 		List<Auction>l= dao.findBySeller(seller);
+		ArrayList<AuctionDto> list=new ArrayList<>();
+		for(Auction a:l) {
+			list.add(new AuctionDto(a.getNum(),a.getSeller(),a.getMin(),a.getMax(),a.getProduct(),a.getStatus(),a.getStart_time(),a.getEnd_time(),a.getType()));
+		}
+		return list;
+				
+	}
+	public ArrayList<AuctionDto> getByProduct(Product seller){
+		List<Auction>l= dao.findByProduct(seller);
 		ArrayList<AuctionDto> list=new ArrayList<>();
 		for(Auction a:l) {
 			list.add(new AuctionDto(a.getNum(),a.getSeller(),a.getMin(),a.getMax(),a.getProduct(),a.getStatus(),a.getStart_time(),a.getEnd_time(),a.getType()));
