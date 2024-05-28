@@ -1,7 +1,6 @@
 package com.example.demo.product;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -13,6 +12,8 @@ import lombok.*;
 public class Product {
 
     @Id
+    @SequenceGenerator(name = "seq_gen", sequenceName = "seq_product", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_product")
     private int num;
 
     private String name;
@@ -21,6 +22,6 @@ public class Product {
     private String img3;
     private String img4;
     private String img5;
-    private String categories;
+    private String categories; // 의류, 디지털 기기, 골동품, 뷰티/잡화, 스포츠용품, 애완용품, 인력, 기타
 
 }
