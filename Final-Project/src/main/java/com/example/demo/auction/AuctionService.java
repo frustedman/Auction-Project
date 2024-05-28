@@ -17,6 +17,10 @@ public class AuctionService {
 	public void save(AuctionDto dto) {
 		dao.save(new Auction(dto.getNum(),dto.getSeller(),dto.getMin(),dto.getMax(),dto.getProduct(),dto.getStatus(),dto.getStart_time(),dto.getEnd_time(),dto.getType()));
 	}
+
+	public void delete(int num) {
+		dao.deleteById(num);
+	}
 	
 	public AuctionDto get(int num) {
 		Auction a=dao.findById(num).orElse(null);
