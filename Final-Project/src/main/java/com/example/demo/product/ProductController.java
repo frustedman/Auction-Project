@@ -80,9 +80,6 @@ public class ProductController {
         File f = new File(path + p.getFname());
         f.delete();
         return "redirect:/";
-        service.getByCategories()
-                service.getByName()
-                        service.
     }
 
     @GetMapping("/categories")
