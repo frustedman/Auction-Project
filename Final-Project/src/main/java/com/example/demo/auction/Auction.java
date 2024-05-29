@@ -1,5 +1,7 @@
 package com.example.demo.auction;
 
+
+
 import java.util.Date;
 
 import org.hibernate.annotations.OnDelete;
@@ -19,7 +21,6 @@ import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -57,10 +58,5 @@ public class Auction {
     public enum Type {
         NORMAL, BLIND, EVENT
     }
-
-    @PrePersist
-    public void prePersist() {
-        start_time = new Date();
-        end_time = new Date();
-    }
+   
 }
