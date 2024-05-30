@@ -15,8 +15,8 @@ public class ProductService {
 
     // 추가, 수정
     public ProductDto save(ProductDto dto) {
-        Product p = dao.save(new Product(dto.getNum(), dto.getName(), dto.getImg1(), dto.getImg2(), dto.getImg3(), dto.getImg4(), dto.getImg5(), dto.getCategories()));
-        return new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), null);
+        Product p = dao.save(new Product(dto.getNum(), dto.getName(), dto.getImg1(), dto.getImg2(), dto.getImg3(), dto.getImg4(), dto.getImg5(), dto.getCategories(), dto.getFname()));
+        return new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), p.getFname(),null);
     }
 
     // 번호로 삭제
@@ -30,7 +30,7 @@ public class ProductService {
         if (p == null) {
             return null;
         }
-        return new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), null);
+        return new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), p.getFname(), null);
     }
 
 
@@ -39,7 +39,7 @@ public class ProductService {
         List<Product> l = dao.findByCategories(categories);
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
-            list.add(new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), null));
+            list.add(new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), p.getFname(), null));
         }
         return list;
     }
@@ -49,7 +49,7 @@ public class ProductService {
         List<Product> l = dao.findByCategories(name);
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
-            list.add(new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), null));
+            list.add(new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), p.getFname(), null));
         }
         return list;
     }

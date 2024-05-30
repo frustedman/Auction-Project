@@ -23,5 +23,6 @@ public class Product {
     private String img4;
     private String img5;
     private String categories; // 의류, 디지털 기기, 골동품, 뷰티/잡화, 스포츠용품, 애완용품, 인력, 기타
+    private String fname;
 
 }

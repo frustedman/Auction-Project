@@ -18,6 +18,7 @@ public class ProductDto {
     private String img4;
     private String img5;
     private String categories;
+    private String fname;
     private MultipartFile f;
 
 }
