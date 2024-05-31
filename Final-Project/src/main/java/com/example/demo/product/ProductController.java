@@ -67,6 +67,11 @@ public class ProductController {
     public String edit(ProductDto dto) {
         ProductDto p = service.getProd(dto.getNum());
         p.setName(dto.getName());
+        p.setImg1(dto.getImg1());
+        p.setImg2(dto.getImg2());
+        p.setImg3(dto.getImg3());
+        p.setImg4(dto.getImg4());
+        p.setImg5(dto.getImg5());
         p.setCategories(dto.getCategories());
         service.save(p);
         return "redirect:/";
