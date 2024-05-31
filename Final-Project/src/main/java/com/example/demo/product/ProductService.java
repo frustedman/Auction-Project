@@ -1,5 +1,6 @@
 package com.example.demo.product;
 
+import com.example.demo.user.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ public class ProductService {
 
     // 추가, 수정
     public ProductDto save(ProductDto dto) {
-        Product p = dao.save(new Product(dto.getNum(), dto.getName(), dto.getImg1(), dto.getImg2(), dto.getImg3(), dto.getImg4(), dto.getImg5(), dto.getCategories(), dto.getFname()));
-        return new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), p.getFname(),null);
+        Product p = dao.save(new Product(dto.getNum(), dto.getSeller(), dto.getName(), dto.getImg1(), dto.getImg2(), dto.getImg3(), dto.getImg4(), dto.getImg5(), dto.getCategories()));
+        return new ProductDto(p.getNum(), p.getSeller(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(),null);
     }
 
     // 번호로 삭제
@@ -30,7 +31,7 @@ public class ProductService {
         if (p == null) {
             return null;
         }
-        return new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), p.getFname(), null);
+        return new ProductDto(p.getNum(), p.getSeller(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(),null);
     }
 
 
@@ -39,7 +40,7 @@ public class ProductService {
         List<Product> l = dao.findByCategories(categories);
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
-            list.add(new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), p.getFname(), null));
+            list.add(new ProductDto(p.getNum(), p.getSeller(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), null));
         }
         return list;
     }
@@ -49,7 +50,17 @@ public class ProductService {
         List<Product> l = dao.findByCategories(name);
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
-            list.add(new ProductDto(p.getNum(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), p.getFname(), null));
+            list.add(new ProductDto(p.getNum(), p.getSeller(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), null));
+        }
+        return list;
+    }
+
+    // 판매자로 검색
+    public ArrayList<ProductDto> getBySeller(String seller) {
+        List<Product> l = dao.findBySeller(new Users(seller, "", "", "", null, 0, "", 0, ""));
+        ArrayList<ProductDto> list = new ArrayList<>();
+        for (Product p : l) {
+            list.add(new ProductDto(p.getNum(), p.getSeller(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), null));
         }
         return list;
     }

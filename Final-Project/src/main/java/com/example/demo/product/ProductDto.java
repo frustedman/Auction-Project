@@ -1,5 +1,6 @@
 package com.example.demo.product;
 
+import com.example.demo.user.Users;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductDto {
 
     private int num;
+    private Users seller;
     private String name;
     private String img1;
     private String img2;
@@ -18,7 +20,6 @@ public class ProductDto {
     private String img4;
     private String img5;
     private String categories;
-    private String fname;
     private MultipartFile f;
 
 }
