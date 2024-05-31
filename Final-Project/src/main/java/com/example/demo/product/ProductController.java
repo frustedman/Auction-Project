@@ -100,5 +100,7 @@ public class ProductController {
     public void myProduct(String seller, ModelMap map) {
         map.addAttribute("list", service.getBySeller(seller));
     }
+    
+    
 
 }
