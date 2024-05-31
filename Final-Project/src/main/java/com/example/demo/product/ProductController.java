@@ -91,5 +91,7 @@ public class ProductController {
     public void name(String name, ModelMap map) {
         map.addAttribute("name", service.getByName(name));
     }
+    
+    
 
 }
