@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>상품 등록</h3>
+    <form action="/auth/prod/add" method="post" enctype="multipart/form-data">
+        seller: <input type="text" name="seller" th:value="${session.loginId}">
+        name: <input type="text" name="name"><br/>
+        img1: <input type="file" name="f"><br/>
+        img2: <input type="file" name="f"><br/>
+        img3: <input type="file" name="f"><br/>
+        img4: <input type="file" name="f"><br/>
+        img5: <input type="file" name="f"><br/>
+        categories: <input type="radio" name="categories" value="의류">의류
+                    <input type="radio" name="categories" value="디지털기기">디지털기기
+                    <input type="radio" name="categories" value="골동품">골동품
+                    <input type="radio" name="categories" value="뷰티/잡화">뷰티/잡화
+                    <input type="radio" name="categories" value="스포츠용품">스포츠용품
+                    <input type="radio" name="categories" value="애완용품">애완용품
+                    <input type="radio" name="categories" value="기타" checked>기타
+        <input type="submit" value="등록">
+    </form>
+</body>
+</html>
