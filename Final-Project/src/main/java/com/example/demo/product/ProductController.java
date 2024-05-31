@@ -35,11 +35,11 @@ public class ProductController {
     public String add(ProductDto dto) {
         ProductDto p = service.save(dto);
         String oname = dto.getF().getOriginalFilename();
-        String fname = p.getNum() + oname;
-        File f = new File(path + fname);
+        String img1 = p.getNum() + oname;
+        File f = new File(path + img1);
         try {
             dto.getF().transferTo(f);
-            p.setFname(f.getName());
+            p.setImg1(f.getName());
             service.save(p);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -66,7 +66,6 @@ public class ProductController {
     @PostMapping("/edit")
     public String edit(ProductDto dto) {
         ProductDto p = service.getProd(dto.getNum());
-        p.setFname(dto.getFname());
         p.setName(dto.getName());
         p.setCategories(dto.getCategories());
         service.save(p);
@@ -77,7 +76,7 @@ public class ProductController {
     public String del(int num) {
         ProductDto p = service.getProd(num);
         service.delProd(num);
-        File f = new File(path + p.getFname());
+        File f = new File(path + p.getImg1());
         f.delete();
         return "redirect:/";
     }
@@ -89,7 +88,12 @@ public class ProductController {
 
     @GetMapping("/name")
     public void name(String name, ModelMap map) {
-        map.addAttribute("name", service.getByName(name));
+        map.addAttribute("list", service.getByName(name));
+    }
+
+    @GetMapping("/myprod")
+    public void myProduct(String seller, ModelMap map) {
+        map.addAttribute("list", service.getBySeller(seller));
     }
 
 }
