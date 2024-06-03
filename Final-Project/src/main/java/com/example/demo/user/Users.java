@@ -1,14 +1,21 @@
 package com.example.demo.user;
 
+import java.util.Date;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.example.demo.auction.Auction;
+import com.example.demo.auction.AuctionDto;
+import com.example.demo.auction.Auction.Type;
 import com.example.demo.card.Card;
+import com.example.demo.product.Product;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +26,6 @@ import lombok.ToString;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class Users {
 
@@ -38,6 +44,41 @@ public class Users {
     private String rank;
     private int exp;
     private String type;
+    
+    public static Users create(UserDto dto) {
+    	return Users.builder()
+    			.id(dto.getId())
+    			.pwd(dto.getPwd())
+    			.name(dto.getName())
+    			.email(dto.getEmail())
+    			.cardnum(dto.getCardnum())
+    			.point(dto.getPoint())
+    			.rank(dto.getRank())
+    			.exp(dto.getExp())
+    			.type(dto.getType())
+    			.build();
+    }
+
+    @Builder
+	public Users(String id, String pwd, String name, String email, Card cardnum, int point, String rank, int exp,
+			String type) {
+		this.id = id;
+		this.pwd = pwd;
+		this.name = name;
+		this.email = email;
+		this.cardnum = cardnum;
+		this.point = point;
+		this.rank = rank;
+		this.exp = exp;
+		this.type = type;
+	}
+
+
+    
+	
+    
+    
+    
 
 //    @OneToMany
 //    private Installments installment;

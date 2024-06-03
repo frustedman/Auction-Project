@@ -7,10 +7,13 @@ import com.example.demo.auction.Auction;
 import com.example.demo.user.Users;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.SequenceGenerator;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,11 +23,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class Bid {
 
     @Id
+    @SequenceGenerator(name = "seq_gen", sequenceName = "seq_bid", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_bid")
     private int num;
 
     @ManyToOne
@@ -38,4 +42,21 @@ public class Bid {
     private Users buyer;
 
     private int price;
+    
+    public static Bid create(BidDto dto) {
+    	return  Bid.builder()
+    			.num(dto.getNum())
+    			.parent(dto.getParent())
+    			.buyer(dto.getBuyer())
+    			.price(dto.getPrice())
+    			.build();	
+    }
+
+    @Builder
+	public Bid(int num, Auction parent, Users buyer, int price) {
+		this.num = num;
+		this.parent = parent;
+		this.buyer = buyer;
+		this.price = price;
+	}
 }

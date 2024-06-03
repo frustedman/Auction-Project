@@ -1,21 +1,15 @@
 package com.example.demo.auction;
 
+import java.util.ArrayList;
 import java.util.Date;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import java.util.List;
 
 import com.example.demo.auction.Auction.Type;
+import com.example.demo.bid.Bid;
 import com.example.demo.product.Product;
 import com.example.demo.user.Users;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,8 +17,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@NoArgsConstructor 
-@AllArgsConstructor 
+@NoArgsConstructor
 @ToString
 public class AuctionDto {
 	    private int num;
@@ -42,5 +35,35 @@ public class AuctionDto {
 	    private Date start_time;
 	    private Date end_time;
 	    private Type type;
-	   
+	    
+	    private List<Bid> BidList =new ArrayList<>();
+	    
+	    public static AuctionDto create(Auction a) {
+	    	return AuctionDto.builder()
+	    			.num(a.getNum())
+	    			.seller(a.getSeller())
+	    			.min(a.getMin())
+	    			.max(a.getMax())
+	    			.product(a.getProduct())
+	    			.status(a.getStatus())
+	    			.start_time(a.getStart_time())
+	    			.end_time(a.getEnd_time())
+	    			.type(a.getType())
+	    			.build();
+	    }
+
+	    @Builder
+		public AuctionDto(int num, Users seller, int min, int max, Product product, int status, Date start_time, Date end_time,
+				Type type) {
+			this.num = num;
+			this.seller = seller;
+			this.min = min;
+			this.max = max;
+			this.product = product;
+			this.status = status;
+			this.start_time = start_time;
+			this.end_time = end_time;
+			this.type = type;
+		}
+	    
 }

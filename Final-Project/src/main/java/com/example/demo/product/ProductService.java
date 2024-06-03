@@ -16,8 +16,11 @@ public class ProductService {
 
     // 추가, 수정
     public ProductDto save(ProductDto dto) {
-        Product p = dao.save(new Product(dto.getNum(), dto.getSeller(), dto.getName(), dto.getImg1(), dto.getImg2(), dto.getImg3(), dto.getImg4(), dto.getImg5(), dto.getCategories()));
-        return new ProductDto(p.getNum(), p.getSeller(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(),null,null,null,null,null);
+
+        Product p = dao.save(Product.create(dto));
+        return ProductDto.create(p);
+
+      
     }
 
     // 번호로 삭제
@@ -31,7 +34,9 @@ public class ProductService {
         if (p == null) {
             return null;
         }
-        return new ProductDto(p.getNum(), p.getSeller(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(),null,null,null,null,null);
+
+        return ProductDto.create(p);
+
     }
 
 
@@ -40,7 +45,8 @@ public class ProductService {
         List<Product> l = dao.findByCategories(categories);
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
-            list.add(new ProductDto(p.getNum(), p.getSeller(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), null,null,null,null,null));
+
+            list.add(ProductDto.create(p));
         }
         return list;
     }
@@ -50,7 +56,7 @@ public class ProductService {
         List<Product> l = dao.findByCategories(name);
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
-            list.add(new ProductDto(p.getNum(), p.getSeller(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), null,null,null,null,null));
+        	list.add(ProductDto.create(p));  
         }
         return list;
     }
@@ -60,7 +66,7 @@ public class ProductService {
         List<Product> l = dao.findBySeller(new Users(seller, "", "", "", null, 0, "", 0, ""));
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
-            list.add(new ProductDto(p.getNum(), p.getSeller(), p.getName(), p.getImg1(), p.getImg2(), p.getImg3(), p.getImg4(), p.getImg5(), p.getCategories(), null,null,null,null,null));
+        	list.add(ProductDto.create(p));
         }
         return list;
     }
