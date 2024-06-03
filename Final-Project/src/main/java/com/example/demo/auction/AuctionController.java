@@ -38,10 +38,10 @@ public class AuctionController {
 	public String addform() {
 		return "/auction/add";
 	}
+
 	@MessageMapping("/price")
 	@SendTo("/auth/topic/auction")
 	public BidDto send(BidDto b) throws InterruptedException {
-		
 		try{
 			bservice.save(b);
 		}catch(Exception e) {
