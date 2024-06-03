@@ -1,5 +1,8 @@
 package com.example.demo.product;
 
+import com.example.demo.auction.Auction;
+import com.example.demo.bid.Bid;
+import com.example.demo.bid.BidDto;
 import com.example.demo.user.Users;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +13,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class Product {
 
@@ -30,6 +32,41 @@ public class Product {
     private String img3;
     private String img4;
     private String img5;
-    private String categories; // 의류, 디지털 기기, 골동품, 뷰티/잡화, 스포츠용품, 애완용품, 인력, 기타
+    
+    @Enumerated(EnumType.STRING)
+    private Categories categories;    
+   
+    public enum Categories {
+    	 의류, 디지털기기, 골동품, 뷰티_잡화, 스포츠용품, 애완용품, 기타
+    }
+    
+    public static Product create(ProductDto dto) {
+    	return Product.builder()
+    			.num(dto.getNum())
+    			.seller(dto.getSeller())
+    			.name(dto.getName())
+    			.img1(dto.getImg1())
+    			.img2(dto.getImg2())
+    			.img3(dto.getImg3())
+    			.img4(dto.getImg4())
+    			.img5(dto.getImg5())
+    			.categories(dto.getCategories())
+    			.build();
+    }
+    
+    @Builder
+	public Product(int num, Users seller, String name, String img1, String img2, String img3, String img4, String img5,
+			Categories categories) {
+		super();
+		this.num = num;
+		this.seller = seller;
+		this.name = name;
+		this.img1 = img1;
+		this.img2 = img2;
+		this.img3 = img3;
+		this.img4 = img4;
+		this.img5 = img5;
+		this.categories = categories;
+	}
 
 }

@@ -18,7 +18,7 @@ public class AuctionService {
 	private AuctionDao dao;
 	
 	public void save(AuctionDto dto) {	
-		dao.save(new Auction(dto.getNum(),dto.getSeller(),dto.getMin(),dto.getMax(),dto.getProduct(),dto.getStatus(),new Date(),dto.getEnd_time(),dto.getType()));
+		dao.save(Auction.create(dto));
 		
 	}
 	// end 타임 설정
@@ -28,7 +28,7 @@ public class AuctionService {
 		int time = cal.get(Calendar.HOUR);
 		cal.set(Calendar.HOUR, t+time);
 		dto.setEnd_time(cal.getTime());
-		dao.save(new Auction(dto.getNum(),dto.getSeller(),dto.getMin(),dto.getMax(),dto.getProduct(),dto.getStatus(),dto.getStart_time(),dto.getEnd_time(),dto.getType()));
+		dao.save(Auction.create(dto));
 	}
 	// 번호로 삭제
 	public void delete(int num) {
@@ -40,14 +40,14 @@ public class AuctionService {
 		if(a==null) {
 			return null;
 		}
-		return new AuctionDto(a.getNum(),a.getSeller(),a.getMin(),a.getMax(),a.getProduct(),a.getStatus(),a.getStart_time(),a.getEnd_time(),a.getType());
+		return AuctionDto.create(a);
 	}
 	// 전체목록
 	public ArrayList<AuctionDto> getAll(){
 		List<Auction>l= dao.findAll();
 		ArrayList<AuctionDto> list=new ArrayList<>();
 		for(Auction a:l) {
-			list.add(new AuctionDto(a.getNum(),a.getSeller(),a.getMin(),a.getMax(),a.getProduct(),a.getStatus(),a.getStart_time(),a.getEnd_time(),a.getType()));
+			list.add(AuctionDto.create(a));
 		}
 		return list;
 				
@@ -57,7 +57,7 @@ public class AuctionService {
 		List<Auction>l= dao.findBySeller(seller);
 		ArrayList<AuctionDto> list=new ArrayList<>();
 		for(Auction a:l) {
-			list.add(new AuctionDto(a.getNum(),a.getSeller(),a.getMin(),a.getMax(),a.getProduct(),a.getStatus(),a.getStart_time(),a.getEnd_time(),a.getType()));
+			list.add(AuctionDto.create(a));
 		}
 		return list;
 				
@@ -67,7 +67,7 @@ public class AuctionService {
 		List<Auction>l= dao.findByProduct(product);
 		ArrayList<AuctionDto> list=new ArrayList<>();
 		for(Auction a:l) {
-			list.add(new AuctionDto(a.getNum(),a.getSeller(),a.getMin(),a.getMax(),a.getProduct(),a.getStatus(),a.getStart_time(),a.getEnd_time(),a.getType()));
+			list.add(AuctionDto.create(a));
 		}
 		return list;
 				
@@ -77,7 +77,7 @@ public class AuctionService {
 		List<Auction>l= dao.findByType(type);
 		ArrayList<AuctionDto> list=new ArrayList<>();
 		for(Auction a:l) {
-			list.add(new AuctionDto(a.getNum(),a.getSeller(),a.getMin(),a.getMax(),a.getProduct(),a.getStatus(),a.getStart_time(),a.getEnd_time(),a.getType()));
+			list.add(AuctionDto.create(a));
 		}
 		return list;
 				
@@ -88,7 +88,7 @@ public class AuctionService {
 		List<Auction>l= dao.findByStatus(status);
 		ArrayList<AuctionDto> list=new ArrayList<>();
 		for(Auction a:l) {
-			list.add(new AuctionDto(a.getNum(),a.getSeller(),a.getMin(),a.getMax(),a.getProduct(),a.getStatus(),a.getStart_time(),a.getEnd_time(),a.getType()));
+			list.add(AuctionDto.create(a));
 		}
 		return list;
 				
