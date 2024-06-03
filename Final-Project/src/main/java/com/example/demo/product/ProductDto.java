@@ -20,6 +20,9 @@ public class ProductDto {
     private String img4;
     private String img5;
     private String categories;
-    private MultipartFile f;
-
+    private MultipartFile f1;
+    private MultipartFile f2;
+    private MultipartFile f3;
+    private MultipartFile f4;
+    private MultipartFile f5;
 }
