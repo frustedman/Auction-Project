@@ -16,8 +16,11 @@ public class ProductService {
 
     // 추가, 수정
     public ProductDto save(ProductDto dto) {
+
         Product p = dao.save(Product.create(dto));
         return ProductDto.create(p);
+
+      
     }
 
     // 번호로 삭제
@@ -31,7 +34,9 @@ public class ProductService {
         if (p == null) {
             return null;
         }
+
         return ProductDto.create(p);
+
     }
 
 
@@ -40,6 +45,7 @@ public class ProductService {
         List<Product> l = dao.findByCategories(categories);
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
+
             list.add(ProductDto.create(p));
         }
         return list;
@@ -50,7 +56,7 @@ public class ProductService {
         List<Product> l = dao.findByCategories(name);
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
-        	list.add(ProductDto.create(p));
+        	list.add(ProductDto.create(p));  
         }
         return list;
     }

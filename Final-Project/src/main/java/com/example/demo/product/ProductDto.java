@@ -56,5 +56,10 @@ public class ProductDto {
 		this.categories = categories;
 		this.f=f;
 	}
+    private MultipartFile f1;
+    private MultipartFile f2;
+    private MultipartFile f3;
+    private MultipartFile f4;
+    private MultipartFile f5;
 
 }
