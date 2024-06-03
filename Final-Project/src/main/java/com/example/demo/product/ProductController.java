@@ -34,16 +34,64 @@ public class ProductController {
     @PostMapping("/add")
     public String add(ProductDto dto) {
         ProductDto p = service.save(dto);
-        String oname = dto.getF().getOriginalFilename();
-        String img1 = p.getNum() + oname;
-        File f = new File(path + img1);
-        try {
-            dto.getF().transferTo(f);
-            p.setImg1(f.getName());
-            service.save(p);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        if (!dto.getF1().isEmpty()) {
+            String oname1 = dto.getF1().getOriginalFilename();
+            String img1 = p.getNum() + oname1;
+            File f1 = new File(path + img1);
+            try {
+                dto.getF1().transferTo(f1); // 업로드 파일 복사
+                p.setImg1(f1.getName());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+        if (!dto.getF2().isEmpty()) {
+            String oname2 = dto.getF1().getOriginalFilename();
+            String img2 = p.getNum() + oname2;
+            File f2 = new File(path + img2);
+            try {
+                dto.getF2().transferTo(f2); // 업로드 파일 복사
+                p.setImg2(f2.getName());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (!dto.getF3().isEmpty()) {
+            String oname3 = dto.getF3().getOriginalFilename();
+            String img3 = p.getNum() + oname3;
+            File f3 = new File(path + img3);
+            try {
+                dto.getF3().transferTo(f3); // 업로드 파일 복사
+                p.setImg1(f3.getName());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (!dto.getF4().isEmpty()) {
+            String oname4 = dto.getF4().getOriginalFilename();
+            String img4 = p.getNum() + oname4;
+            File f4 = new File(path + img4);
+            try {
+                dto.getF4().transferTo(f4); // 업로드 파일 복사
+                p.setImg1(f4.getName());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (!dto.getF5().isEmpty()) {
+            String oname5 = dto.getF5().getOriginalFilename();
+            String img5 = p.getNum() + oname5;
+            File f5 = new File(path + img5);
+            try {
+                dto.getF1().transferTo(f5); // 업로드 파일 복사
+                p.setImg1(f5.getName());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        service.save(p);
+
         return "redirect:/auth/auction/list";
     }
 
