@@ -72,6 +72,9 @@ public class Users {
 		this.exp = exp;
 		this.type = type;
 	}
+    public Users(String id) {
+    	this.id=id;
+    }
 
 
     
