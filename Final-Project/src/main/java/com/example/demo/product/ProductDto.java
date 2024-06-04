@@ -26,8 +26,12 @@ public class ProductDto {
     private String img4;
     private String img5;
     private Categories categories;
-    private MultipartFile f;
-    
+	private MultipartFile f1;
+	private MultipartFile f2;
+	private MultipartFile f3;
+	private MultipartFile f4;
+	private MultipartFile f5;
+
     public static ProductDto create(Product p) {
     	return ProductDto.builder()
     			.num(p.getNum())
@@ -44,7 +48,7 @@ public class ProductDto {
     
     @Builder
 	public ProductDto(int num, Member seller, String name, String img1, String img2, String img3, String img4, String img5,
-                      Categories categories, MultipartFile f) {
+                      Categories categories, MultipartFile f1, MultipartFile f2, MultipartFile f3, MultipartFile f4, MultipartFile f5) {
 		this.num = num;
 		this.seller = seller;
 		this.name = name;
@@ -54,12 +58,13 @@ public class ProductDto {
 		this.img4 = img4;
 		this.img5 = img5;
 		this.categories = categories;
-		this.f=f;
+		this.f1=f1;
+		this.f2=f2;
+		this.f3=f3;
+		this.f4=f4;
+		this.f5=f5;
+
 	}
-    private MultipartFile f1;
-    private MultipartFile f2;
-    private MultipartFile f3;
-    private MultipartFile f4;
-    private MultipartFile f5;
+
 
 }

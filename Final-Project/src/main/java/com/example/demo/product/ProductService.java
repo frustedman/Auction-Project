@@ -15,11 +15,8 @@ public class ProductService {
 
     // 추가, 수정
     public ProductDto save(ProductDto dto) {
-
         Product p = dao.save(Product.create(dto));
         return ProductDto.create(p);
-
-      
     }
 
     // 번호로 삭제
