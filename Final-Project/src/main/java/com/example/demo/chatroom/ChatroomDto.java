@@ -1,6 +1,6 @@
 package com.example.demo.chatroom;
 
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 import lombok.*;
 
 @Setter
@@ -11,7 +11,7 @@ import lombok.*;
 public class ChatroomDto {
     private int num;
 
-    private Users seller;
+    private Member seller;
 
-    private Users buyer;
+    private Member buyer;
 }

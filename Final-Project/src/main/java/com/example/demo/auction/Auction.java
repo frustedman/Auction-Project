@@ -11,7 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import com.example.demo.bid.Bid;
 import com.example.demo.product.Product;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -44,7 +44,7 @@ public class Auction {
     @ManyToOne
     @JoinColumn(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Users seller;
+    private Member seller;
 
     private int min;
     private int max;
@@ -84,8 +84,8 @@ public class Auction {
     }
 
     @Builder
-	public Auction(int num, Users seller, int min, int max, Product product, int status, Date start_time, Date end_time,
-			Type type) {
+	public Auction(int num, Member seller, int min, int max, Product product, int status, Date start_time, Date end_time,
+                   Type type) {
 		this.num = num;
 		this.seller = seller;
 		this.min = min;

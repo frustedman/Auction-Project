@@ -29,10 +29,8 @@ public class MySuccessHandler implements AuthenticationSuccessHandler {
 
 			if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 				type = "admin";
-			} else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_SELLER"))) {
-				type = "seller";
-			} else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CONSUMER"))) {
-				type = "consumer";
+			} else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+				type = "member";
 			}
 			session.setAttribute("type", type);
 		}

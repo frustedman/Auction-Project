@@ -3,7 +3,7 @@ package com.example.demo.product;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.product.Product.Categories;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,7 @@ import lombok.ToString;
 public class ProductDto {
 
     private int num;
-    private Users seller;
+    private Member seller;
     private String name;
     private String img1;
     private String img2;
@@ -43,8 +43,8 @@ public class ProductDto {
     }
     
     @Builder
-	public ProductDto(int num, Users seller, String name, String img1, String img2, String img3, String img4, String img5,
-			Categories categories,MultipartFile f) {
+	public ProductDto(int num, Member seller, String name, String img1, String img2, String img3, String img4, String img5,
+                      Categories categories, MultipartFile f) {
 		this.num = num;
 		this.seller = seller;
 		this.name = name;
