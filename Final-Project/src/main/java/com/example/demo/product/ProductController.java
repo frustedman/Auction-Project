@@ -96,9 +96,9 @@ public class ProductController {
     }
 
     @GetMapping("/read-img")
-    public ResponseEntity<byte[]> read_img(String fname) {
+    public ResponseEntity<byte[]> read_img(String img) {
         ResponseEntity<byte[]> result = null;
-        File f = new File(path + fname);
+        File f = new File(path + img);
         HttpHeaders header = new HttpHeaders();
         try {
             header.add("Content-Type", Files.probeContentType(f.toPath()));
@@ -145,8 +145,9 @@ public class ProductController {
     }
 
     @GetMapping("/myprod")
-    public void myProduct(String seller, ModelMap map) {
+    public String myProduct(String seller, ModelMap map) {
         map.addAttribute("list", service.getBySeller(seller));
+        return "prod/myprod";
     }
     
     
