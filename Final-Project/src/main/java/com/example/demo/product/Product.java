@@ -1,9 +1,6 @@
 package com.example.demo.product;
 
-import com.example.demo.auction.Auction;
-import com.example.demo.bid.Bid;
-import com.example.demo.bid.BidDto;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -24,7 +21,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Users seller;
+    private Member seller;
 
     private String name;
     private String img1;
@@ -55,8 +52,8 @@ public class Product {
     }
     
     @Builder
-	public Product(int num, Users seller, String name, String img1, String img2, String img3, String img4, String img5,
-			Categories categories) {
+	public Product(int num, Member seller, String name, String img1, String img2, String img3, String img4, String img5,
+                   Categories categories) {
 		super();
 		this.num = num;
 		this.seller = seller;

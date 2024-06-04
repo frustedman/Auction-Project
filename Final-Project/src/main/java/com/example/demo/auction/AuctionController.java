@@ -20,8 +20,12 @@ public class AuctionController {
 	@Autowired
 	private AuctionService aservice;
 	@Autowired
-	private BidService bservice;
-	
+	private BidService bservice; // 추가, 수정 / parent로 검색
+
+	@GetMapping("add")
+	public String addform() {
+		return "/auction/add";
+	}
 	
 	@PostMapping("add")
 	public String add(AuctionDto a) {
@@ -32,11 +36,6 @@ public class AuctionController {
 	public String list(ModelMap map) {
 		map.addAttribute("list", aservice.getAll());
 		return "/auth/auction";
-	}
-	
-	@GetMapping("add")
-	public String addform() {
-		return "/auction/add";
 	}
 
 	@MessageMapping("/price")

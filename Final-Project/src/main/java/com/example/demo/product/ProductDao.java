@@ -1,6 +1,6 @@
 package com.example.demo.product;
 
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,5 +15,5 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
     ArrayList<Product> findByNameLike(String name);
 
     // 판매자로 검색
-    ArrayList<Product> findBySeller(Users seller);
+    ArrayList<Product> findBySeller(Member seller);
 }

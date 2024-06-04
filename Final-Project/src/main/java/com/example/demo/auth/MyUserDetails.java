@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,9 +23,9 @@ public class MyUserDetails implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	//인증값 객체를 final로 정의
-	private final Users u;
+	private final Member u;
 
-	public MyUserDetails(Users u) {
+	public MyUserDetails(Member u) {
 		this.u = u;
 	}
 
@@ -36,10 +36,8 @@ public class MyUserDetails implements UserDetails {
 		String role = "";
 		if (u.getType().equals("admin")) {
 			role = "ROLE_ADMIN";
-		} else if (u.getType().equals("seller")) {
-			role = "ROLE_SELLER";
-		} else if (u.getType().equals("consumer")) {
-			role = "ROLE_CONSUMER";
+		} else if (u.getType().equals("member")) {
+			role = "ROLE_MEMBER";
 		}
 		list.add(new SimpleGrantedAuthority(role));
 		return list;

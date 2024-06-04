@@ -1,7 +1,7 @@
 package com.example.demo.bid;
 
 import com.example.demo.auction.Auction;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public class BidDto {
 
 	    private int num;
 	    private Auction parent;
-	    private Users buyer;
+	    private Member buyer;
 	    private int price;
 	    
 	   
@@ -32,7 +32,7 @@ public class BidDto {
 	    }
 
 	    @Builder
-		public BidDto(int num, Auction parent, Users buyer, int price) {
+		public BidDto(int num, Auction parent, Member buyer, int price) {
 			this.num = num;
 			this.parent = parent;
 			this.buyer = buyer;

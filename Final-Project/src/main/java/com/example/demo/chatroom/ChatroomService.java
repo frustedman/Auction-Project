@@ -1,6 +1,6 @@
 package com.example.demo.chatroom;
 
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class ChatroomService {
     }
 
     public ArrayList<ChatroomDto> getAll(String id){
-        Users u = new Users(id,"","","",null,0,"",0,"");
+        Member u = new Member(id,"","","",null,0,"",0,"");
         List<Chatroom> l = dao.findByBuyerOrSeller(u,u);
         ArrayList<ChatroomDto> list = new ArrayList<>();
         for(Chatroom cr : l){

@@ -34,7 +34,7 @@ public class SecurityConfiguration {
         .cors(Customizer.withDefaults())
         .authorizeHttpRequests((authz)-> authz
 				.requestMatchers("/index_admin").hasRole("ADMIN")
-				.requestMatchers("/index_seller").hasRole("SELLER")
+				.requestMatchers("/index_member").hasRole("MEMBER")
 				.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//forward 요청은 모두 허용
 				.requestMatchers("/auth/**", "/index_**").authenticated()  //url이 /auth/로 시작하면 인증을 요구
 				.requestMatchers("/", "/join", "/error", "/login" , "/idcheck").permitAll()			

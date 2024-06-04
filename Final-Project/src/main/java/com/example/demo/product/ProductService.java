@@ -1,8 +1,7 @@
 package com.example.demo.product;
 
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -63,7 +62,7 @@ public class ProductService {
 
     // 판매자로 검색
     public ArrayList<ProductDto> getBySeller(String seller) {
-        List<Product> l = dao.findBySeller(new Users(seller, "", "", "", null, 0, "", 0, ""));
+        List<Product> l = dao.findBySeller(new Member(seller, "", "", "", null, 0, "", 0, ""));
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
         	list.add(ProductDto.create(p));

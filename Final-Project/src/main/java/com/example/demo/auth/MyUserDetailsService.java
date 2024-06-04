@@ -6,19 +6,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.user.UserDao;
-import com.example.demo.user.Users;
+import com.example.demo.user.MemberDao;
+import com.example.demo.user.Member;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UserDao dao;
+	private MemberDao dao;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		Users u = dao.findById(username).orElseThrow(
+		Member u = dao.findById(username).orElseThrow(
 				() -> new UsernameNotFoundException("not found id:" + username));
 		System.out.println("security service: " + u);
 		return new MyUserDetails(u);
