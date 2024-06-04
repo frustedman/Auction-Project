@@ -6,6 +6,7 @@
 </head>
 <body>
     <h3>회원 페이지</h3>
+    <a th:href="@{/auth/prod/add(seller=${session.loginId})}">상품 등록</a>
     <a th:href="@{/auth/prod/myprod(seller=${session.loginId})}">내상품 목록</a>
 </body>
 </html>

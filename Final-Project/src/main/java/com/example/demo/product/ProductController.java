@@ -23,7 +23,7 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
-    @Value("${spring.servlet.multipart.location")
+    @Value("${spring.servlet.multipart.location}")
     private String path;
 
     @GetMapping("/add")
@@ -47,7 +47,7 @@ public class ProductController {
             }
         }
         if (!dto.getF2().isEmpty()) {
-            String oname2 = dto.getF1().getOriginalFilename();
+            String oname2 = dto.getF2().getOriginalFilename();
             String img2 = p.getNum() + oname2;
             File f2 = new File(path + img2);
             try {
@@ -63,7 +63,7 @@ public class ProductController {
             File f3 = new File(path + img3);
             try {
                 dto.getF3().transferTo(f3); // 업로드 파일 복사
-                p.setImg1(f3.getName());
+                p.setImg3(f3.getName());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -74,7 +74,7 @@ public class ProductController {
             File f4 = new File(path + img4);
             try {
                 dto.getF4().transferTo(f4); // 업로드 파일 복사
-                p.setImg1(f4.getName());
+                p.setImg4(f4.getName());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -84,21 +84,22 @@ public class ProductController {
             String img5 = p.getNum() + oname5;
             File f5 = new File(path + img5);
             try {
-                dto.getF1().transferTo(f5); // 업로드 파일 복사
-                p.setImg1(f5.getName());
+                dto.getF5().transferTo(f5); // 업로드 파일 복사
+                p.setImg5(f5.getName());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
         service.save(p);
-
-        return "redirect:/auth/auction/list";
+        return "/index_member";
     }
 
     @GetMapping("/read-img")
     public ResponseEntity<byte[]> read_img(String img) {
         ResponseEntity<byte[]> result = null;
+        System.out.println(img);
         File f = new File(path + img);
+        System.out.println(f.isFile());
         HttpHeaders header = new HttpHeaders();
         try {
             header.add("Content-Type", Files.probeContentType(f.toPath()));
@@ -149,7 +150,6 @@ public class ProductController {
         map.addAttribute("list", service.getBySeller(seller));
         return "prod/myprod";
     }
-    
-    
+
 
 }

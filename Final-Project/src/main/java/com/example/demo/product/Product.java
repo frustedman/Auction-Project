@@ -54,7 +54,6 @@ public class Product {
     @Builder
 	public Product(int num, Member seller, String name, String img1, String img2, String img3, String img4, String img5,
                    Categories categories) {
-		super();
 		this.num = num;
 		this.seller = seller;
 		this.name = name;

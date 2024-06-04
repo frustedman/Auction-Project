@@ -7,13 +7,13 @@
 <body>
     <h3>상품 등록</h3>
     <form action="/auth/prod/add" method="post" enctype="multipart/form-data">
-        seller: <input type="text" name="seller" th:value="${session.loginId}">
+        seller: <input type="text" name="seller" th:value="${session.loginId}" readonly><br/>
         name: <input type="text" name="name"><br/>
-        img1: <input type="file" name="f"><br/>
-        img2: <input type="file" name="f"><br/>
-        img3: <input type="file" name="f"><br/>
-        img4: <input type="file" name="f"><br/>
-        img5: <input type="file" name="f"><br/>
+        img1: <input type="file" name="f1"><br/>
+        img2: <input type="file" name="f2"><br/>
+        img3: <input type="file" name="f3"><br/>
+        img4: <input type="file" name="f4"><br/>
+        img5: <input type="file" name="f5"><br/>
         categories: <input type="radio" name="categories" value="의류">의류
                     <input type="radio" name="categories" value="디지털기기">디지털기기
                     <input type="radio" name="categories" value="골동품">골동품

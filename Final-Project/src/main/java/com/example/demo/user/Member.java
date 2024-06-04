@@ -65,8 +65,6 @@ public class Member {
 		this.exp = exp;
 		this.type = type;
 	}
-
-
     
 	public Member(String id) {
 		this.id=id;
