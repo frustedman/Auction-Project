@@ -96,6 +96,9 @@ public class Auction {
 		this.end_time = end_time;
 		this.type = type;
 	}
+    public Auction(int num) {
+    	this.num=num;
+    }
     
 	
 }
