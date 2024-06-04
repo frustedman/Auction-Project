@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>내상품 목록</h3>
+    <table border="1">
+        <tr>
+            <th>판매자</th>
+            <th>상품명</th>
+            <th>이미지1</th>
+            <th>이미지2</th>
+            <th>이미지3</th>
+            <th>이미지4</th>
+            <th>이미지5</th>
+            <th>카테고리</th>
+        </tr>
+        <tr th:each="p:${list}">
+            <td th:text="${p.seller}"></td>
+            <td th:text="${p.name}"></td>
+            <td>
+                <img th:src="@{/auth/prod/read-img(img=${p.img1})}" style="width: 100px; height: 100px">
+            </td>
+            <td>
+                <img th:src="@{/auth/prod/read-img(img=${p.img2})}" style="width: 100px; height: 100px">
+            </td>
+            <td>
+                <img th:src="@{/auth/prod/read-img(img=${p.img3})}" style="width: 100px; height: 100px">
+            </td>
+            <td>
+                <img th:src="@{/auth/prod/read-img(img=${p.img4})}" style="width: 100px; height: 100px">
+            </td>
+            <td>
+                <img th:src="@{/auth/prod/read-img(img=${p.img5})}" style="width: 100px; height: 100px">
+            </td>
+            <td th:text="${p.categories}"></td>
+        </tr>
+    </table>
+</body>
+</html>
