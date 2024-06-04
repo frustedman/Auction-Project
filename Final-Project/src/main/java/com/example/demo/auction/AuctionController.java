@@ -9,12 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.bid.BidDto;
+import com.example.demo.bid.BidService;
+
+
 @Controller
 @RequestMapping("/auth/auction")
 public class AuctionController {
 
 	@Autowired
 	private AuctionService aservice;
+	@Autowired
+	private BidService bservice;
+	
 	
 	@PostMapping("add")
 	public String add(AuctionDto a) {
@@ -31,10 +38,18 @@ public class AuctionController {
 	public String addform() {
 		return "/auction/add";
 	}
+
 	@MessageMapping("/price")
-	@SendTo("/auth/topic/greetings")
-	public String send(String price) throws InterruptedException {
-		Thread.sleep(10);
-		return null;
+	@SendTo("/auth/topic/auction")
+	public BidDto send(BidDto b) throws InterruptedException {
+		try{
+			bservice.save(b);
+		}catch(Exception e) {
+			return null;
+		}
+		
+		return b;
 	}
+	
+	
 }
