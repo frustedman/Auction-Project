@@ -4,7 +4,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.example.demo.auction.Auction;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +39,7 @@ public class Bid {
     @ManyToOne
     @JoinColumn(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Users buyer;
+    private Member buyer;
 
     private int price;
     
@@ -53,7 +53,7 @@ public class Bid {
     }
 
     @Builder
-	public Bid(int num, Auction parent, Users buyer, int price) {
+	public Bid(int num, Auction parent, Member buyer, int price) {
 		this.num = num;
 		this.parent = parent;
 		this.buyer = buyer;

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.demo.bid.BidAddDto;
 import com.example.demo.bid.BidDto;
 import com.example.demo.bid.BidService;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 
 
 @Controller
@@ -24,8 +24,12 @@ public class AuctionController {
 	@Autowired
 	private AuctionService aservice;
 	@Autowired
-	private BidService bservice;
-	
+	private BidService bservice; // 추가, 수정 / parent로 검색
+
+	@GetMapping("add")
+	public String addform() {
+		return "/auction/add";
+	}
 	
 	@PostMapping("/add")
 	public String add(AuctionDto a) {
@@ -43,17 +47,13 @@ public class AuctionController {
 		map.addAttribute("list", aservice.getAll());
 		return "/auth/auction";
 	}
-	
-	@GetMapping("/add")
-	public String addform() {
-		return "/auth/auction/add";
-	}
+
 	@MessageMapping("/price")
 	@SendTo("/auth/topic/auction")
 	public String send(BidAddDto b) throws InterruptedException {
 		
 		try{
-			bservice.save(new BidDto(b.getNum(),new Auction(b.getParent()),new Users(b.getBuyer()),b.getPrice()));
+			bservice.save(new BidDto(b.getNum(),new Auction(b.getParent()),new Member(b.getBuyer()),b.getPrice()));
 			
 		}catch(Exception e) {
 			return null;

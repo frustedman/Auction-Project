@@ -7,7 +7,7 @@ import java.util.List;
 import com.example.demo.auction.Auction.Type;
 import com.example.demo.bid.Bid;
 import com.example.demo.product.Product;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +23,7 @@ public class AuctionDto {
 	    private int num;
 
 	 
-	    private Users seller;
+	    private Member seller;
 
 	    private int min;
 	    private int max;
@@ -53,8 +53,8 @@ public class AuctionDto {
 	    }
 
 	    @Builder
-		public AuctionDto(int num, Users seller, int min, int max, Product product, int status, Date start_time, Date end_time,
-				Type type) {
+		public AuctionDto(int num, Member seller, int min, int max, Product product, int status, Date start_time, Date end_time,
+                          Type type) {
 			this.num = num;
 			this.seller = seller;
 			this.min = min;

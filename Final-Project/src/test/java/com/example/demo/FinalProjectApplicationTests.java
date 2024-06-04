@@ -12,9 +12,6 @@ import com.example.demo.bid.Bid;
 import com.example.demo.bid.BidDao;
 import com.example.demo.bid.BidDto;
 import com.example.demo.product.ProductDao;
-import com.example.demo.user.UserDao;
-import com.example.demo.user.Users;
-
 @SpringBootTest
 class FinalProjectApplicationTests {
 

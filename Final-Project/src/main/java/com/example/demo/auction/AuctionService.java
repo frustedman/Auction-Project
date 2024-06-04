@@ -2,14 +2,13 @@ package com.example.demo.auction;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.product.Product;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 
 @Service
 public class AuctionService {
@@ -53,7 +52,7 @@ public class AuctionService {
 				
 	}
 	// 판매자로 찾기
-	public ArrayList<AuctionDto> getBySeller(Users seller){
+	public ArrayList<AuctionDto> getBySeller(Member seller){
 		List<Auction>l= dao.findBySeller(seller);
 		ArrayList<AuctionDto> list=new ArrayList<>();
 		for(Auction a:l) {

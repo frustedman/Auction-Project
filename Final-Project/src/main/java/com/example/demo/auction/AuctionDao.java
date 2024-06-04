@@ -6,14 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.product.Product;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 
 @Repository
 public interface AuctionDao extends JpaRepository<Auction, Integer> {
 	
 	
 	// 판매자로 찾기
-	ArrayList<Auction> findBySeller(Users seller);
+	ArrayList<Auction> findBySeller(Member seller);
 	// 상품명으로 찾기
 	ArrayList<Auction> findByProduct(Product product);
 	// 경매 타입별 목록

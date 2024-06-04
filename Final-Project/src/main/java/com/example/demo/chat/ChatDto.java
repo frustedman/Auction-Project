@@ -1,7 +1,7 @@
 package com.example.demo.chat;
 
 import com.example.demo.chatroom.Chatroom;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 import lombok.*;
 
 import java.util.Date;
@@ -19,5 +19,5 @@ public class ChatDto {
 
     private Date date;
 
-    private Users writer;
+    private Member writer;
 }

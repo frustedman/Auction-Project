@@ -1,6 +1,6 @@
 package com.example.demo.chatroom;
 
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -21,10 +21,10 @@ public class Chatroom {
     @ManyToOne
     @JoinColumn(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Users seller;
+    private Member seller;
 
     @ManyToOne
     @JoinColumn(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Users buyer;
+    private Member buyer;
 }

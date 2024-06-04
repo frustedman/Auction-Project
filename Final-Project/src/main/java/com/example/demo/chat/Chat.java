@@ -1,7 +1,7 @@
 package com.example.demo.chat;
 
 import com.example.demo.chatroom.Chatroom;
-import com.example.demo.user.Users;
+import com.example.demo.user.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -33,7 +33,7 @@ public class Chat {
     @ManyToOne
     @JoinColumn(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Users writer;
+    private Member writer;
 
     @PrePersist
     public void setDate() {
