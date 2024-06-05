@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>내경매 목록</h3>
+    <table border="1">
+        <tr>
+        	<th>num</th>
+            <th>title</th>
+            <th>product</th>
+            <th>max</th>
+            <th>type</th>
+            <th>end_time</th>
+            <th>status</th>
+        </tr>
+        <tr th:each="p:${list}">
+            <td th:text="${p.num}"></td>
+            <td th:text="${p.title}"></td>
+            <td th:text="${p.product.name}"></td>
+            <td th:text="${p.max}"></td>
+            <td th:text="${p.type}"></td>
+            <td th:text="${p.end_time}"></td>
+            <td th:text="${p.status}"></td>
+        </tr>
+    </table>
+    <a href="/index_member">home으로</a>
+</body>
+</html>

@@ -18,7 +18,7 @@
             <th>카테고리</th>
         </tr>
         <tr th:each="p:${list}">
-            <td th:text="${p.seller}"></td>
+            <td th:text="${p.seller.id}"></td>
             <td th:text="${p.name}"></td>
             <td>
                 <img th:src="@{/auth/prod/read-img(img=${p.img1})}" style="width: 100px; height: 100px">
@@ -36,7 +36,9 @@
                 <img th:src="@{/auth/prod/read-img(img=${p.img5})}" style="width: 100px; height: 100px">
             </td>
             <td th:text="${p.categories}"></td>
+            <td><a th:href="@{/auth/auction/add(prodnum=${p.num})}">경매 등록</a> </td>
         </tr>
     </table>
+    <a href="/index_member">home으로</a>
 </body>
 </html>

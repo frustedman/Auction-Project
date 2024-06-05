@@ -17,6 +17,7 @@ public class AuctionService {
 	private AuctionDao dao;
 	
 	public void save(AuctionDto dto) {	
+		System.out.println(Auction.create(dto));
 		dao.save(Auction.create(dto));
 		
 	}
@@ -27,7 +28,6 @@ public class AuctionService {
 		int time = cal.get(Calendar.HOUR);
 		cal.set(Calendar.HOUR, t+time);
 		dto.setEnd_time(cal.getTime());
-		dao.save(Auction.create(dto));
 	}
 	// 번호로 삭제
 	public void delete(int num) {
@@ -52,8 +52,8 @@ public class AuctionService {
 				
 	}
 	// 판매자로 찾기
-	public ArrayList<AuctionDto> getBySeller(Member seller){
-		List<Auction>l= dao.findBySeller(seller);
+	public ArrayList<AuctionDto> getBySeller(String seller){
+		List<Auction>l= dao.findBySeller(new Member(seller, "", "", "", null, 0, "", 0, ""));
 		ArrayList<AuctionDto> list=new ArrayList<>();
 		for(Auction a:l) {
 			list.add(AuctionDto.create(a));
@@ -83,7 +83,7 @@ public class AuctionService {
 	}
 	
 	// 상태로 찾기
-	public ArrayList<AuctionDto> getByStatus(int status){
+	public ArrayList<AuctionDto> getByStatus(String status){
 		List<Auction>l= dao.findByStatus(status);
 		ArrayList<AuctionDto> list=new ArrayList<>();
 		for(Auction a:l) {

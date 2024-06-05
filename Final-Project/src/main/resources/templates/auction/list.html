@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th=http://www.thymeleaf.org >
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>auction list</h1>
+
+<a href="/index_member">home으로</a>
+<div th:each="s:${list}">
+<a th:href="@{/auth/auction/detail(num=${s.num})}" th:text="${s.title}"></a> 
+</div>
+</body>
+</html>
