@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<body>
+    <h3>경매 등록</h3>
+    <form action="/auth/auction/add" method="post" >
+        seller: <input type="text" name="seller" th:value="${session.loginId}" readonly><br/>
+        title: <input type="text" name="title"><br/>
+        min: <input type="number" name="min"><br/>
+        product: <input type="number" name="product" th:value="${prod.num}"><br/>
+        content: <textarea name="content"></textarea><br/>
+        time(시간): <input type="radio" name="time" value="5" checked>5
+                    <input type="radio" name="time" value="6">6
+                    <input type="radio" name="time" value="7">7
+                    <input type="radio" name="time" value="8">8
+                    <input type="radio" name="time" value="9">9
+                    <input type="radio" name="time" value="10">10
+                    <input type="radio" name="time" value="11">11
+                    <input type="radio" name="time" value="12">12
+                    <input type="radio" name="time" value="13">13
+                    <input type="radio" name="time" value="14">14
+                    <input type="radio" name="time" value="15">15
+      
+        type: <input type="radio" name="type" value="NORMAL" checked>NORMAL
+                    <input type="radio" name="type" value="BLIND">BLIND
+                    <input type="radio" name="type" value="EVENT">EVENT
+        <input type="submit" value="등록">
+    </form>
+    <a href="/index_member">home으로</a>
+</body>
+</body>
+</html>

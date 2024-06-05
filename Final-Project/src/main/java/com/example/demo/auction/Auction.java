@@ -54,14 +54,17 @@ public class Auction {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
 
-    private int status;
+    private String status;
 
     private Date start_time;
     private Date end_time;
 
+    
     @Enumerated(EnumType.STRING)
     private Type type;
-
+    private String content;
+    private String title;
+    private int time;
     @OneToMany(mappedBy="parent", cascade= CascadeType.ALL)
     private List<Bid> BidList =new ArrayList<>();
     
@@ -80,12 +83,15 @@ public class Auction {
     			.start_time(dto.getStart_time())
     			.end_time(dto.getEnd_time())
     			.type(dto.getType())
+    			.content(dto.getContent())
+    			.title(dto.getTitle())
+    			.time(dto.getTime())
     			.build();
     }
 
     @Builder
-	public Auction(int num, Member seller, int min, int max, Product product, int status, Date start_time, Date end_time,
-                   Type type) {
+	public Auction(int num, Member seller, int min, int max, Product product, String status, Date start_time, Date end_time,
+                   Type type,String content,String title,int time) {
 		this.num = num;
 		this.seller = seller;
 		this.min = min;
@@ -95,7 +101,10 @@ public class Auction {
 		this.start_time = start_time;
 		this.end_time = end_time;
 		this.type = type;
-	}
+		this.content=content;	
+		this.title=title;
+		this.time=time;
+    }
     public Auction(int num) {
     	this.num=num;
     }

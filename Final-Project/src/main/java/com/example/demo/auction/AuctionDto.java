@@ -30,12 +30,14 @@ public class AuctionDto {
 
 	    private Product product;
 
-	    private int status;
+	    private String status;
 
 	    private Date start_time;
 	    private Date end_time;
 	    private Type type;
-	    
+	    private String content;
+	    private String title;
+	    private int time;
 	    private List<Bid> BidList =new ArrayList<>();
 	    
 	    public static AuctionDto create(Auction a) {
@@ -49,12 +51,15 @@ public class AuctionDto {
 	    			.start_time(a.getStart_time())
 	    			.end_time(a.getEnd_time())
 	    			.type(a.getType())
+	    			.content(a.getContent())
+	    			.title(a.getTitle())
+	    			.time(a.getTime())
 	    			.build();
 	    }
 
 	    @Builder
-		public AuctionDto(int num, Member seller, int min, int max, Product product, int status, Date start_time, Date end_time,
-                          Type type) {
+		public AuctionDto(int num, Member seller, int min, int max, Product product, String status, Date start_time, Date end_time,
+                          Type type,String content,String title,int time) {
 			this.num = num;
 			this.seller = seller;
 			this.min = min;
@@ -64,6 +69,9 @@ public class AuctionDto {
 			this.start_time = start_time;
 			this.end_time = end_time;
 			this.type = type;
+			this.content=content;
+			this.title=title;
+			this.time=time;
 		}
 	    
 }

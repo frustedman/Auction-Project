@@ -19,5 +19,5 @@ public interface AuctionDao extends JpaRepository<Auction, Integer> {
 	// 경매 타입별 목록
 	ArrayList<Auction> findByType(String type);
 	// 경매 상태별 목록
-	ArrayList<Auction> findByStatus(int status);
+	ArrayList<Auction> findByStatus(String status);
 }
