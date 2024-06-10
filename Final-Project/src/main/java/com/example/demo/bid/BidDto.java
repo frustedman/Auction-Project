@@ -1,5 +1,7 @@
 package com.example.demo.bid;
 
+import java.util.Date;
+
 import com.example.demo.auction.Auction;
 import com.example.demo.user.Member;
 
@@ -19,7 +21,7 @@ public class BidDto {
 	    private Auction parent;
 	    private Member buyer;
 	    private int price;
-	    
+	    private Date bidtime;
 	   
 	    
 	    public static BidDto create(Bid b) {
@@ -32,10 +34,11 @@ public class BidDto {
 	    }
 
 	    @Builder
-		public BidDto(int num, Auction parent, Member buyer, int price) {
+		public BidDto(int num, Auction parent, Member buyer, int price,Date bidtime) {
 			this.num = num;
 			this.parent = parent;
 			this.buyer = buyer;
 			this.price = price;
+			this.bidtime=bidtime;
 		}
 }

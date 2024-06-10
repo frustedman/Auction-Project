@@ -14,8 +14,9 @@ public class BidService {
 	private BidDao dao;
 	
 	
-	public void save(BidDto dto) {
-		dao.save(Bid.create(dto));
+	public String save(BidDto dto) {
+		Bid b=dao.save(Bid.create(dto));
+		return b.toString();
 	}
 	public BidDto get(int num) {
 		Bid b=dao.findById(num).orElse(null);

@@ -3,23 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
-<script src="/app.js"></script>
+<script src="/price.js"></script>
 <body>
+<div id="clock" th:text="${time}"></div>
+<h1 th:if="${s.status !='경매 마감'}" >뛰어들어라</h1>
+<h1 th:if="${s.status =='경매 마감'}" >마감된 경매 입니다 아무것도 누르지 마시고 뒤로 가시오</h1>
 <h1>경매 상세한 페이지</h1>
 <input type="hidden" th:value="${s.num}" id="num">
 <input type="hidden" th:value="${session.loginId}" id="buyer">
 title : <span th:text="${s.title}"></span> <br>
 seller id : <span th:text="${s.seller.id}"></span> <br>
 min : <span th:text="${s.min}"></span> <br>
-max : <span th:text="${s.max}" id="max"></span> <input type="number" th:value="${s.max}" id="price"> <input type="button" value="입찰" id="btn" > <br>
+max : <span th:text="${s.max}" id="max"></span> <input type="number" th:min="${s.max}" th:value="${s.max}"  id="price"> <input type="button" value="입찰" id="btn" > <br>
 start_time : <span th:text="${s.start_time}"></span> <br>
 end_time : <span th:text="${s.end_time}"></span> <br>
 content: <span th:text="${s.content}"></span> <br>
 product: <span th:text="${s.product.name}"></span> <br>
-
+status <span th:text="${s.status}"></span> <br>
 img1: <img th:if = "${s.product.img1 != null}"  th:src="@{/auth/prod/read-img(img=${s.product.img1})}" style="width: 100px; height: 100px"> <br>
 img2: <img th:if="${s.product.img2 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img2})}" style="width: 100px; height: 100px"><br>
 img3: <img th:if="${s.product.img3 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img3})}" style="width: 100px; height: 100px"><br>
