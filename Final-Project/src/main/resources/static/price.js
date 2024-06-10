@@ -8,7 +8,7 @@ let flag=true;
 let time="";
 stompClient.onConnect = (frame) => {
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/auth/auction/bid', (max) => {
+    stompClient.subscribe('/sub/bid', (max) => {
 		let response=JSON.parse(max.body);
 		if(response.parent == $('#num').val()){
 			if(response.msg != null ){
@@ -68,7 +68,7 @@ function sendPrice() {
 		"time" : time
 	};
     stompClient.publish({
-        destination: "/auth/bid/price",
+        destination: "/pub/price",
         body: JSON.stringify(bid)
     });
 }
@@ -76,7 +76,7 @@ function sendPrice() {
 function updateStatus(){
 	let parent = $('#num').val();
 	  stompClient.publish({
-        destination: "/auth/bid/status",
+        destination: "/pub/status",
         body: JSON.stringify(parent)
     });
 }

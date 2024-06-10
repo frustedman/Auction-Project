@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Rooms</title>
+    <style>
+        #chat {
+            width: 400px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+        .room {
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div id="chat">
+    <h2>Chat Rooms</h2>
+    <div id="rooms">
+        <!-- Rooms will be loaded here -->
+    </div>
+    <button id="createRoomBtn">Create Room</button>
+    <div id="messages">
+        <!-- Messages will be loaded here -->
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        fetchRooms();
+
+        $('#createRoomBtn').click(function() {
+            createRoom();
+        });
+
+        function fetchRooms() {
+            $.ajax({
+                url: '/auth/rooms/load',
+                method: 'GET',
+                success: function(rooms) {
+                    $('#rooms').empty();
+                    rooms.forEach(function(room) {
+                        $('#rooms').append('<div class="room" data-id="' + room.id + '">' + room.name + '</div>');
+                    });
+
+                    $('.room').click(function() {
+                        window.location.href = '/auth/rooms/' + $(this).data('id');
+                    });
+                },
+                error: function(err) {
+                    console.error('Error fetching rooms:', err);
+                }
+            });
+        }
+
+        function createRoom() {
+            var roomName = prompt('Enter room name:');
+            if (roomName) {
+                $.ajax({
+                    url: '/auth/rooms',
+                    method: 'POST',
+                    data: { name: roomName },
+                    success: function() {
+                        fetchRooms();
+                    },
+                    error: function(err) {
+                        console.error('Error creating room:', err);
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -56,7 +56,7 @@ public class AuctionController {
 	}
 	
 	@MessageMapping("/price")
-	@SendTo("/auth/auction/bid")
+	@SendTo("/sub/bid")
 	public Map send(BidAddDto b) throws InterruptedException {
 		System.out.println(b);
 		Map map=new HashMap();
@@ -81,7 +81,7 @@ public class AuctionController {
 	}
 	
 	@MessageMapping("/status")
-	@SendTo("/auth/auction/bid")
+	@SendTo("/sub/bid")
 	public Map change(int parent) throws InterruptedException {
 		Map map=new HashMap();
 		AuctionDto auction=aservice.get(parent);
