@@ -18,7 +18,9 @@
         </tr>
         <tr th:each="p:${list}">
             <td th:text="${p.num}"></td>
-            <td th:text="${p.title}"></td>
+            <td>
+            	<a th:href="@{/auth/auction/detail(num=${p.num})}" th:text="${p.title}"></a>
+            </td>
             <td th:text="${p.product.name}"></td>
             <td th:text="${p.max}"></td>
             <td th:text="${p.type}"></td>

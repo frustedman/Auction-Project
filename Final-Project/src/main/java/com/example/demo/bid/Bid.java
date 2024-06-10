@@ -1,5 +1,7 @@
 package com.example.demo.bid;
 
+import java.util.Date;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -42,6 +44,7 @@ public class Bid {
     private Member buyer;
 
     private int price;
+    private Date bidtime;
     
     public static Bid create(BidDto dto) {
     	return  Bid.builder()
@@ -49,14 +52,16 @@ public class Bid {
     			.parent(dto.getParent())
     			.buyer(dto.getBuyer())
     			.price(dto.getPrice())
+    			.bidtime(dto.getBidtime())
     			.build();	
     }
 
     @Builder
-	public Bid(int num, Auction parent, Member buyer, int price) {
+	public Bid(int num, Auction parent, Member buyer, int price,Date bidtime) {
 		this.num = num;
 		this.parent = parent;
 		this.buyer = buyer;
 		this.price = price;
+		this.bidtime=bidtime;
 	}
 }

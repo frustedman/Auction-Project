@@ -59,8 +59,9 @@ public class ChatController {
     }
 
     @MessageMapping("/chat/{roomId}")
-    @SendTo("/topic/messages/{roomId}")
+    @SendTo("/sub/messages/{roomId}")
     public ChatMessage sendMessage(@DestinationVariable String roomId, @Payload ChatMessage message) {
+    	System.out.println("sss");
         message.setRoomId(roomId);
         chatMessagePublisher.publish(message);
         return message;

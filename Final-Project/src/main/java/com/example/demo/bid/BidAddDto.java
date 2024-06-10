@@ -2,6 +2,8 @@ package com.example.demo.bid;
 
 
 
+import java.util.Date;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,6 @@ public class BidAddDto {
 	    private int parent;
 	    private String buyer;
 	    private int price;
-	    
 	   
 	    
 	    public static BidAddDto create(Bid b) {

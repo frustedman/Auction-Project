@@ -15,14 +15,15 @@ public class WebSocketConifg implements WebSocketMessageBrokerConfigurer {
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		// TODO Auto-generated method stub
 		
-		registry.enableSimpleBroker("/auth/auction");
-		registry.setApplicationDestinationPrefixes("/auth/bid");
+		registry.enableSimpleBroker("/sub");
+		registry.setApplicationDestinationPrefixes("/pub");
 	}
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// TODO Auto-generated method stub
 		registry.addEndpoint("/auth/auction");
+		registry.addEndpoint("/ws").withSockJS();
 	}
 
 	

@@ -51,8 +51,50 @@ public class AuctionController {
 		a.setStart_time(new Date());
 		aservice.setTime(a, a.getTime());
 		aservice.save(a);
+		
 		return "redirect:/index_member";
 	}
+	
+	@MessageMapping("/price")
+	@SendTo("/sub/bid")
+	public Map send(BidAddDto b) throws InterruptedException {
+		System.out.println(b);
+		Map map=new HashMap();
+		try{
+			AuctionDto d=aservice.get(b.getParent());
+			map.put("parent", b.getParent());
+			BidDto dto=new BidDto(b.getNum(),new Auction(b.getParent()),new Member(b.getBuyer()),b.getPrice(),new Date());
+			if(dto.getBidtime().after(d.getEnd_time())) {
+				map.put("msg","end");
+				return map;
+			}
+			bservice.save(dto);
+			d.setMax(b.getPrice());
+			aservice.save(d);
+			
+		}catch(Exception e) {
+			return null;
+		}
+		String price=""+b.getPrice();
+		map.put("price", price);
+		return map;
+	}
+	
+	@MessageMapping("/status")
+	@SendTo("/sub/bid")
+	public Map change(int parent) throws InterruptedException {
+		Map map=new HashMap();
+		AuctionDto auction=aservice.get(parent);
+		map.put("parent", parent);
+		if(auction.getEnd_time().before(new Date())) {
+			auction.setStatus("경매 마감");
+			aservice.save(auction);
+			map.put("msg", "경매 마감");
+		}
+		return map;
+	}
+	
+	
 	@GetMapping("/detail")
 	public String detail(int num,ModelMap map) {
 		map.addAttribute("s", aservice.get(num));
@@ -70,25 +112,7 @@ public class AuctionController {
 		return "auction/myauction";
 	}
 
-	@MessageMapping("/price")
-	@SendTo("/auth/auction/bid")
-	public Map send(BidAddDto b) throws InterruptedException {
-		System.out.println(b);
-		try{
-			bservice.save(new BidDto(b.getNum(),new Auction(b.getParent()),new Member(b.getBuyer()),b.getPrice()));
-			AuctionDto d=aservice.get(b.getParent()); 
-			d.setMax(b.getPrice());
-			aservice.save(d);
-			
-		}catch(Exception e) {
-			return null;
-		}
-		Map map=new HashMap();
-		String price=""+b.getPrice();
-		map.put("price", price);
-		map.put("parent", b.getParent());
-		return map;
-	}
+	
 	
 	
 }

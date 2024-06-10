@@ -5,7 +5,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<body>
     <h3>경매 등록</h3>
     <form action="/auth/auction/add" method="post" >
         seller: <input type="text" name="seller" th:value="${session.loginId}" readonly><br/>
@@ -28,9 +27,8 @@
         type: <input type="radio" name="type" value="NORMAL" checked>NORMAL
                     <input type="radio" name="type" value="BLIND">BLIND
                     <input type="radio" name="type" value="EVENT">EVENT
-        <input type="submit" value="등록">
+        <input type="submit" value="등록" id="sub">
     </form>
     <a href="/index_member">home으로</a>
-</body>
 </body>
 </html>
