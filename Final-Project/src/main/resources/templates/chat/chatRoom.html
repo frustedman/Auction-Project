@@ -12,18 +12,16 @@
         }
 
         #sender {
-            /*text-align: right;*/
             background-color: #d1ffd1;
             padding: 8px;
             border-radius: 10px;
-            /*align-self: flex-end;*/
         }
-        #time{
+
+        #time {
             font-size: 8px;
             color: grey;
-            /*align-self: flex-end;*/
-            /*text-align: right;*/
         }
+
         .message {
             margin-bottom: 10px;
             padding: 10px;
@@ -32,26 +30,30 @@
             max-width: 80%;
             word-wrap: break-word;
         }
+
         .message.sender {
-               text-align: right;
-                /*background-color: #d1ffd1;*/
-                align-self: flex-end;
-            }
+            text-align: right;
+            align-self: flex-end;
+        }
 
-            .message.recipient {
-                text-align: left;
+        .message.recipient {
+            text-align: left;
+            align-self: flex-start;
+        }
+        #image{
+            padding: 8px;
+            border-radius: 10px;
+        }
+        #receiver {
+            background-color: #d1e0ff;
+            padding: 8px;
+            border-radius: 10px;
+        }
 
-                align-self: flex-start;
-            }
-            #receiver{
-                background-color: #d1e0ff;
-                padding: 8px;
-                border-radius: 10px;
-            }
-            #messages {
-                display: flex;
-                flex-direction: column;
-            }
+        #messages {
+            display: flex;
+            flex-direction: column;
+        }
     </style>
     <title>Chat Room</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -67,12 +69,15 @@
     <input type="hidden" th:value="${session.loginId}" id="session-id">
     <input type="text" id="messageInput" placeholder="Enter your message">
     <button id="sendMessageBtn">Send</button>
+    <input type="file" id="fileInput" style="display:none">
+    <button id="sendImageButton">Send Image</button>
 </div>
 
 <script>
     var stompClient = null;
     var roomId = document.getElementById("room-id").innerText;
     var sessionId = document.getElementById("session-id").value;
+    var fileInput = document.getElementById('fileInput');
 
     function connect() {
         var socket = new SockJS('/ws');
@@ -87,27 +92,56 @@
 
     function sendMessage() {
         var messageInput = document.getElementById("messageInput").value;
-        var message = {
-            sender: sessionId,
-            content: messageInput
+        if (messageInput.trim() !== '') {
+            var message = {
+                sender: sessionId,
+                contentType: 'text',
+                content: messageInput
+            };
+            stompClient.send("/pub/chat/" + roomId, {}, JSON.stringify(message));
+            document.getElementById("messageInput").value = '';
+        }
+    }
+
+    function sendImage(file) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var imageContent = event.target.result;
+            var message = {
+                sender: sessionId,
+                contentType: 'image',
+                content: imageContent
+            };
+            stompClient.send("/pub/chat/image/" + roomId, {}, JSON.stringify(message));
         };
-        stompClient.send("/pub/chat/" + roomId, {}, JSON.stringify(message));
-        document.getElementById("messageInput").value = '';
+        reader.readAsDataURL(file);
     }
 
     function showMessage(message) {
         let messagesDiv = document.getElementById("messages");
         let messageElement = document.createElement('div');
         messageElement.className = 'message';
-        if (message.sender === sessionId) {
-            messageElement.classList.add('sender');
-            messageElement.style.backgroundColor = 'initial';
-            messageElement.innerHTML = '<span id="time"> ' + message.timestamp + ' </span>' + '<span id="sender">'+message.content+'</span>';
+        if (message.contentType === 'image') {
+            if (message.sender === sessionId) {
+                messageElement.classList.add('sender');
+                messageElement.style.backgroundColor = 'initial';
+                messageElement.innerHTML = '<span id="time"> ' + message.timestamp + ' </span>' +
+                    '<span id="image"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>';
+            } else {
+                messageElement.classList.add('recipient');
+                messageElement.innerHTML = '<span id="receiver"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>' +
+                    '<span id="image"> ' + message.timestamp + ' </span>';
+            }
         } else {
-            messageElement.classList.add('recipient');
-            messageElement.innerHTML = '<span id="receiver">'+ message.content + '</span>' + '<span id="time"> ' + message.timestamp + ' </span>';
+            if (message.sender === sessionId) {
+                messageElement.classList.add('sender');
+                messageElement.style.backgroundColor = 'initial';
+                messageElement.innerHTML = '<span id="time"> ' + message.timestamp + ' </span>' + '<span id="sender">' + message.content + '</span>';
+            } else {
+                messageElement.classList.add('recipient');
+                messageElement.innerHTML = '<span id="receiver">' + message.content + '</span>' + '<span id="time"> ' + message.timestamp + ' </span>';
+            }
         }
-        // messageElement.innerText = message.content;
         messagesDiv.appendChild(messageElement);
     }
 
@@ -123,7 +157,17 @@
         sendMessage();
     });
 
-    // Load previous messages and connect to WebSocket
+    document.getElementById("sendImageButton").addEventListener("click", function() {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        if (file) {
+            sendImage(file);
+        }
+    });
+
     loadPreviousMessages();
     connect();
 </script>
