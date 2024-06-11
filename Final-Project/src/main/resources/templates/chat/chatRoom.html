@@ -5,14 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Room</title>
     <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+        }
+
         #chat {
             width: 400px;
             margin: 20px auto;
             border: 1px solid #ccc;
             padding: 10px;
         }
-        .message {
+
+        .message-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
             margin-bottom: 10px;
+        }
+
+        .message.sent .message-content {
+            background-color: #0095f6;
+            color: #fff;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            padding: 10px;
+            margin-left: auto; /* 이 부분이 수정된 부분입니다. */
+    		margin-right: 10px; /* 이 부분을 추가하여 오른쪽 여백을 설정합니다. */
+        }
+
+        .message.received .message-content {
+            background-color: #f0f0f0;
+            color: #000;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            padding: 10px;
+            margin-right: auto;
+        }
+
+        .message-content {
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        #messageInput {
+            width: calc(100% - 70px);
+            padding: 8px;
+            border: none;
+            border-top: 1px solid #dbdbdb;
+            border-bottom-left-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            padding-left: 10px;
+        }
+
+        #sendMessageBtn {
+            width: 70px;
+            padding: 8px;
+            border: none;
+            border-top: 1px solid #dbdbdb;
+            border-bottom-right-radius: 10px;
+            background-color: #0095f6;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -26,13 +86,14 @@
         <!-- Messages will be loaded here -->
     </div>
     <input type="text" id="messageInput" placeholder="Enter your message">
+    <input type="hidden" th:value="${session.loginId}" id="user_id">
     <button id="sendMessageBtn">Send</button>
 </div>
 
 <script>
     var stompClient = null;
     var roomId = document.getElementById("room-id").innerText;
-
+    let user_id=$('#user_id').val();
     function connect() {
         var socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
@@ -47,7 +108,7 @@
     function sendMessage() {
         var messageInput = document.getElementById("messageInput").value;
         var message = {
-            sender: "User",
+            sender: user_id,
             content: messageInput
         };
         stompClient.send("/pub/chat/" + roomId, {}, JSON.stringify(message));
@@ -57,9 +118,19 @@
     function showMessage(message) {
         var messagesDiv = document.getElementById("messages");
         var messageElement = document.createElement('div');
+        var messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container';
         messageElement.className = 'message';
-        messageElement.innerText = message.sender + ": " + message.content;
-        messagesDiv.appendChild(messageElement);
+        messageElement.innerText = message.content;
+        messageContainer.appendChild(messageElement);
+        if (message.sender === user_id) {
+            messageContainer.classList.add('sent');
+        } else {
+            messageContainer.classList.add('received');
+            console.log("상대방")
+        }
+        messagesDiv.appendChild(messageContainer);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 
     function loadPreviousMessages() {
