@@ -7,7 +7,12 @@
 <body>
 <h1>auction list</h1>
 
-<a href="/index_member">home으로</a>
+<a href="/index_member">home으로</a><br>  
+<form method="post" action="/auth/auction/getbyprodname" >
+상품명으로 찾기<input type="text" name="prodname"> <input type="submit" id="search" value="검색" ><br>
+</form>
+<a href="/auction/categories"> 카테고리별로 찾기</a>
+
 <div th:each="s:${list}">
 <a th:href="@{/auth/auction/detail(num=${s.num})}" th:text="${s.title}"></a> 
 </div>

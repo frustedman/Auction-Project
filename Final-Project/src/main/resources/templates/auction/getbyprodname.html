@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<a href="/index_member">home으로</a>
+<div th:each="s:${list}">
+<a th:href="@{/auth/auction/detail(num=${s.num})}" th:text="${s.title}"></a> 
+</div>
+</body>
+</html>

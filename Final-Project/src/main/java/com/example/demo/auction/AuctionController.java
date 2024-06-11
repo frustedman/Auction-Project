@@ -1,5 +1,6 @@
 package com.example.demo.auction;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.demo.bid.BidAddDto;
 import com.example.demo.bid.BidDto;
 import com.example.demo.bid.BidService;
+import com.example.demo.product.Product;
 import com.example.demo.product.ProductDto;
 import com.example.demo.product.ProductService;
 import com.example.demo.user.Member;
@@ -106,6 +108,22 @@ public class AuctionController {
 		map.addAttribute("list", aservice.getByStatus("경매중"));
 		return "auction/list";
 	}
+	
+	@PostMapping("/getbyprodname")
+	public String list(String prodname,ModelMap map) {
+		ArrayList<AuctionDto> l =new ArrayList<>();
+		ArrayList<AuctionDto> list=aservice.getByProdName(prodname);
+		
+		for(AuctionDto dto:list) {
+			if(dto.getStatus().equals("경매중")) {
+				l.add(dto);
+			}
+		}
+		map.addAttribute("list", l);
+		return "auction/getbyprodname";
+	}
+	
+	
 	@GetMapping("/myauction")
 	public String myauction(String seller,ModelMap map,HttpSession session) {
 		map.addAttribute("list", aservice.getBySeller(seller));
