@@ -63,6 +63,7 @@ public class ChatController {
     public ChatMessage sendMessage(@DestinationVariable String roomId, @Payload ChatMessage message) {
     	System.out.println("sss");
         message.setRoomId(roomId);
+        message.updateTimestamp();
         chatMessagePublisher.publish(message);
         return message;
     }

@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Getter
 @NoArgsConstructor
@@ -14,15 +16,14 @@ public class ChatMessage implements Serializable {
 
     private String sender;
     private String content;
-    private LocalDateTime timestamp;
+    private String timestamp;
     @Setter
     private String roomId;
 
-    public ChatMessage(String sender, String content, LocalDateTime timestamp, String roomId) {
-        this.sender = sender;
-        this.content = content;
-        this.timestamp = LocalDateTime.now();
-        this.roomId = roomId;
+
+
+    public void updateTimestamp() {
+        this.timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
 }
