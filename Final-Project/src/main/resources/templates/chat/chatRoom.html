@@ -13,6 +13,25 @@
         }
         .message {
             margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .message.sender {
+            text-align: right;
+            background-color: #d1ffd1;
+            align-self: flex-end;
+        }
+        .message.recipient {
+            text-align: left;
+            background-color: #d1e0ff;
+            align-self: flex-start;
+        }
+        #messages {
+            display: flex;
+            flex-direction: column;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -25,6 +44,7 @@
     <div id="messages">
         <!-- Messages will be loaded here -->
     </div>
+    <input type="hidden" th:value="${session.loginId}" id="session-id">
     <input type="text" id="messageInput" placeholder="Enter your message">
     <button id="sendMessageBtn">Send</button>
 </div>
@@ -32,6 +52,7 @@
 <script>
     var stompClient = null;
     var roomId = document.getElementById("room-id").innerText;
+    var sessionId = document.getElementById("session-id").value;
 
     function connect() {
         var socket = new SockJS('/ws');
@@ -47,7 +68,7 @@
     function sendMessage() {
         var messageInput = document.getElementById("messageInput").value;
         var message = {
-            sender: "User",
+            sender: sessionId,
             content: messageInput
         };
         stompClient.send("/pub/chat/" + roomId, {}, JSON.stringify(message));
@@ -55,10 +76,15 @@
     }
 
     function showMessage(message) {
-        var messagesDiv = document.getElementById("messages");
-        var messageElement = document.createElement('div');
+        let messagesDiv = document.getElementById("messages");
+        let messageElement = document.createElement('div');
         messageElement.className = 'message';
-        messageElement.innerText = message.sender + ": " + message.content;
+        if (message.sender === sessionId) {
+            messageElement.classList.add('sender');
+        } else {
+            messageElement.classList.add('recipient');
+        }
+        messageElement.innerText = message.content;
         messagesDiv.appendChild(messageElement);
     }
 
