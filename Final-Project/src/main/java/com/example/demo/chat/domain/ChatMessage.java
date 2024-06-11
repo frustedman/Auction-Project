@@ -15,6 +15,7 @@ import java.util.Date;
 public class ChatMessage implements Serializable {
 
     private String sender;
+    private String contentType;
     private String content;
     private String timestamp;
     @Setter

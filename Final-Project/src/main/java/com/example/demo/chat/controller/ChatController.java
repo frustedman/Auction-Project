@@ -61,11 +61,17 @@ public class ChatController {
     @MessageMapping("/chat/{roomId}")
     @SendTo("/sub/messages/{roomId}")
     public ChatMessage sendMessage(@DestinationVariable String roomId, @Payload ChatMessage message) {
-    	System.out.println("sss");
         message.setRoomId(roomId);
         message.updateTimestamp();
         chatMessagePublisher.publish(message);
         return message;
     }
-
+    @MessageMapping("/chat/image/{roomId}")
+    @SendTo("/sub/messages/{roomId}")
+    public ChatMessage handleImageUpload(@DestinationVariable String roomId, @Payload ChatMessage message) {
+        message.setRoomId(roomId);
+        message.updateTimestamp();
+        chatMessagePublisher.publish(message);
+        return message;
+    }
 }
