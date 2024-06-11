@@ -40,7 +40,7 @@
             text-align: left;
             align-self: flex-start;
         }
-        #image{
+        #image {
             padding: 8px;
             border-radius: 10px;
         }
@@ -103,16 +103,42 @@
         }
     }
 
-    function sendImage(file) {
+    function sendImage(file, maxWidth, maxHeight, quality) {
         var reader = new FileReader();
         reader.onload = function(event) {
-            var imageContent = event.target.result;
-            var message = {
-                sender: sessionId,
-                contentType: 'image',
-                content: imageContent
+            var img = new Image();
+            img.onload = function() {
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+
+                var width = img.width;
+                var height = img.height;
+
+                // Calculate new dimensions to fit within maxWidth and maxHeight
+                if (width > maxWidth || height > maxHeight) {
+                    var ratio = Math.min(maxWidth / width, maxHeight / height);
+                    width *= ratio;
+                    height *= ratio;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                // Draw the image onto the canvas
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Compress the image by converting it to a data URL with a lower quality setting
+                var compressedDataUrl = canvas.toDataURL('image/jpeg', quality); // Adjust the quality parameter (0.0 to 1.0)
+
+                // Send the compressed image data URL
+                var message = {
+                    sender: sessionId,
+                    contentType: 'image',
+                    content: compressedDataUrl
+                };
+                stompClient.send("/pub/chat/image/" + roomId, {}, JSON.stringify(message));
             };
-            stompClient.send("/pub/chat/image/" + roomId, {}, JSON.stringify(message));
+            img.src = event.target.result;
         };
         reader.readAsDataURL(file);
     }
@@ -164,7 +190,7 @@
     fileInput.addEventListener('change', function(event) {
         var file = event.target.files[0];
         if (file) {
-            sendImage(file);
+            sendImage(file,800,800,0.5);
         }
     });
 
