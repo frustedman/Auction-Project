@@ -71,6 +71,7 @@ public class ChatController {
     public ChatMessage sendMessage(@DestinationVariable String roomId, @Payload ChatMessage message) {
     	message.setTimestamp(new Date());
         message.setRoomId(roomId);
+        message.updateTimestamp();
         chatMessagePublisher.publish(message);
         return message;
     }

@@ -1,12 +1,13 @@
 package com.example.demo.chat.domain;
 
-import java.io.Serializable;
-import java.util.Date;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.Temporal;
+import lombok.*;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Getter
 @NoArgsConstructor
@@ -15,9 +16,14 @@ public class ChatMessage implements Serializable {
 
     private String sender;
     private String content;
-    @Setter
-    private Date timestamp;
+    private String timestamp;
     @Setter
     private String roomId;
+
+
+
+    public void updateTimestamp() {
+        this.timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
 
 }
