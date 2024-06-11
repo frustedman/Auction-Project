@@ -1,5 +1,10 @@
 package com.example.demo.product;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -12,9 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import com.example.demo.auction.AuctionService;
 
 @Controller
 @RequestMapping("/auth/prod")
@@ -22,6 +25,8 @@ public class ProductController {
 
     @Autowired
     private ProductService service;
+    @Autowired
+    private AuctionService aservice;
 
     @Value("${spring.servlet.multipart.location}")
     private String path;
@@ -147,7 +152,17 @@ public class ProductController {
 
     @GetMapping("/myprod")
     public String myProduct(String seller, ModelMap map) {
-        map.addAttribute("list", service.getBySeller(seller));
+    	ArrayList<ProductDto> l=service.getBySeller(seller);
+    	System.out.println(l.toString());
+    	ArrayList<ProductDto> list=new ArrayList<>();
+    	for(ProductDto a:l) {
+    		if(aservice.getByProduct(Product.create(a)).isEmpty()) {
+    			list.add(a);
+    		}
+    	}
+    	System.out.println(list.toString());
+        map.addAttribute("list", list);
+        
         return "prod/myprod";
     }
 

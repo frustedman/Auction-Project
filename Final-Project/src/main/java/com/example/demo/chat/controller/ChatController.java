@@ -1,21 +1,29 @@
 package com.example.demo.chat.controller;
 
-import com.example.demo.chat.domain.ChatMessage;
-import com.example.demo.chat.domain.ChatMessagePublisher;
-import com.example.demo.chat.domain.ChatRoom;
-import com.example.demo.chat.service.ChatRoomService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
-import java.util.List;
+import com.example.demo.chat.domain.ChatMessage;
+import com.example.demo.chat.domain.ChatMessagePublisher;
+import com.example.demo.chat.domain.ChatRoom;
+import com.example.demo.chat.service.ChatRoomService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/auth/rooms")
@@ -61,7 +69,7 @@ public class ChatController {
     @MessageMapping("/chat/{roomId}")
     @SendTo("/sub/messages/{roomId}")
     public ChatMessage sendMessage(@DestinationVariable String roomId, @Payload ChatMessage message) {
-    	System.out.println("sss");
+    	message.setTimestamp(new Date());
         message.setRoomId(roomId);
         chatMessagePublisher.publish(message);
         return message;
