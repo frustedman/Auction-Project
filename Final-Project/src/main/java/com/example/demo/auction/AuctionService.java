@@ -111,4 +111,15 @@ public class AuctionService {
 
 	}
 
+	// 카테고리로 찾기
+	public ArrayList<AuctionDto> getByProdCategories(Product.Categories categories) {
+		List<Auction> l = dao.findByProductCategories(categories);
+		ArrayList<AuctionDto> list = new ArrayList<>();
+		for (Auction a : l) {
+			list.add(AuctionDto.create(a));
+		}
+		return list;
+
+	}
+
 }

@@ -26,5 +26,7 @@ public interface AuctionDao extends JpaRepository<Auction, Integer> {
 	@Query("SELECT a FROM Auction a JOIN a.product p WHERE p.name LIKE %:productName%")
     ArrayList<Auction> findByProductNameLike(@Param("productName") String productName);
 	
+	@Query("SELECT a FROM Auction a JOIN a.product p WHERE p.categories =:prodcategories")
+    ArrayList<Auction> findByProductCategories(@Param("prodcategories") Product.Categories prodcategories);
 	
 }

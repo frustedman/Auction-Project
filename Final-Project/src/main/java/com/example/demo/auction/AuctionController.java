@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.bid.BidAddDto;
 import com.example.demo.bid.BidDto;
@@ -104,13 +105,14 @@ public class AuctionController {
 	}
 	
 	@GetMapping("/list")
-	public String list(ModelMap map) {
+	public String list(ModelMap map,HttpSession session) {
 		map.addAttribute("list", aservice.getByStatus("경매중"));
+		session.setAttribute("list", aservice.getByStatus("경매중") );
 		return "auction/list";
 	}
 	
 	@PostMapping("/getbyprodname")
-	public String list(String prodname,ModelMap map) {
+	public String list(String prodname,ModelMap map,HttpSession session) {
 		ArrayList<AuctionDto> l =new ArrayList<>();
 		ArrayList<AuctionDto> list=aservice.getByProdName(prodname);
 		
@@ -120,7 +122,24 @@ public class AuctionController {
 			}
 		}
 		map.addAttribute("list", l);
+		session.setAttribute("list", l);
 		return "auction/getbyprodname";
+	}
+	
+	@ResponseBody
+	@GetMapping("/categories")
+	public Map categories(Product.Categories categories,HttpSession session) {
+		ArrayList<AuctionDto> l =new ArrayList<>();
+		System.out.println(categories);
+		ArrayList<AuctionDto> list=aservice.getByProdCategories(categories);
+		Map map=new HashMap();
+		for(AuctionDto dto:list) {
+			if(dto.getStatus().equals("경매중")) {
+				l.add(dto);
+			}
+		}
+		map.put("list", l);
+		return map;
 	}
 	
 	

@@ -63,6 +63,12 @@ public class MemberController {
 //		return "index";
 //	}
 	
+	@RequestMapping("/getbyprodname")
+	public String listform() {
+		return "auction/getbyprodname";
+	}
+	
+	
 	@RequestMapping("/auth/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();

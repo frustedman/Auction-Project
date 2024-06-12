@@ -3,18 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+ <script th:inline="javascript">
+
+$(document).ready(function(){
+	$('input[name=categories]').click(function(){
+		let rcvSlct=$('input[name=categories]:checked').val();
+		$.ajax({
+			url:'/auth/auction/categories?categories='+rcvSlct,
+			type:'GET',
+			contentType:false,
+			processData:false,
+			success:function(res){		//응답 정상일때
+				let list=res.list;
+				alert(list.length)
+				let txt="";
+				for(let i of list){
+				    txt += '<a href="/auth/auction/detail?num=' + i.num + '">' + i.title + '</a><br>';
+				}
+				$('#auctionlist1').hide();
+				$('#auctionlist').html(txt);
+			},
+			error:function(){
+				alert("존나 에러");
+			}			
+		});
+	});
+});
+
+
+</script>
 </head>
 <body>
 <h1>auction list</h1>
 
-<a href="/index_member">home으로</a><br>  
-<form method="post" action="/auth/auction/getbyprodname" >
-상품명으로 찾기<input type="text" name="prodname"> <input type="submit" id="search" value="검색" ><br>
-</form>
-<a href="/auction/categories"> 카테고리별로 찾기</a>
+<a href="/index_member">home으로</a><br>  <a href="/getbyprodname"><img th:src="@{/images/dotbogi.png}"  style="height: 25px; width: 25px"> </a>
 
-<div th:each="s:${list}">
-<a th:href="@{/auth/auction/detail(num=${s.num})}" th:text="${s.title}"></a> 
+<div class="categories">
+categories:
+<input type="radio" name="categories" value="의류" >의류 <br>
+<input type="radio" name="categories" value="디지털기기">디지털기기 <br>
+<input type="radio" name="categories" value="골동품">골동품 <br>
+<input type="radio" name="categories" value="뷰티_잡화">뷰티/잡화 <br>
+<input type="radio" name="categories" value="스포츠용품">스포츠용품 <br>
+<input type="radio" name="categories" value="애완용품">애완용품 <br>
+<input type="radio" name="categories" value="기타">기타 <br>
 </div>
+
+<div  id="auctionlist1">
+<a th:each="s:${list}" th:href="@{/auth/auction/detail(num=${s.num})}" th:text="${s.title}"></a><br>
+</div>
+<div id="auctionlist"></div>
 </body>
 </html>
