@@ -29,32 +29,31 @@ public class ChatController {
 
     @GetMapping("/load")
     @ResponseBody
-    public List<Object> getChatMessages() {
-        log.info("messages={}",chatRoomService.findAllChatRooms());
+    public List<Object> getChatRooms() {
+        log.info("rooms={}", chatRoomService.findAllChatRooms());
         return chatRoomService.findAllChatRooms();
     }
-
-    @GetMapping("/{roomId}")
-    public String enterRoom(Model model, @PathVariable String roomId) {
-        model.addAttribute("roomId", roomId);
-        return "chat/chatRoom";
+    @GetMapping(params = {"seller"})
+    public String rooms(@RequestParam String seller,Model model) {
+            model.addAttribute("seller", seller);
+        return "chat/rooms";
     }
 
     @GetMapping
-    public String rooms(Model model) {
+    public String rooms() {
         return "chat/rooms";
     }
 
     @PostMapping
     @ResponseBody
-    public ChatRoom creatRoom(@RequestParam String name) {
+    public ChatRoom createRoom(@RequestParam String name) {
         return chatRoomService.createChatRoom(name);
     }
 
     @GetMapping("/{roomId}/messages")
     @ResponseBody
     public List<ChatMessage> getChatMessages(@PathVariable String roomId) {
-        log.info("roomId={}",roomId);
+        log.info("roomId={}", roomId);
         return chatRoomService.getAllChatMessages(roomId);
     }
 
@@ -66,6 +65,7 @@ public class ChatController {
         chatMessagePublisher.publish(message);
         return message;
     }
+
     @MessageMapping("/chat/image/{roomId}")
     @SendTo("/sub/messages/{roomId}")
     public ChatMessage handleImageUpload(@DestinationVariable String roomId, @Payload ChatMessage message) {
