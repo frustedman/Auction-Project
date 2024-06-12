@@ -29,7 +29,7 @@ img2: <img th:if="${s.product.img2 != null}" th:src="@{/auth/prod/read-img(img=$
 img3: <img th:if="${s.product.img3 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img3})}" style="width: 100px; height: 100px"><br>
 img4: <img th:if="${s.product.img4 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img4})}" style="width: 100px; height: 100px"> <br>
 img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img5})}" style="width: 100px; height: 100px"> <br>
-
+<a th:href="@{/auth/rooms(seller=${s.seller.id})}">채팅하기</a>
 <a href="/index_member">home으로</a>
 </body>
 </html>
