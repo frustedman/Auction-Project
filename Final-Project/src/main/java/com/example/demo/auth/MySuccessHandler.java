@@ -23,6 +23,10 @@ public class MySuccessHandler implements AuthenticationSuccessHandler {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		String loginId = (String) session.getAttribute("loginId");
+		
+		
+		
+		
 		String type = "";
 		if (loginId == null) {
 			session.setAttribute("loginId", authentication.getName());// 인증한 사람 id
@@ -35,9 +39,12 @@ public class MySuccessHandler implements AuthenticationSuccessHandler {
 			session.setAttribute("type", type);
 		}
 		System.out.println("MySuccessHandler: " + authentication.getName());
-
-		String path = "/index_" + type;
-
+		
+		//인증 후 클라이언트가 요청한 페이지로 이동
+		RequestCache requestCache=new HttpSessionRequestCache();
+		SavedRequest saveRequest=requestCache.getRequest(request, response);
+		String path=saveRequest.getRedirectUrl().split("8081")[1].split("&")[0];
+		System.out.println(path);
 		request.getRequestDispatcher(path).forward(request, response);
 	}
 

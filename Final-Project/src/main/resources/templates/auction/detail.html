@@ -51,7 +51,12 @@
 title : <span th:text="${s.title}"></span> <br>
 seller id : <span th:text="${s.seller.id}" id="seller"></span> <br>
 min : <span th:text="${s.min}"></span> <br>
+<div th:if="${s.type == T(com.example.demo.auction.Auction.Type).NORMAL}">
 max : <span th:text="${s.max}" id="max"></span> <input type="number" th:min="${s.max}" th:value="${s.max}" id="price"> <input type="button" value="입찰" id="btn"> <br>
+</div>
+<div th:if="${s.type == T(com.example.demo.auction.Auction.Type).BLIND}">
+<input type="number" th:min="${s.min}" th:value="${s.min}" id="price"> <input type="button" value="입찰" id="btn"> <br>
+</div>
 start_time : <span th:text="${s.start_time}"></span> <br>
 end_time : <span th:text="${s.end_time}"></span> <br>
 content: <span th:text="${s.content}"></span> <br>
