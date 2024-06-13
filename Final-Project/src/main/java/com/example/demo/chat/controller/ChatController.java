@@ -77,7 +77,7 @@ public class ChatController {
         chatMessagePublisher.publish(message);
         return message;
     }
-
+//d
     @MessageMapping("/chat/image/{roomId}")
     @SendTo("/sub/messages/{roomId}")
     public ChatMessage handleImageUpload(@DestinationVariable String roomId, @Payload ChatMessage message) {
