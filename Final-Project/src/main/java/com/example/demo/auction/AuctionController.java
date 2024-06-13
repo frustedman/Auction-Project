@@ -149,7 +149,12 @@ public class AuctionController {
 		return "auction/myauction";
 	}
 
-	
+	@GetMapping("/stop")
+	public String stop(int num){
+		AuctionDto auction=aservice.get(num);
+		auction.setStatus("경매 마감");
+		return "redirect:/auth/report/list";
+	}
 	
 	
 }
