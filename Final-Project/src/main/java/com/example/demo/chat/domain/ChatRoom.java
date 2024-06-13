@@ -12,18 +12,21 @@ import java.util.UUID;
 public class ChatRoom {
 
     private String id;
-    private String name;
+    private String buyer;
+    private String seller;
 
     @Builder
-    public ChatRoom(String id, String name) {
+    public ChatRoom(String id, String buyer, String seller) {
         this.id = id;
-        this.name = name;
+        this.buyer = buyer;
+        this.seller = seller;
     }
 
-    public static ChatRoom createChatRoom(String name) {
+    public static ChatRoom createChatRoom(String buyer, String seller) {
         return ChatRoom.builder()
                 .id(UUID.randomUUID().toString())
-                .name(name)
+                .buyer(buyer)
+                .seller(seller)
                 .build();
     }
 }

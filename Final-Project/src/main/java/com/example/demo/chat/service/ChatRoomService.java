@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -21,16 +22,16 @@ public class ChatRoomService {
     private final RedisChatRoomRepository redisChatRoomRepository;
     private final RedisMessageRepository messageRepository;
 
-    public ChatRoom createChatRoom(String name) {
-        return redisChatRoomRepository.save(name);
+    public ChatRoom createChatRoom(String buyer, String seller) {
+        return redisChatRoomRepository.save(buyer,seller);
     }
 
-    public List<Object> findAllChatRooms() {
-        return redisChatRoomRepository.findAll();
-    }
+//    public List<Object> findAllChatRooms() {
+//        return redisChatRoomRepository.findAll();
+//    }
 
-    public ChatRoom findByName(String name) {
-        return redisChatRoomRepository.findRoomById(name);
+    public Set<Object> findByName(String name) {
+        return redisChatRoomRepository.findByName(name);
     }
 
     public List<ChatMessage> getAllChatMessages(String roomId) {
