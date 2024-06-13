@@ -39,7 +39,7 @@ public class ChatRoomService {
         List<ChatMessage> chatMessages = new ArrayList<>();
         log.info("messages: {}", messages);
         if (messages != null) {
-            for (Object message : new ArrayList<>(messages)) { // 안전하게 복사본을 반복합니다.
+            for (Object message : new ArrayList<>(messages)) { // 안전하게 복사본을 반복합니다
                 if (message instanceof ChatMessage) {
                     chatMessages.add((ChatMessage) message);
                 }

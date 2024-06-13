@@ -21,7 +21,7 @@ public class RedisChatRoomRepository {
 
     public ChatRoom save(String buyer, String seller){
         ChatRoom chatRoom = ChatRoom.createChatRoom(buyer,seller);
-        setOperations.add("ROOM_"+buyer, chatRoom );//1
+        setOperations.add("ROOM_"+buyer, chatRoom );
         setOperations.add("ROOM_"+seller, chatRoom);
 //        redisTemplate.opsForHash().put("CHAT_ROOMS", chatRoom.getId(), chatRoom);
 //        redisTemplate.opsForHash().put("CHAT_ROOMS_BY_NAME", name, chatRoom.getId());
