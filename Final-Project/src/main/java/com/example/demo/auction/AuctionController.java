@@ -1,5 +1,6 @@
 package com.example.demo.auction;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +15,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.bid.BidAddDto;
 import com.example.demo.bid.BidDto;
 import com.example.demo.bid.BidService;
+import com.example.demo.product.Product;
 import com.example.demo.product.ProductDto;
 import com.example.demo.product.ProductService;
 import com.example.demo.user.Member;
@@ -102,17 +105,56 @@ public class AuctionController {
 	}
 	
 	@GetMapping("/list")
-	public String list(ModelMap map) {
+	public String list(ModelMap map,HttpSession session) {
 		map.addAttribute("list", aservice.getByStatus("경매중"));
+		session.setAttribute("list", aservice.getByStatus("경매중") );
 		return "auction/list";
 	}
+	
+	@PostMapping("/getbyprodname")
+	public String list(String prodname,ModelMap map,HttpSession session) {
+		ArrayList<AuctionDto> l =new ArrayList<>();
+		ArrayList<AuctionDto> list=aservice.getByProdName(prodname);
+		
+		for(AuctionDto dto:list) {
+			if(dto.getStatus().equals("경매중")) {
+				l.add(dto);
+			}
+		}
+		map.addAttribute("list", l);
+		session.setAttribute("list", l);
+		return "auction/getbyprodname";
+	}
+	
+	@ResponseBody
+	@GetMapping("/categories")
+	public Map categories(Product.Categories categories,HttpSession session) {
+		ArrayList<AuctionDto> l =new ArrayList<>();
+		System.out.println(categories);
+		ArrayList<AuctionDto> list=aservice.getByProdCategories(categories);
+		Map map=new HashMap();
+		for(AuctionDto dto:list) {
+			if(dto.getStatus().equals("경매중")) {
+				l.add(dto);
+			}
+		}
+		map.put("list", l);
+		return map;
+	}
+	
+	
 	@GetMapping("/myauction")
 	public String myauction(String seller,ModelMap map,HttpSession session) {
 		map.addAttribute("list", aservice.getBySeller(seller));
 		return "auction/myauction";
 	}
 
-	
+	@GetMapping("/stop")
+	public String stop(int num){
+		AuctionDto auction=aservice.get(num);
+		auction.setStatus("경매 마감");
+		return "redirect:/auth/report/list";
+	}
 	
 	
 }

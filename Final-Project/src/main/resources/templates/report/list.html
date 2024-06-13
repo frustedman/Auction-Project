@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Report List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Report List</h1>
+    <label for="filter-select">Filter by Read Status:</label>
+    <select id="filter-select" onchange="filterReports()">
+        <option value="all">All</option>
+        <option value="read">Read</option>
+        <option value="unread">Unread</option>
+    </select>
+
+    <table border="1" id="report-table">
+        <thead>
+        <tr>
+            <th>Report Number</th>
+            <th>Member</th>
+            <th>Type</th>
+            <th>Content</th>
+            <th>Date</th>
+            <th>Auction</th>
+            <th>Read</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="report : ${list}" class="report-row" th:data-read="${report.read}">
+            <td th:text="${report.num}"></td>
+            <td th:text="${report.member.id}"></td>
+            <td th:text="${report.type}"></td>
+            <td th:text="${report.content}"></td>
+            <td th:text="${#dates.format(report.wdate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td>
+                <a th:href="@{/auth/auction/detail(num=${report.auction.getNum()})}" th:text="${report.auction.title}">
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/auth/auction/stop(num=${report.auction.getNum()})}">
+                    <button>경매 중지</button>
+                </a>
+                <a th:if="${report.read==0}" th:href="@{/auth/report/check(num=${report.num})}">
+                    <button>처리 완료</button>
+                </a>
+                <a th:if="${report.read==1}" th:href="@{/auth/report/uncheck(num=${report.num})}">
+                    <button>처리 취소</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<a href="/index_admin">home으로</a>
+
+<script>
+    function filterReports() {
+        const filterValue = document.getElementById('filter-select').value;
+        const rows = document.querySelectorAll('.report-row');
+
+        rows.forEach(row => {
+            const readStatus = row.getAttribute('data-read');
+            if (filterValue === 'all') {
+                row.style.display = '';
+            } else if (filterValue === 'read' && readStatus === '1') {
+                row.style.display = '';
+            } else if (filterValue === 'unread' && readStatus === '0') {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -49,9 +49,10 @@ public class ProductService {
 
     // 이름으로 검색
     public ArrayList<ProductDto> getByName(String name) {
-        List<Product> l = dao.findByCategories(name);
+        List<Product> l = dao.findByNameLike(name);
         ArrayList<ProductDto> list = new ArrayList<>();
         for (Product p : l) {
+        	System.out.println(p.toString());
         	list.add(ProductDto.create(p));  
         }
         return list;

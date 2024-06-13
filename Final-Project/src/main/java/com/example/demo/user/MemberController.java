@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,20 +50,6 @@ public class MemberController {
 	public void memberHome() {
 	}
 
-	// 시큐리티에서 해줘서 필요없음 이거
-//	@PostMapping("/login")
-//	public String login(UserDto u, HttpSession session) {
-//		String msg = "로그인 실패";
-//		UserDto u2 = service.getUser(u.getId());
-//		if (u2 != null && u2.getPwd().equals(u.getPwd())) {
-//			session.setAttribute("loginId", u2.getId());
-//			session.setAttribute("type", u2.getType());
-//			msg = "로그인 성공";
-//		}
-//		session.setAttribute("msg", msg);
-//		return "index";
-//	}
-	
 	@RequestMapping("/auth/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
@@ -75,12 +62,23 @@ public class MemberController {
 		return "redirect:/logout";
 	}
 
-	@PostMapping("/edit")
-	public String edit(MemberDto u) {
-		MemberDto d = service.getUser(u.getId());
-		d.setPwd(u.getPwd());
-		service.save(d);
-		return "redirect:/";
+	@RequestMapping("/auth/member/list")
+	public String list(ModelMap map) {
+		map.addAttribute("list",service.getAll());
+		return "member/list";
+	}
+
+	@GetMapping("/auth/member/edit")
+	public String editform(String id, ModelMap map) {
+		MemberDto m = service.getUser(id);
+		map.addAttribute("m", m);
+		return "member/edit";
+	}
+
+	@PostMapping("/auth/member/edit")
+	public String edit(MemberDto m) {
+		service.edit(m);
+		return "redirect:/auth/member/list";
 	}
 	
 	@ResponseBody
