@@ -10,8 +10,8 @@
     <a th:href="@{/auth/prod/add(seller=${session.loginId})}">상품 등록</a>
     <a th:href="@{/auth/prod/myprod(seller=${session.loginId})}">내상품 목록</a>
     <a th:href="@{/auth/auction/myauction(seller=${session.loginId})}">내 경매 목록</a>
-     <a th:href="@{/auth/auction/list}">진행 중 경매 목록</a>
+    <a th:href="@{/auth/auction/list}">진행 중 경매 목록</a>
     <a th:href="@{/auth/rooms}">채팅방</a>
-
+    <a th:href="@{/auth/member/point(id=${session.loginId})}">포인트 충전</a>
 </body>
 </html>

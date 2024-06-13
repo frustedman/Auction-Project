@@ -80,7 +80,14 @@ public class MemberController {
 		service.edit(m);
 		return "redirect:/auth/member/list";
 	}
-	
+
+	@GetMapping("/auth/member/point")
+	public String point(String id, ModelMap map) {
+		MemberDto m = service.getUser(id);
+		map.addAttribute("member", m);
+		return "member/point";
+	}
+
 	@ResponseBody
 	@GetMapping("/idcheck")
 	public Map idcheck(String id) {

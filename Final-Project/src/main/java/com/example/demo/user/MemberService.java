@@ -16,7 +16,7 @@ public class MemberService {
    @Autowired
    private PasswordEncoder passwordEncoder;
 
-   // 추가, 수정
+   // 추가
    public MemberDto save(MemberDto dto) {
       // dao.save() 반환값: 방금 추가/수정한 그 행을 검색해서 entity에 담아서 반환
       Member u = dao.save(new Member(dto.getId(),passwordEncoder.encode(dto.getPwd()),dto.getName(),dto.getEmail(),dto.getCardnum(),
