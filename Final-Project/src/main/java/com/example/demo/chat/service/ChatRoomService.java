@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -21,16 +22,16 @@ public class ChatRoomService {
     private final RedisChatRoomRepository redisChatRoomRepository;
     private final RedisMessageRepository messageRepository;
 
-    public ChatRoom createChatRoom(String name) {
-        return redisChatRoomRepository.save(name);
+    public ChatRoom createChatRoom(String buyer, String seller) {
+        return redisChatRoomRepository.save(buyer,seller);
     }
 
-    public List<Object> findAllChatRooms() {
-        return redisChatRoomRepository.findAll();
-    }
+//    public List<Object> findAllChatRooms() {
+//        return redisChatRoomRepository.findAll();
+//    }
 
-    public ChatRoom findByName(String name) {
-        return redisChatRoomRepository.findRoomById(name);
+    public Set<Object> findByName(String name) {
+        return redisChatRoomRepository.findByName(name);
     }
 
     public List<ChatMessage> getAllChatMessages(String roomId) {
@@ -38,7 +39,7 @@ public class ChatRoomService {
         List<ChatMessage> chatMessages = new ArrayList<>();
         log.info("messages: {}", messages);
         if (messages != null) {
-            for (Object message : new ArrayList<>(messages)) { // 안전하게 복사본을 반복합니다.
+            for (Object message : new ArrayList<>(messages)) { // 안전하게 복사본을 반복합니다
                 if (message instanceof ChatMessage) {
                     chatMessages.add((ChatMessage) message);
                 }

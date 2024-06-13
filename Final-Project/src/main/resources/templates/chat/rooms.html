@@ -129,7 +129,7 @@
         </div>
         <div id="messageInputContainer">
             <input type="hidden" th:value="${seller}" id="seller">
-            <input type="hidden" id="session-id">
+            <input type="hidden" id="session-id" th:value="${session.loginId}">
             <input type="text" id="messageInput" placeholder="Enter your message">
             <button id="sendMessageBtn">Send</button>
             <input type="file" id="fileInput">
@@ -271,15 +271,25 @@
 
     $(document).ready(function() {
         fetchRooms();
-        createRoom();
+
+        if (!localStorage.getItem('roomCreated')) {
+            createRoom();
+        }
         function fetchRooms() {
+            let member = ""
             $.ajax({
                 url: '/auth/rooms/load',
                 method: 'GET',
+                data: {name: sessionId},
                 success: function(rooms) {
                     $('#rooms').empty();
                     rooms.forEach(function(room) {
-                        $('#rooms').append('<div class="room" data-id="' + room.id + '">' + room.name + '</div>');
+                        if (room.seller===sessionId){
+                            member = room.buyer
+                        }else {
+                            member = room.seller
+                        }
+                        $('#rooms').append('<div class="room" data-id="' + room.id + '">' + member + '</div>');
                     });
 
                     $('.room').click(function() {
@@ -292,13 +302,15 @@
             });
         }
         function createRoom() {
-            let roomName = document.getElementById("seller").value
-            if (roomName) {
+            let seller = document.getElementById("seller").value
+            if (seller) {
                 $.ajax({
                     url: '/auth/rooms',
                     method: 'POST',
-                    data: { name: roomName },
+                    data: { buyer: sessionId,
+                            seller: seller},
                     success: function() {
+                        localStorage.setItem('roomCreated', 'true');
                         fetchRooms();
                     },
                     error: function(err) {
@@ -308,7 +320,7 @@
             }
         }
     });
-
+//ㅇ
 
     connect();
 </script>
