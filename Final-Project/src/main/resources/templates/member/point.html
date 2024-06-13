@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>포인트 충전</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        select, input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        input[type="text"] {
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>포인트 충전</h1>
+    <form id="point-form" action="/auth/member/point" method="post">
+        <table>
+            <tr>
+                <th>항목</th>
+                <th>내용</th>
+            </tr>
+            <tr>
+                <td>회원 ID</td>
+                <td th:text="${member.id}"></td>
+                <input type="hidden" name="id" th:value="${member.id}">
+            </tr>
+            <tr>
+                <td>등급</td>
+                <td th:text="${member.rank}"></td>
+            </tr>
+            <tr>
+                <td>보유 Point</td>
+                <td th:text="${member.point}"></td>
+            </tr>
+            <tr>
+                <td>다음 등급까지 필요한 포인트</td>
+                <td th:if="${member.rank.equals('Bronze')}" th:text="100000-${member.exp}"></td>
+                <td th:if="${member.rank.equals('Silver')}" th:text="400000-${member.exp}"></td>
+                <td th:if="${member.rank.equals('Gold')}" th:text="1400000-${member.exp}"></td>
+                <td th:if="${member.rank.equals('Diamond')}">최고 등급입니다</td>
+            </tr>
+
+        </table>
+
+        <div class="form-group">
+            <br/>
+            <label for="point-select">충전할 포인트:</label>
+            <select id="point-select" name="point" onchange="toggleCustomInput()">
+                <option value="10000">1만</option>
+                <option value="50000">5만</option>
+                <option value="100000">10만</option>
+                <option value="300000">30만</option>
+                <option value="500000">50만</option>
+                <option value="1000000">100만</option>
+                <option value="custom">기타</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="custom-point">직접 입력 포인트:</label>
+            <input type="text" id="custom-point" name="customPoint" placeholder="포인트 입력">
+        </div>
+        <div class="form-group">
+            <button type="submit">충전하기</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleCustomInput() {
+        const pointSelect = document.getElementById('point-select');
+        const customPointInput = document.getElementById('custom-point');
+
+        if (pointSelect.value === 'custom') {
+            customPointInput.style.display = 'block';
+            customPointInput.required = true;
+        } else {
+            customPointInput.style.display = 'none';
+            customPointInput.required = false;
+            customPointInput.value = ''; // Reset custom input value when hidden
+        }
+    }
+</script>
+</body>
+</html>

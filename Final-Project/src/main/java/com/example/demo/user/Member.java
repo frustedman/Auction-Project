@@ -1,5 +1,6 @@
 package com.example.demo.user;
 
+import jakarta.persistence.PrePersist;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -34,9 +35,19 @@ public class Member {
     private Card cardnum;
 
     private int point;
+
     private String rank;
+
     private int exp;
+
     private String type;
+
+	@PrePersist
+	public void prePersist() {
+		if (this.rank == null) {
+			this.rank = "Bronze";
+		}
+	}
     
     public static Member create(MemberDto dto) {
     	return Member.builder()
@@ -69,10 +80,4 @@ public class Member {
 	public Member(String id) {
 		this.id=id;
 	}
-    
-    
-    
-
-//    @OneToMany
-//    private Installments installment;
 }
