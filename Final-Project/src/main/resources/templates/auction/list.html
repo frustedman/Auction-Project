@@ -10,7 +10,7 @@ $(document).ready(function(){
 	$('input[name=categories]').click(function(){
 		let rcvSlct=$('input[name=categories]:checked').val();
 		$.ajax({
-			url:'/auth/auction/categories?categories='+rcvSlct,
+			url:'/all/ajaxcategories?categories='+rcvSlct,
 			type:'GET',
 			contentType:false,
 			processData:false,
