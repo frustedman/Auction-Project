@@ -82,8 +82,32 @@ public class MemberController {
 	}
 
 	@GetMapping("/auth/member/point")
-	public String point(String id, ModelMap map) {
+	public String pointform(String id, ModelMap map) {
 		MemberDto m = service.getUser(id);
+		map.addAttribute("member", m);
+		return "member/point";
+	}
+
+	@PostMapping("/auth/member/point")
+	public String point(String id, String point, String customPoint, ModelMap map) {
+		MemberDto m = service.getUser(id);
+		//point가 한글일때 숫자가 아닐때 오류처리
+		if(point.equals("custom")){
+			m.setPoint(m.getPoint() + Integer.parseInt(customPoint));
+			m.setExp(m.getExp() + Integer.parseInt(customPoint));
+		}else {
+			m.setPoint(m.getPoint() + Integer.parseInt(point));
+			m.setExp(m.getExp() + Integer.parseInt(point));
+		}
+
+		if(m.getExp()>=1400000){
+			m.setRank("Diamond");
+		}else if(m.getExp()>=400000){
+			m.setRank("Gold");
+		}else if(m.getExp()>=100000){
+			m.setRank("Silver");
+		}
+		service.edit(m);
 		map.addAttribute("member", m);
 		return "member/point";
 	}
@@ -100,6 +124,4 @@ public class MemberController {
 		map.put("flag", flag);
 		return map;
 	}
-	
-
 }

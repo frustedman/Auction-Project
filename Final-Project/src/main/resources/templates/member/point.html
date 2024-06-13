@@ -47,7 +47,7 @@
 <body>
 <div class="container">
     <h1>포인트 충전</h1>
-    <form id="point-form" action="/charge-point" method="post">
+    <form id="point-form" action="/auth/member/point" method="post">
         <table>
             <tr>
                 <th>항목</th>
@@ -56,22 +56,24 @@
             <tr>
                 <td>회원 ID</td>
                 <td th:text="${member.id}"></td>
+                <input type="hidden" name="id" th:value="${member.id}">
             </tr>
             <tr>
                 <td>등급</td>
                 <td th:text="${member.rank}"></td>
             </tr>
             <tr>
-                <td>다음 등급까지 필요한 포인트</td>
-                <td th:if="${member.rank.equals('Bronze')}" th:text="100000-${member.exp}"></td>
-                <td th:if="${member.rank.equals('Silver')}" th:text="400000-${member.exp}"></td>
-                <td th:if="${member.rank.equals('Gold')}" th:text="900000-${member.exp}"></td>
-                <td th:if="${member.rank.equals('Diamond')}" th:text="1900000-${member.exp}"></td>
-            </tr>
-            <tr>
                 <td>보유 Point</td>
                 <td th:text="${member.point}"></td>
             </tr>
+            <tr>
+                <td>다음 등급까지 필요한 포인트</td>
+                <td th:if="${member.rank.equals('Bronze')}" th:text="100000-${member.exp}"></td>
+                <td th:if="${member.rank.equals('Silver')}" th:text="400000-${member.exp}"></td>
+                <td th:if="${member.rank.equals('Gold')}" th:text="1400000-${member.exp}"></td>
+                <td th:if="${member.rank.equals('Diamond')}">최고 등급입니다</td>
+            </tr>
+
         </table>
 
         <div class="form-group">
@@ -111,16 +113,6 @@
             customPointInput.value = ''; // Reset custom input value when hidden
         }
     }
-
-    document.getElementById('point-form').addEventListener('submit', function(event) {
-        const pointSelect = document.getElementById('point-select');
-        const customPointInput = document.getElementById('custom-point');
-
-        // If "기타" is selected, use the value from the custom input field
-        if (pointSelect.value === 'custom' && customPointInput.value) {
-            pointSelect.value = customPointInput.value;
-        }
-    });
 </script>
 </body>
 </html>
