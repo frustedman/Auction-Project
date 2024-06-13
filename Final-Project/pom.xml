@@ -65,74 +65,80 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-			<dependency>
+		<dependency>
 
-           <groupId>org.apache.tomcat.embed</groupId>
+			<groupId>org.apache.tomcat.embed</groupId>
 
-           <artifactId>tomcat-embed-jasper</artifactId>
+			<artifactId>tomcat-embed-jasper</artifactId>
 
-       </dependency>
+		</dependency>
 
-        <dependency>
+		<dependency>
 
-       <groupId>jakarta.servlet</groupId>
+			<groupId>jakarta.servlet</groupId>
 
-       <artifactId>jakarta.servlet-api</artifactId>
+			<artifactId>jakarta.servlet-api</artifactId>
 
-           <!-- <version>6.0.0</version>-->
+			<!-- <version>6.0.0</version>-->
 
-       <scope>provided</scope>
+			<scope>provided</scope>
 
-       </dependency>
+		</dependency>
 
-       <!-- https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api -->
+		<!--
+		https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api -->
 
-       <dependency>
+		<dependency>
 
-       <groupId>jakarta.servlet.jsp.jstl</groupId>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
 
-       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
 
-           <!-- <version>3.0.0</version>-->
+			<!-- <version>3.0.0</version>-->
 
-       </dependency>
+		</dependency>
 
-       <!-- https://mvnrepository.com/artifact/org.glassfish.web/jakarta.servlet.jsp.jstl -->
+		<!--
+		https://mvnrepository.com/artifact/org.glassfish.web/jakarta.servlet.jsp.jstl -->
 
-       <dependency>
+		<dependency>
 
-       <groupId>org.glassfish.web</groupId>
+			<groupId>org.glassfish.web</groupId>
 
-       <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
 
-           <!-- <version>3.0.1</version>-->
+			<!-- <version>3.0.1</version>-->
 
-       </dependency>
-       <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
-       <dependency>
-           <groupId>io.jsonwebtoken</groupId>
-           <artifactId>jjwt-api</artifactId>
-           <version>0.11.5</version>
-       </dependency>
-       <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
-       <dependency>
-           <groupId>io.jsonwebtoken</groupId>
-           <artifactId>jjwt-jackson</artifactId>
-           <version>0.11.5</version>
-           <scope>runtime</scope>
-       </dependency>
-       <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
-       <dependency>
-           <groupId>io.jsonwebtoken</groupId>
-           <artifactId>jjwt-impl</artifactId>
-           <version>0.11.5</version>
-           <scope>runtime</scope>
-       </dependency>
-       <dependency>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>

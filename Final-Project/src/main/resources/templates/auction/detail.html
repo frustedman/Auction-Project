@@ -49,7 +49,7 @@
 <input type="hidden" th:value="${s.num}" id="num">
 <input type="hidden" th:value="${session.loginId}" id="buyer">
 title : <span th:text="${s.title}"></span> <br>
-seller id : <span th:text="${s.seller.id}"></span> <br>
+seller id : <span th:text="${s.seller.id}" id="seller"></span> <br>
 min : <span th:text="${s.min}"></span> <br>
 max : <span th:text="${s.max}" id="max"></span> <input type="number" th:min="${s.max}" th:value="${s.max}" id="price"> <input type="button" value="입찰" id="btn"> <br>
 start_time : <span th:text="${s.start_time}"></span> <br>

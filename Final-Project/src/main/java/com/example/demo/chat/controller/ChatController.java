@@ -36,6 +36,7 @@ public class ChatController {
     @GetMapping(params = {"seller"})
     public String rooms(@RequestParam String seller,Model model) {
             model.addAttribute("seller", seller);
+            chatRoomService.createChatRoom(seller);
         return "chat/rooms";
     }
 

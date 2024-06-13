@@ -34,7 +34,7 @@ public class Product {
     private Categories categories;    
    
     public enum Categories {
-    	 의류, 디지털기기, 골동품, 뷰티_잡화, 스포츠용품, 애완용품, 기타
+     	의류, 디지털기기, 골동품, 뷰티_잡화, 스포츠용품, 애완용품, 기타
     }
     
     public static Product create(ProductDto dto) {

@@ -61,6 +61,10 @@ function sendPrice() {
 	}
 	let parent = $('#num').val();
 	let buyer = $("#buyer").val();
+	if(buyer == $('#seller').text()){
+		alert("본인 상품에 입찰 금지입니다")
+		return
+	}
 	let bid={
 		"buyer":buyer,
 		"parent":parent,
@@ -99,7 +103,6 @@ $(function () {
     $("form").on('submit', (e) => e.preventDefault());
     //$( "#connect" ).click(() => connect());
     updateClock();
-
     setInterval(updateClock, 1000);
     if(flag){
     	setInterval(updateStatus,1000*60);
