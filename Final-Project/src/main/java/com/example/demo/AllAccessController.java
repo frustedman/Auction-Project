@@ -1,12 +1,20 @@
 package com.example.demo;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +32,9 @@ public class AllAccessController {
 
 	@Autowired
 	private AuctionService aservice;
+
+	@Value("${spring.servlet.multipart.location}")
+	private String path;
 	
 	@PostMapping("/getbyprodname")
 	public String list(String prodname,ModelMap map,HttpSession session) {
@@ -74,8 +85,26 @@ public class AllAccessController {
 	public String list(ModelMap map,HttpSession session) {
 		map.addAttribute("list", aservice.getByStatus("경매중"));
 		session.setAttribute("list", aservice.getByStatus("경매중") );
+		System.out.println(aservice.getByStatus("경매중"));
+		System.out.println(aservice.getByStatus("경매중"));
 		return "auction/list";
 	}
-	
-	
+
+	@GetMapping("/read-img")
+	public ResponseEntity<byte[]> read_img(String img) {
+		ResponseEntity<byte[]> result = null;
+		System.out.println(img);
+		File f = new File(path + img);
+		System.out.println(f.isFile());
+		HttpHeaders header = new HttpHeaders();
+		try {
+			header.add("Content-Type", Files.probeContentType(f.toPath()));
+			result = new ResponseEntity<byte[]>(
+					FileCopyUtils.copyToByteArray(f), header, HttpStatus.OK
+			);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return result;
+	}
 }
