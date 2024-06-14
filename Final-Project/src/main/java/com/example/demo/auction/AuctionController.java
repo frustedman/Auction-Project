@@ -24,6 +24,7 @@ import com.example.demo.user.Member;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -101,8 +102,8 @@ public class AuctionController {
 		map.addAttribute("s", aservice.get(num));
 		return "/auction/detail";
 	}
-	
-	
+
+
 	
 	
 	
