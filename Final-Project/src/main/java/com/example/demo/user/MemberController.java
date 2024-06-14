@@ -31,7 +31,8 @@ public class MemberController {
 	}
 	
 	@GetMapping("/loginform")
-	public String loginForm() {
+	public String loginForm(String path,ModelMap map,HttpSession session) {
+		map.addAttribute("path",path);
 		return "member/login";
 	}
 
