@@ -46,8 +46,10 @@
 <h1 th:if="${s.status !='경매 마감'}">뛰어들어라</h1>
 <h1 th:if="${s.status =='경매 마감'}">마감된 경매 입니다 아무것도 누르지 마시고 뒤로 가시오</h1>
 <h1>경매 상세한 페이지</h1>
-<input type="hidden" th:value="${s.num}" id="num">
-<input type="hidden" th:value="${session.loginId}" id="buyer">
+<form id="scrap">
+<input type="hidden" th:value="${s.num}" id="num" name="auction">
+<input type="hidden" th:value="${session.loginId}" id="buyer" name="member">
+</form>
 title : <span th:text="${s.title}"></span> <br>
 seller id : <span th:text="${s.seller.id}" id="seller"></span> <br>
 min : <span th:text="${s.min}"></span> <br>
@@ -70,6 +72,8 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
 <a th:href="@{/auth/rooms(seller=${s.seller.id})}">채팅하기</a>
 <a href="/index_member">home으로</a>
 <button id="reportBtn">신고하기</button>
+<button id="scrapBtn">스크랩하기</button>
+<button id="cancelScrapBtn">스크랩취소</button>
 
 <div id="reportModal" class="modal">
     <div class="modal-content">
@@ -99,6 +103,7 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
 </div>
 
 <script>
+
     // Get the modal
     var modal = document.getElementById("reportModal");
 
@@ -136,6 +141,75 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
         event.preventDefault(); // Prevent the default form submission
         alert('신고가 제출되었습니다.');
         this.submit(); // Submit the form after the alert
+    });
+    $(document).ready(function(){
+        let fdata = new FormData($('#scrap')[0]);
+        $.ajax({
+            url: '/auth/auction/getbyajax',
+            type: 'POST',
+            data: fdata,
+            contentType: false,
+            processData:false,
+            dataType:'json',
+            success: function(res) {
+                if(res.state===1){
+                    $('#cancelScrapBtn').hide()
+                    $('#scrapBtn').show()
+                }else{
+                    $('#cancelScrapBtn').show()
+                    $('#scrapBtn').hide()
+                }
+            }
+        });
+    });
+
+    $('#scrapBtn').click(function() {
+        let fdata = new FormData($('#scrap')[0]);
+        $.ajax({
+            url: '/auth/auction/scrap',
+            type: 'POST',
+            data: fdata,
+            contentType: false,
+            processData:false,
+            dataType:'json',
+            success: function(res) {
+                if(res.state===1){
+                    alert('state==1');
+                    $('#cancelScrapBtn').show()
+                    $('#scrapBtn').hide()
+                }else{
+                    alert('state!=1');
+                    $('#cancelScrapBtn').hide()
+                    $('#scrapBtn').show()
+                }
+            },
+            error: function(error) {
+                alert('스크랩에 실패했습니다. 다시 시도해주세요.');
+            }
+        });
+    });
+    $('#cancelScrapBtn').click(function() {
+        let fdata = new FormData($('#scrap')[0]);
+        $.ajax({
+            url: '/auth/auction/scrap',
+            type: 'POST',
+            data: fdata,
+            contentType: false,
+            processData:false,
+            dataType:'json',
+            success: function(res) {
+                if(res.state===1){
+                    $('#cancelScrapBtn').show()
+                    $('#scrapBtn').hide()
+                }else{
+                    $('#cancelScrapBtn').hide()
+                    $('#scrapBtn').show()
+                }
+            },
+            error: function(error) {
+                alert('스크랩에 실패했습니다. 다시 시도해주세요.');
+            }
+        });
     });
 </script>
 </body>
