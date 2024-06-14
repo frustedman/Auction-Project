@@ -38,7 +38,7 @@ public class AuctionDto {
 	    private String content;
 	    private String title;
 	    private int time;
-	    private List<Bid> BidList =new ArrayList<>();
+	    private int bidcount;
 	    
 	    public static AuctionDto create(Auction a) {
 	    	return AuctionDto.builder()
@@ -54,12 +54,13 @@ public class AuctionDto {
 	    			.content(a.getContent())
 	    			.title(a.getTitle())
 	    			.time(a.getTime())
+	    			.bidcount(a.getBidcount())
 	    			.build();
 	    }
 
 	    @Builder
 		public AuctionDto(int num, Member seller, int min, int max, Product product, String status, Date start_time, Date end_time,
-                          Type type,String content,String title,int time) {
+                          Type type,String content,String title,int time,int bidcount) {
 			this.num = num;
 			this.seller = seller;
 			this.min = min;
@@ -72,6 +73,7 @@ public class AuctionDto {
 			this.content=content;
 			this.title=title;
 			this.time=time;
+			this.bidcount=bidcount;
 		}
 	    
 }

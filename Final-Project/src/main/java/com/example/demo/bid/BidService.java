@@ -26,7 +26,7 @@ public class BidService {
 		return BidDto.create(b);
 	}
 	public ArrayList<BidDto> getByParent(int parent){
-		ArrayList<Bid> l=dao.findByParentOrderByPrice(new Auction(parent,null,0,0,null,"",null,null,null,"","",0));
+		ArrayList<Bid> l=dao.findByParentOrderByPrice(new Auction(parent,null,0,0,null,"",null,null,null,"","",0,0));
 		ArrayList<BidDto> list=new ArrayList<>();
 		for(Bid b:l) {
 			list.add(BidDto.create(b));

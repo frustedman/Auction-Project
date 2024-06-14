@@ -56,6 +56,19 @@ public class AuctionService {
 
 	}
 
+	// 전체목록
+		public ArrayList<AuctionDto> getAllByBids(String status) {
+			List<Auction> l = dao.findByStatusOrderByBidcountDesc(status);
+			ArrayList<AuctionDto> list = new ArrayList<>();
+			for (Auction a : l) {
+				list.add(AuctionDto.create(a));
+			}
+			return list;
+
+		}
+
+	
+	
 	// 판매자로 찾기
 	public ArrayList<AuctionDto> getBySeller(String seller) {
 		List<Auction> l = dao.findBySeller(new Member(seller, "", "", "", null, 0, "", 0, ""));

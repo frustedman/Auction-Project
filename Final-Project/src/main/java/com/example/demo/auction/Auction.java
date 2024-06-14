@@ -2,18 +2,15 @@ package com.example.demo.auction;
 
 
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.example.demo.bid.Bid;
 import com.example.demo.product.Product;
 import com.example.demo.user.Member;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,7 +19,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.Builder;
@@ -65,8 +61,8 @@ public class Auction {
     private String content;
     private String title;
     private int time;
-    @OneToMany(mappedBy="parent", cascade= CascadeType.ALL)
-    private List<Bid> BidList =new ArrayList<>();
+    @Column(columnDefinition = "INT DEFAULT 0", insertable = false, updatable = false)
+    private int bidcount;
     
     public enum Type {
         NORMAL, BLIND, EVENT
@@ -86,12 +82,13 @@ public class Auction {
     			.content(dto.getContent())
     			.title(dto.getTitle())
     			.time(dto.getTime())
+    			.bidcount(dto.getBidcount())
     			.build();
     }
 
     @Builder
 	public Auction(int num, Member seller, int min, int max, Product product, String status, Date start_time, Date end_time,
-                   Type type,String content,String title,int time) {
+                   Type type,String content,String title,int time,int bidcount) {
 		this.num = num;
 		this.seller = seller;
 		this.min = min;
@@ -104,6 +101,7 @@ public class Auction {
 		this.content=content;	
 		this.title=title;
 		this.time=time;
+		this.bidcount=bidcount;
     }
     public Auction(int num) {
     	this.num=num;
