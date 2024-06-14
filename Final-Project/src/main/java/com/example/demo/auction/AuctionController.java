@@ -70,6 +70,7 @@ public class AuctionController {
 				return map;
 			}
 			bservice.save(dto);
+			d.setBidcount(d.getBidcount()+1);
 			d.setMax(b.getPrice());
 			aservice.save(d);
 			
