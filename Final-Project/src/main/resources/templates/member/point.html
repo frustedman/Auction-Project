@@ -47,7 +47,7 @@
 <body>
 <div class="container">
     <h1>포인트 충전</h1>
-    <form id="point-form" action="/auth/member/point" method="post">
+    <form id="point-form" action="/auth/member/point" method="post" onsubmit="return confirmPayment(event)">
         <table>
             <tr>
                 <th>항목</th>
@@ -60,11 +60,11 @@
             </tr>
             <tr>
                 <td>등급</td>
-                <td th:text="${member.rank}"></td>
+                <td id="member-rank" th:text="${member.rank}"></td>
             </tr>
             <tr>
                 <td>보유 Point</td>
-                <td th:text="${member.point}"></td>
+                <td id="member-point" th:text="${member.point}"></td>
             </tr>
             <tr>
                 <td>다음 등급까지 필요한 포인트</td>
@@ -73,7 +73,6 @@
                 <td th:if="${member.rank.equals('Gold')}" th:text="1400000-${member.exp}"></td>
                 <td th:if="${member.rank.equals('Diamond')}">최고 등급입니다</td>
             </tr>
-
         </table>
 
         <div class="form-group">
@@ -111,6 +110,43 @@
             customPointInput.style.display = 'none';
             customPointInput.required = false;
             customPointInput.value = ''; // Reset custom input value when hidden
+        }
+    }
+
+    function confirmPayment(event) {
+        const pointSelect = document.getElementById('point-select');
+        let point = pointSelect.value;
+        if (point === 'custom') {
+            point = document.getElementById('custom-point').value;
+        }
+        const rank = document.getElementById('member-rank').innerText.trim();
+        const after_point = parseInt(document.getElementById('member-point').innerText.trim()) +parseInt(point);
+
+        let feeRate = 0;
+        switch (rank) {
+            case 'Bronze':
+                feeRate = 0.10;
+                break;
+            case 'Silver':
+                feeRate = 0.07;
+                break;
+            case 'Gold':
+                feeRate = 0.05;
+                break;
+            case 'Diamond':
+                feeRate = 0.03;
+                break;
+            default:
+                feeRate = 0;
+        }
+
+        const fee = Math.floor(point * feeRate);
+        const total = parseInt(point) + fee;
+
+        const message = `충전할 포인트는 ${point}이며, 수수료는 ${feeRate*100}%입니다. 충전 후 포인트는 ${after_point}입니다. 총 결제 금액은 ${total}입니다. 결제하시겠습니까?`;
+
+        if (!confirm(message)) {
+            event.preventDefault();
         }
     }
 </script>
