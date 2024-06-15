@@ -48,22 +48,18 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Lato:wght@300;400;700&display=swap"
           rel="stylesheet">
-    <link rel='stylesheet' href='/css/woocommerce-layout.css' type='text/css' media='all'/>
-    <link rel='stylesheet' href='/css/woocommerce-smallscreen.css' type='text/css' media='only screen and (max-width: 768px)'/>
-    <link rel='stylesheet' href='/css/woocommerce.css' type='text/css' media='all'/>
     <link rel='stylesheet' href='/css/font-awesome.min.css' type='text/css' media='all'/>
     <link rel='stylesheet' href='/style.css' type='text/css' media='all'/>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Oswald:400,500,700%7CRoboto:400,500,700%7CHerr+Von+Muellerhoff:400,500,700%7CQuattrocento+Sans:400,500,700' type='text/css' media='all'/>
     <link rel='stylesheet' href='/css/easy-responsive-shortcodes.css' type='text/css' media='all'/>      
     <!-- script
     ================================================== -->
-    <script src="/js/modernizr.js"></script>
+  <!--  <script src="/js/modernizr.js"></script> -->  
    
 <script type="text/javascript">
 $(document).ready(function(){
@@ -109,7 +105,40 @@ $(document).ready(function(){
 });
 
 </script>    
-    
+<style type="text/css">
+.swiper1-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 요소들 사이의 간격 설정 */
+}
+.swiper1-wrapper > * {
+    flex: 1 1 calc(25% - 20px); /* 한 줄에 4개씩 배치 */
+    max-width: calc(25% - 20px); /* 최대 너비 설정 */
+    margin-bottom: 20px; /* 아래 여백 설정 */
+}
+
+/* 화면 크기가 작아질 때 한 줄에 3개, 2개, 1개씩 배치되도록 설정 */
+@media (max-width: 1200px) {
+    .swiper1-wrapper > * {
+        flex: 1 1 calc(33.33% - 20px);
+        max-width: calc(33.33% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .swiper1-wrapper > * {
+        flex: 1 1 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 576px) {
+    .swiper1-wrapper > * {
+        flex: 1 1 calc(100% - 20px);
+        max-width: calc(100% - 20px);
+    }
+}
+</style>
     
 </head>
 
@@ -334,45 +363,43 @@ $(document).ready(function(){
         </div>
     </div>
 </section>
-<!-- <section id="auctionlist" class="product-store position-relative padding-large no-padding-top">
+ <section id="auctionlist" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
         <div class="row">
-            <div class="swiper product-swiper">
-                <div class="swiper-wrapper product-grid">
-                    <div id="list" class="swiper-slide product-item" th:each="s:${list}">
-     
-                       <div class="product-card position-relative">
-						  
-						    <div class="image-holder">
-						        <img th:if="${s.product.img1 != null}" th:src="@{/all/read-img(img=${s.product.img1})}" style="width: 250px; height: 250px">
-						    </div>
-						    
-						    <div class="cart-concern position-absolute">
-						        <div class="cart-button d-flex">
-						            <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
-						        </div>
-						    </div>
-						    
-						    <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
-						        <h3 class="card-title text-uppercase" style="margin: 0;">
-						            <a th:href="@{/auth/auction/detail(num=${s.num})}" th:text="${s.title}"></a>
-						        </h3>
-						        <span th:text="${s.max}" id="max" style="margin: 0;"></span><br>
-						    </div>
-						</div>
+          <div class="swiper product-swiper">
+                <div class="swiper1-wrapper">
+                    <div id="list" class="swiper-slide" th:each="s:${list}">
+                        <div class="product-card position-relative" >
+                            <!-- 1번째 사진 -->
+                            <div class="image-holder">
+                                <img th:if="${s.product.img1 != null}" th:src="@{/all/read-img(img=${s.product.img1})}" alt="product-item" 
+                                 class="img-fluid">
 
-                    </div>
-                    <div id="categories" class="swiper-slide product-item" th:each="s:${list}" style="display:none">
+                            </div>
+                            <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <!-- 사진 밑 제품명 -->
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${s.num})}" th:text="${s.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary" th:text="${s.max + '원'}"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section> --> 
-
+</section> 
+<!--  
 <div id="page">
     <div class="container">
-        <!-- #masthead -->
+        <!-- #masthead 
         <div id="content" class="site-content1">
             <div id="primary" class="content1-area column full">
                 <main id="main" class="site-main" >
@@ -389,21 +416,21 @@ $(document).ready(function(){
                         </article>
 
                     </div>
-                    <!-- .grid -->
+                    <!-- .grid 
 
                     <!-- <nav class="pagination">
                         <span class="page-numbers current">1</span>
                         <a class="page-numbers" href="#">2</a>
                         <a class="next page-numbers" href="#">Next »</a>
                     </nav>
-                    <br/> -->
+                    <br/> 
 
                 </main>
-                <!-- #main -->
+                <!-- #main 
             </div>
-            <!-- #primary -->
+            <!-- #primary 
         </div>
-        <!-- #content -->
+        <!-- #content 
     </div>
 </div>
 
