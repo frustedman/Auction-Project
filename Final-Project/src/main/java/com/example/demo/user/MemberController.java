@@ -36,19 +36,21 @@ public class MemberController {
 		return "member/login";
 	}
 
-	@GetMapping("/auth/login")
-	public void alogin() {
-
+	@RequestMapping("/auth/login")
+	public String alogin() {
+		return "index";
 	}
 
 	// 관리자가 로그인 후 이동할 경로
-	@RequestMapping("/index_admin")
-	public void adminHome() {
+	@RequestMapping("/auth/index_admin")
+	public String adminHome() {
+		return "index_admin";
 	}
 
 	// 회원이 로그인 후 이동할 경로
-	@RequestMapping("/index_member")
-	public void memberHome() {
+	@RequestMapping("/auth/index_member")
+	public String memberHome() {
+		return "index_member";
 	}
 
 	@RequestMapping("/auth/logout")
