@@ -1,6 +1,5 @@
 package com.example.demo.report;
 
-import ch.qos.logback.core.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,13 +14,12 @@ public class ReportController {
 
     @PostMapping("/add")
     public String add(ReportDto dto) {
-        System.out.println("hello");
         service.save(dto);
         return "redirect:/auth/auction/detail?num="+dto.getAuction().getNum();
     }
     @RequestMapping
     public String list(ModelMap map) {
-        map.addAttribute("list", service.findAll();
+        map.addAttribute("list", service.findAll());
         return "report/list";
     }
 }
