@@ -145,7 +145,7 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
     $(document).ready(function(){
         let fdata = new FormData($('#scrap')[0]);
         $.ajax({
-            url: '/auth/auction/getbyajax',
+            url: '/auth/scrap/getbyajax',
             type: 'POST',
             data: fdata,
             contentType: false,
@@ -166,7 +166,7 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
     $('#scrapBtn').click(function() {
         let fdata = new FormData($('#scrap')[0]);
         $.ajax({
-            url: '/auth/auction/scrap',
+            url: '/auth/scrap/scrap',
             type: 'POST',
             data: fdata,
             contentType: false,
@@ -174,7 +174,6 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
             dataType:'json',
             success: function(res) {
                 if(res.state===1){
-                    alert('state==1');
                     $('#cancelScrapBtn').show()
                     $('#scrapBtn').hide()
                 }else{
@@ -191,7 +190,7 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
     $('#cancelScrapBtn').click(function() {
         let fdata = new FormData($('#scrap')[0]);
         $.ajax({
-            url: '/auth/auction/scrap',
+            url: '/auth/scrap/scrap',
             type: 'POST',
             data: fdata,
             contentType: false,

@@ -5,6 +5,7 @@ import com.example.demo.user.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 @Controller
 @Slf4j
-@RequestMapping("/auth/auction")
+@RequestMapping("/auth/scrap")
 public class ScrapController {
     @Autowired
     private ScrapService service;
@@ -47,5 +48,11 @@ public class ScrapController {
             map.put("state", 0);
         }
         return map;
+    }
+
+    @GetMapping("/list")
+    public String list(String id, ModelMap map) {
+        map.addAttribute("list", service.getScrapByMember(id));
+        return "scrap/list";
     }
 }
