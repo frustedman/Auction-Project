@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,7 +35,8 @@ public class ChatController {
     public Set<Object> getChatRooms(String name) {
 //        log.info("rooms={}", chatRoomService.findAllChatRooms());
 //        return chatRoomService.findAllChatRooms();
-        log.info("setobject={}", chatRoomService.findByName(name).toString());
+        log.info("name: {}", name);
+        log.info("setobject={}", chatRoomService.findByName(name));
         Set<Object> byName = chatRoomService.findByName(name);
         log.info("size={}", byName.size());
         byName.forEach(System.out::println);
@@ -51,14 +53,16 @@ public class ChatController {
         return "chat/rooms";
     }
 
-    @GetMapping
+    @RequestMapping
     public String rooms() {
         return "chat/rooms";
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @ResponseBody
     public ChatRoom createRoom(String buyer, String seller) {
+        log.info("buyer={}", buyer);
+        log.info("seller={}", seller);
         return chatRoomService.createChatRoom(buyer, seller);
     }
 
@@ -74,6 +78,7 @@ public class ChatController {
     public ChatMessage sendMessage(@DestinationVariable String roomId, @Payload ChatMessage message) {
         message.setRoomId(roomId);
         message.updateTimestamp();
+        chatRoomService.updateChatroom(roomId);
         chatMessagePublisher.publish(message);
         return message;
     }
@@ -83,7 +88,16 @@ public class ChatController {
     public ChatMessage handleImageUpload(@DestinationVariable String roomId, @Payload ChatMessage message) {
         message.setRoomId(roomId);
         message.updateTimestamp();
+        chatRoomService.updateChatroom(roomId);
         chatMessagePublisher.publish(message);
         return message;
+    }
+
+    @MessageMapping("/chat/rooms/{roomId}")
+    @SendTo("/sub/rooms")
+    public String handleRooms(@DestinationVariable String roomId) {
+        chatRoomService.updateChatroom(roomId);
+        log.info("message={}", "ok");
+        return "OK";
     }
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Scrap List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Scrap List</h1>
+
+    <table border="1" id="scrap-table">
+        <thead>
+        <tr>
+            <th>Scrap Number</th>
+            <th>Member</th>
+            <th>Auction</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="scrap : ${list}">
+            <td th:text="${scrap.num}"></td>
+            <td th:text="${scrap.member.id}"></td>
+            <td>
+                <a th:href="@{/auth/auction/detail(num=${scrap.auction.getNum()})}" th:text="${scrap.auction.title}">
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<a href="/index_admin">home으로</a>
+</body>
+</html>

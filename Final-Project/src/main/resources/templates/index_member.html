@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>alItem | 마이페이지</title>
+
+<head>
+    <meta charset="UTF-8">
+    <title>alItem | 마이페이지</title>
     <style>
         @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css");
 
@@ -133,31 +134,31 @@
             background-color: #696666; /* 마우스 오버시 색 변화 */
         }
     </style>
-    </head>
-    <body>
-        <div class="wrapper">
-            <div class="container">
-                <form th:action="@{/auth/prod/add(seller=${session.loginId})}" method="get">
-                    <h1 style="margin-top: 30px; margin-bottom: 75px">My Page</h1>
+</head>
+<body>
+<div class="wrapper">
+    <div class="container">
+        <form th:action="@{/auth/prod/add(seller=${session.loginId})}" method="get">
+            <h1 style="margin-top: 30px; margin-bottom: 75px">My Page</h1>
 
-                    <button type="submit" class="custom-button">상품 등록</button>
-                </form>
-                <form th:action="@{/auth/prod/myprod(seller=${session.loginId})}" method="get">
-                    <button type="submit" class="custom-button">내상품 목록</button>
-                </form>
-                <form th:action="@{/auth/auction/myauction(seller=${session.loginId})}" method="get">
-                    <button type="submit" class="custom-button">내경매 목록</button>
-                </form>
-<!--                <form th:action="@{/auth/scrap/list(id=${session.loginId})}" method="get">-->
-<!--                    <button type="submit" class="custom-button">스크랩 목록</button>-->
-<!--                </form>-->
-                <form th:action="@{/auth/member/point(id=${session.loginId})}" method="get">
-                    <button type="submit" class="custom-button">포인트 충전</button>
-                </form>
-                <form th:action="@{/auth/rooms}" method="get">
-                    <button type="submit" class="custom-button">채팅방</button>
-                </form>
-            </div>
-        </div>
-    </body>
+            <button type="submit" class="custom-button">상품 등록</button>
+        </form>
+        <form th:action="@{/auth/prod/myprod(seller=${session.loginId})}" method="get">
+            <button type="submit" class="custom-button">내상품 목록</button>
+        </form>
+        <form th:action="@{/auth/auction/myauction(seller=${session.loginId})}" method="get">
+            <button type="submit" class="custom-button">내경매 목록</button>
+        </form>
+        <!--                <form th:action="@{/auth/scrap/list(id=${session.loginId})}" method="get">-->
+        <!--                    <button type="submit" class="custom-button">스크랩 목록</button>-->
+        <!--                </form>-->
+        <form th:action="@{/auth/member/point(id=${session.loginId})}" method="get">
+            <button type="submit" class="custom-button">포인트 충전</button>
+        </form>
+        <form th:action="@{/auth/rooms}" method="get">
+            <button type="submit" class="custom-button">채팅방</button>
+        </form>
+    </div>
+</div>
+</body>
 </html>
