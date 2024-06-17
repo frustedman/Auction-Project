@@ -29,4 +29,11 @@ public class ChatRoom {
                 .seller(seller)
                 .build();
     }
+    public static ChatRoom updateChatRoom(String roomId, String buyer, String seller) {
+        return ChatRoom.builder()
+                .id(roomId)
+                .buyer(buyer)
+                .seller(seller)
+                .build();
+    }
 }
