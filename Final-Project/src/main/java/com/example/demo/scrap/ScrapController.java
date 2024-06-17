@@ -50,7 +50,7 @@ public class ScrapController {
         return map;
     }
 
-    @GetMapping("/list")
+    @RequestMapping("/list")
     public String list(String id, ModelMap map) {
         map.addAttribute("list", service.getScrapByMember(id));
         return "scrap/list";
