@@ -29,7 +29,10 @@ public class ChatRoomService {
 //    public List<Object> findAllChatRooms() {
 //        return redisChatRoomRepository.findAll();
 //    }
-
+    public void updateChatroom(String roomId) {
+        log.debug("updateChatroom roomId: {}", roomId);
+         redisChatRoomRepository.updateChatRoom(roomId);
+    }
     public Set<Object> findByName(String name) {
         return redisChatRoomRepository.findByName(name);
     }

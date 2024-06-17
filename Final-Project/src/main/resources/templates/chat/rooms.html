@@ -139,59 +139,61 @@
 </div>
 
 <script>
-    var stompClient = null;
-    var roomId = document.getElementById("room-id").innerText;
-    var sessionId = document.getElementById("session-id").value;
-    var fileInput = document.getElementById('fileInput');
-
+    let stompClient = null;
+    let roomId = document.getElementById("room-id").innerText;
+    let sessionId = document.getElementById("session-id").value;
+    let fileInput = document.getElementById('fileInput');
+    let currentSubscription = null;
     function connect() {
-        var socket = new SockJS('/ws');
+        let socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
+            conn()
             console.log('Connected: ' + frame);
         });
     }
 
     function openChatRoom(newRoomId) {
-        if (roomId !== null) {
-            stompClient.unsubscribe('/sub/messages/' + roomId);
+        if (currentSubscription !== null) {
+            currentSubscription.unsubscribe();
         }
         roomId = newRoomId;
         document.getElementById("room-id").innerText = roomId;
         document.getElementById("messages").innerHTML = '';
-        stompClient.subscribe('/sub/messages/' + roomId, function (message) {
+        currentSubscription = stompClient.subscribe('/sub/messages/' + roomId, function (message) {
             showMessage(JSON.parse(message.body));
         });
         loadPreviousMessages();
     }
 
     function sendMessage() {
-        var messageInput = document.getElementById("messageInput").value;
+        let messageInput = document.getElementById("messageInput").value;
         if (messageInput.trim() !== '') {
-            var message = {
+            let message = {
                 sender: sessionId,
                 contentType: 'text',
                 content: messageInput
             };
             stompClient.send("/pub/chat/" + roomId, {}, JSON.stringify(message));
+            stompClient.send("/pub/chat/rooms/"+roomId)
             document.getElementById("messageInput").value = '';
         }
     }
 
     function sendImage(file, maxWidth, maxHeight, quality) {
-        var reader = new FileReader();
+        let reader = new FileReader();
         reader.onload = function(event) {
-            var img = new Image();
+            let img = new Image();
             img.onload = function() {
-                var canvas = document.createElement('canvas');
-                var ctx = canvas.getContext('2d');
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
 
-                var width = img.width;
-                var height = img.height;
+                let width = img.width;
+                let height = img.height;
 
                 // Calculate new dimensions to fit within maxWidth and maxHeight
                 if (width > maxWidth || height > maxHeight) {
-                    var ratio = Math.min(maxWidth / width, maxHeight / height);
+                    let ratio = Math.min(maxWidth / width, maxHeight / height);
                     width *= ratio;
                     height *= ratio;
                 }
@@ -203,19 +205,21 @@
                 ctx.drawImage(img, 0, 0, width, height);
 
                 // Compress the image by converting it to a data URL with a lower quality setting
-                var compressedDataUrl = canvas.toDataURL('image/jpeg', quality); // Adjust the quality parameter (0.0 to 1.0)
+                let compressedDataUrl = canvas.toDataURL('image/jpeg', quality); // Adjust the quality parameter (0.0 to 1.0)
 
                 // Send the compressed image data URL
-                var message = {
+                let message = {
                     sender: sessionId,
                     contentType: 'image',
                     content: compressedDataUrl
                 };
                 stompClient.send("/pub/chat/image/" + roomId, {}, JSON.stringify(message));
+                stompClient.send("/pub/chat/rooms")
             };
             img.src = event.target.result;
         };
         reader.readAsDataURL(file);
+        fetchRooms();
     }
     function showMessage(message) {
         let messagesDiv = document.getElementById("messages");
@@ -230,7 +234,7 @@
             } else {
                 messageElement.classList.add('recipient');
                 messageElement.innerHTML = '<span id="receiver"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>' +
-                    '<spa21n id="image"> ' + message.timestamp + ' </spa21n>';
+                    '<span id="image"> ' + message.timestamp + ' </span>';
             }
         } else {
             if (message.sender === sessionId) {
@@ -243,7 +247,8 @@
             }
         }
         messagesDiv.appendChild(messageElement);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        // Scroll to the bottom
     }
 
     function loadPreviousMessages() {
@@ -265,44 +270,51 @@
     });
 
     document.getElementById('fileInput').addEventListener('change', function(event) {
-        var file = event.target.files[0];
+        let file = event.target.files[0];
         if (file) {
-            sendImage(file, 800, 800, 0.5);
+            sendImage(file, 1000, 1000, 0.5);
         }
     });
+    function fetchRooms() {
+        let member = ""
+        console.log(1)
+        $.ajax({
+            url: '/auth/rooms/load',
+            method: 'GET',
+            data: {name: sessionId},
+            success: function(rooms) {
+                $('#rooms').empty();
+                rooms.forEach(function(room) {
+                    if (room.seller===sessionId){
+                        member = room.buyer
+                    }else {
+                        member = room.seller
+                    }
+                    $('#rooms').append('<div class="room" data-id="' + room.id + '">' + member + '</div>');
+                });
 
+                $('.room').click(function() {
+                    openChatRoom($(this).data('id'));
+                });
+            },
+            error: function(err) {
+                console.error('Error fetching rooms:', err);
+            }
+        });
+    }
+    function conn (){
+        stompClient.subscribe("/sub/rooms", function (){
+            console.log("rooms connect")
+            fetchRooms()
+        });
+
+    }
     $(document).ready(function() {
         fetchRooms();
-
         if (!localStorage.getItem('roomCreated')) {
             createRoom();
         }
-        function fetchRooms() {
-            let member = ""
-            $.ajax({
-                url: '/auth/rooms/load',
-                method: 'GET',
-                data: {name: sessionId},
-                success: function(rooms) {
-                    $('#rooms').empty();
-                    rooms.forEach(function(room) {
-                        if (room.seller===sessionId){
-                            member = room.buyer
-                        }else {
-                            member = room.seller
-                        }
-                        $('#rooms').append('<div class="room" data-id="' + room.id + '">' + member + '</div>');
-                    });
 
-                    $('.room').click(function() {
-                        openChatRoom($(this).data('id'));
-                    });
-                },
-                error: function(err) {
-                    console.error('Error fetching rooms:', err);
-                }
-            });
-        }
         function createRoom() {
             let seller = document.getElementById("seller").value
             if (seller) {
