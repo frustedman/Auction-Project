@@ -195,11 +195,20 @@
                                     </li>
                                     <!-- 마이페이지 -->
                                     <li class="pe-3">
+                                    	<div th:if="${session.type !=null}">
                                         <a th:href="@{/auth/index_{type}(type=${session.type})}">
                                             <svg class="user">
                                                 <use xlink:href="#user"></use>
                                             </svg>
                                         </a>
+                                        </div>
+                                        <div th:if="${session.type ==null}">
+                                        <a th:href="@{/auth/index_}">
+                                            <svg class="user">
+                                                <use xlink:href="#user"></use>
+                                            </svg>
+                                        </a>
+                                        </div>
                                     </li>
                                     <!-- 스크랩 -->
                                     <li>
