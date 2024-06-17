@@ -176,6 +176,12 @@
                          <li class="nav-item">
                             <a class="nav-link me-4" href="/auth/rooms">Chat</a>
                         </li>
+                        <li class="nav-item" th:if="${session.loginId == null}">
+                            <a class="nav-link me-4" href="/auth/login">Login</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.loginId != null}">
+                            <a class="nav-link me-4" href="/auth/logout">Logout</a>
+                        </li>
                         <li class="nav-item">
                             <div class="user-items ps-5">
                                 <ul class="d-flex justify-content-end list-unstyled">
@@ -189,11 +195,20 @@
                                     </li>
                                     <!-- 마이페이지 -->
                                     <li class="pe-3">
-                                        <a href="">
+                                    	<div th:if="${session.type !=null}">
+                                        <a th:href="@{/auth/index_{type}(type=${session.type})}">
                                             <svg class="user">
                                                 <use xlink:href="#user"></use>
                                             </svg>
                                         </a>
+                                        </div>
+                                        <div th:if="${session.type ==null}">
+                                        <a th:href="@{/auth/index_}">
+                                            <svg class="user">
+                                                <use xlink:href="#user"></use>
+                                            </svg>
+                                        </a>
+                                        </div>
                                     </li>
                                     <!-- 스크랩 -->
                                     <li>
@@ -434,11 +449,11 @@
 
             <div class="swiper product-swiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="product-card position-relative" th:each="s:${list}">
+                    <div class="swiper-slide" th:if="${HBA1 !=null}">
+                        <div class="product-card position-relative" >
                             <!-- 1번째 사진 -->
                             <div class="image-holder">
-                                <img src="/images/product-item1.jpg" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
                             <div class="cart-concern position-absolute">
@@ -449,18 +464,18 @@
                             <!-- 사진 밑 제품명 -->
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/action/detail(num=${s.num})}" th:text="${s.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${HBA1.num})}" th:text="${HBA1.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary">현재입찰가</span>
+                                <span class="item-price text-primary" th:text="${HBA1.max + '원'}"></span>
                             </div>
 
                         </div>
                     </div>
                     <!-- 2번째 사진 -->
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" th:if="${HBA2 !=null}">
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img src="/images/product-item2.jpg" alt="product-item" class="img-fluid">
+                               <img th:src="@{/all/read-img(img=${HBA2.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -469,17 +484,17 @@
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a href="#">Iphone 11</a>
+                                    <a th:href="@{/auth/auction/detail(num=${HBA2.num})}" th:text="${HBA2.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary">현재입찰가</span>
+                                <span class="item-price text-primary" th:text="${HBA2.max + '원'}"></span>
                             </div>
                         </div>
                     </div>
                     <!-- 3번째 사진 -->
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" th:if="${HBA3 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img src="/images/product-item3.jpg" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA3.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -488,17 +503,17 @@
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a href="#">Iphone 8</a>
+                                    <a th:href="@{/auth/auction/detail(num=${HBA3.num})}" th:text="${HBA3.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary">$780</span>
+                                <span class="item-price text-primary" th:text="${HBA3.max + '원'}" ></span>
                             </div>
                         </div>
                     </div>
                     <!-- 4번째 사진 -->
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" th:if="${HBA4 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img src="/images/product-item4.jpg" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA4.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -507,17 +522,17 @@
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a href="#">Iphone 13</a>
+                                    <a th:href="@{/auth/auction/detail(num=${HBA4.num})}" th:text="${HBA4.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary">$1500</span>
+                                <span class="item-price text-primary"  th:text="${HBA4.max + '원'}"></span>
                             </div>
                         </div>
                     </div>
                     <!-- 5번째 사진 -->
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" th:if="${HBA5 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img src="/images/product-item5.jpg" alt="product-item" class="img-fluid">
+                               <img th:src="@{/all/read-img(img=${HBA5.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -526,9 +541,9 @@
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a href="#">Iphone 12</a>
+                                    <a th:href="@{/auth/auction/detail(num=${HBA5.num})}" th:text="${HBA5.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary">$1300</span>
+                                <span class="item-price text-primary" th:text="${HBA5.max + '원'}" ></span>
                             </div>
                         </div>
                     </div>
@@ -540,7 +555,6 @@
     <!-- 페이징 작업 같음, 점점 두개 중앙으로 지정 -->
     <div class="swiper-pagination position-absolute text-center"></div>
 </section>
-
 
 <!-- lastest posts, 최근 게시물 -->
 <section id="latest-blog" class="padding-large">

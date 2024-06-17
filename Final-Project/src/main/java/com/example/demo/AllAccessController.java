@@ -82,11 +82,8 @@ public class AllAccessController {
 	}
 	
 	@GetMapping("/list")
-	public String list(ModelMap map,HttpSession session) {
+	public String list(ModelMap map) {
 		map.addAttribute("list", aservice.getByStatus("경매중"));
-		session.setAttribute("list", aservice.getByStatus("경매중") );
-		System.out.println(aservice.getByStatus("경매중"));
-		System.out.println(aservice.getByStatus("경매중"));
 		return "auction/list";
 	}
 

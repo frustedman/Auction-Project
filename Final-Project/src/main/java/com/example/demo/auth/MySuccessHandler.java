@@ -45,6 +45,10 @@ public class MySuccessHandler implements AuthenticationSuccessHandler {
 		SavedRequest saveRequest=requestCache.getRequest(request, response);
 		String path=saveRequest.getRedirectUrl().split("8081")[1].split("&")[0];
 		System.out.println(path);
+		System.out.println(type);
+		if(path.startsWith("/auth/index_")) {
+			path="/auth/index_"+type;
+		}
 		request.getRequestDispatcher(path).forward(request, response);
 	}
 

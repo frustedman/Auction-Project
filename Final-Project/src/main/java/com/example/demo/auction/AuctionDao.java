@@ -18,10 +18,16 @@ public interface AuctionDao extends JpaRepository<Auction, Integer> {
 	ArrayList<Auction> findBySeller(Member seller);
 	// 상품번호로 찾기
 	ArrayList<Auction> findByProduct(Product product);
+	//비드 량으로 정열
+	ArrayList<Auction> findByStatusOrderByBidcountDesc(String status);
 	// 경매 타입별 목록
 	ArrayList<Auction> findByType(String type);
 	// 경매 상태별 목록
 	ArrayList<Auction> findByStatus(String status);
+	
+	
+	
+	
 	
 	@Query("SELECT a FROM Auction a JOIN a.product p WHERE p.name LIKE %:productName%")
     ArrayList<Auction> findByProductNameLike(@Param("productName") String productName);

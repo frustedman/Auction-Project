@@ -53,7 +53,7 @@ public class AuctionController {
 		aservice.setTime(a, a.getTime());
 		aservice.save(a);
 		
-		return "redirect:/index_member";
+		return "/index_member";
 	}
 	
 	@MessageMapping("/price")
@@ -70,6 +70,7 @@ public class AuctionController {
 				return map;
 			}
 			bservice.save(dto);
+			d.setBidcount(d.getBidcount()+1);
 			d.setMax(b.getPrice());
 			aservice.save(d);
 			
