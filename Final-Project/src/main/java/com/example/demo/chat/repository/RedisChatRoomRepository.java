@@ -30,7 +30,7 @@ public class RedisChatRoomRepository {
         zSetOperations.add("ROOM_"+buyer, chatRoom, timestamp );
         zSetOperations.add("ROOM_"+seller, chatRoom, timestamp );
         redisTemplate.opsForValue().set(chatRoomId, chatRoom);
-        Double score = zSetOperations.score(chatRoomId, chatRoom);
+        Double score = zSetOperations.score("ROOM_"+buyer, chatRoom);
         log.info("score={}", score);
 //        redisTemplate.opsForHash().put("CHAT_ROOMS", chatRoom.getId(), chatRoom);
 //        redisTemplate.opsForHash().put("CHAT_ROOMS_BY_NAME", name, chatRoom.getId());

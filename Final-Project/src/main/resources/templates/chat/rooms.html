@@ -317,9 +317,10 @@
 
         function createRoom() {
             let seller = document.getElementById("seller").value
+            alert(seller)
             if (seller) {
                 $.ajax({
-                    url: '/auth/rooms',
+                    url: '/auth/rooms/create',
                     method: 'POST',
                     data: { buyer: sessionId,
                             seller: seller},

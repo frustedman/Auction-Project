@@ -53,12 +53,12 @@ public class ChatController {
         return "chat/rooms";
     }
 
-    @GetMapping
+    @RequestMapping
     public String rooms() {
         return "chat/rooms";
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @ResponseBody
     public ChatRoom createRoom(String buyer, String seller) {
         log.info("buyer={}", buyer);
