@@ -53,7 +53,7 @@ public class AuctionController {
 		aservice.setTime(a, a.getTime());
 		aservice.save(a);
 		
-		return "redirect:/index_member";
+		return "/index_member";
 	}
 	
 	@MessageMapping("/price")
