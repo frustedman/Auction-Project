@@ -33,7 +33,7 @@ import lombok.ToString;
 public class Auction {
 
     @Id
-    @SequenceGenerator(name = "seq_gen", sequenceName = "seq_auction", allocationSize = 1)
+    @SequenceGenerator(name = "seq_auction", sequenceName = "seq_auction", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_auction")
     private int num;
 
