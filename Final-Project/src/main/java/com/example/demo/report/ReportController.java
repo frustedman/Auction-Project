@@ -17,7 +17,7 @@ public class ReportController {
         service.save(dto);
         return "redirect:/auth/auction/detail?num="+dto.getAuction().getNum();
     }
-    @RequestMapping("/list")
+    @RequestMapping("list")
     public String list(ModelMap map) {
         map.addAttribute("list", service.findAll());
         return "report/list";

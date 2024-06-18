@@ -37,7 +37,9 @@ public class ScrapController {
     @ResponseBody
 	@PostMapping("/scrap")
 	public Map add(int auction, String member) {
+    	System.out.println(member);
         ScrapDto dto = service.getScrapByAuctionAndMember(new Auction(auction),new Member(member));
+        System.out.println(dto);
         Map map = new HashMap();
         if(dto==null) {
             service.save(new ScrapDto(0,new Member(member),new Auction(auction) ));
@@ -50,7 +52,7 @@ public class ScrapController {
         return map;
     }
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public String list(String id, ModelMap map) {
         map.addAttribute("list", service.getScrapByMember(id));
         return "scrap/list";

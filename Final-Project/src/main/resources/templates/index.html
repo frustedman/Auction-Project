@@ -1,3 +1,16 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Insert title here</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h3>홈</h3>-->
+<!--    <a href="/join">회원가입</a>-->
+<!--    <a href="/auth/login">로그인</a>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -134,7 +147,7 @@
     <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
         <div class="container-fluid">
 
-            <a class="navbar-brand">
+            <a class="navbar-brand" href="index.html">
                 <img src="/images/logo1.png" class="logo" style="height: 75px; width: 250px; margin-top: 3px; margin-bottom: 1px">
             </a>
 
@@ -146,7 +159,7 @@
 
             <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
                 <div class="offcanvas-header px-4 pb-0">
-                    <a class="navbar-brand" href="/">
+                    <a class="navbar-brand" href="index.html">
                         <!-- 여기는 뭔지 모르겠음 바꾸긴 했는데 어디가 바뀐지 모르겠음 -->
                         <img src="/images/logo1.png" class="logo">
                     </a>
@@ -199,7 +212,7 @@
                                     </li>
                                     <!-- 스크랩 -->
                                     <li>
-                                        <a th:href="@{/auth/scrap/list(id=${session.loginId})}">
+                                        <a href="">
                                             <svg class="cart">
                                                 <use xlink:href="#cart"></use>
                                             </svg>
