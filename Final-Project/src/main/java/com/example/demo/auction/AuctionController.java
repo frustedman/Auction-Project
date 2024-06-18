@@ -1,5 +1,6 @@
 package com.example.demo.auction;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -99,7 +100,19 @@ public class AuctionController {
 	
 	@RequestMapping("/detail")
 	public String detail(int num,ModelMap map) {
+		AuctionDto dto=aservice.get(num);
 		map.addAttribute("s", aservice.get(num));
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dto.getStart_time());
+		String time=""+cal.get(Calendar.DAY_OF_MONTH);
+		time+="일 "+cal.get(Calendar.HOUR_OF_DAY);
+		time+="시"+cal.get(Calendar.MINUTE)+"분";
+		cal.setTime(dto.getEnd_time());
+		String time2=""+cal.get(Calendar.DAY_OF_MONTH);
+		time2+="일 "+cal.get(Calendar.HOUR_OF_DAY);
+		time2+="시"+cal.get(Calendar.MINUTE)+"분";
+		map.addAttribute("start_time", time);
+		map.addAttribute("end_time", time2);
 		return "/auction/detail";
 	}
 
