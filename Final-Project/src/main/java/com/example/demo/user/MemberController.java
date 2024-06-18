@@ -21,7 +21,7 @@ public class MemberController {
 
 	@GetMapping("/join")
 	public String joinForm() {
-		return "member/join";
+		return "member/login";
 	}
 	
 	@PostMapping("/join")
