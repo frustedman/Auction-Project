@@ -363,6 +363,9 @@
         <form th:action="@{/auth/member/point(id=${session.loginId})}" method="get">
             <button type="submit" class="custom-button">포인트 충전</button>
         </form>
+        <form th:action="@{/auth/dataroom/list}" method="get">
+            <button type="submit" class="custom-button">Q&A</button>
+        </form>
         <form th:action="@{/auth/rooms}" method="get">
             <button type="submit" class="custom-button">채팅방</button>
         </form>
