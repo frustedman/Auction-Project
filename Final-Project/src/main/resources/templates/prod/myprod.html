@@ -1,36 +1,4 @@
-<!--    <table border="1">-->
-<!--        <tr>-->
-<!--            <th>판매자</th>-->
-<!--            <th>상품명</th>-->
-<!--            <th>이미지1</th>-->
-<!--            <th>이미지2</th>-->
-<!--            <th>이미지3</th>-->
-<!--            <th>이미지4</th>-->
-<!--            <th>이미지5</th>-->
-<!--            <th>카테고리</th>-->
-<!--        </tr>-->
-<!--        <tr th:each="p:${list}">-->
-<!--            <td th:text="${p.seller.id}"></td>-->
-<!--            <td th:text="${p.name}"></td>-->
-<!--            <td>-->
-<!--                <img th:src="@{/auth/prod/read-img(img=${p.img1})}" style="width: 100px; height: 100px">-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <img th:src="@{/auth/prod/read-img(img=${p.img2})}" style="width: 100px; height: 100px">-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <img th:src="@{/auth/prod/read-img(img=${p.img3})}" style="width: 100px; height: 100px">-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <img th:src="@{/auth/prod/read-img(img=${p.img4})}" style="width: 100px; height: 100px">-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <img th:src="@{/auth/prod/read-img(img=${p.img5})}" style="width: 100px; height: 100px">-->
-<!--            </td>-->
-<!--            <td th:text="${p.categories}"></td>-->
-<!--            <td><a th:href="@{/auth/auction/add(prodnum=${p.num})}">경매 등록</a> </td>-->
-<!--        </tr>-->
-<!--    </table>-->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,7 +25,7 @@
     <style>
         .container1 {
             max-width: 1000px; /* 원하는 최대 너비 설정 */
-            max-height: 700px; /* 원하는 최대 높이 설정 */
+            /*max-height: 700px; !* 원하는 최대 높이 설정 *!*/
             margin: 0 auto; /* 가운데 정렬을 위해 사용 */
         }
         .file-inputs {
@@ -276,13 +244,90 @@
 <div class="container1">
     <div class="row1">
         <div class="display-header d-flex justify-content-between pb-3">
-            <h2 class="display-7 text-dark text-uppercase" style="margin-bottom: 25px">상품정보</h2>
+            <h2 class="display-7 text-dark text-uppercase" style="margin-bottom: 25px">등록한 상품 목록</h2>
         </div>
         <hr style="all: unset; display: block; width: 100%; height: 2px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
     </div>
-    <div>
 
+
+    <div class="d-flex align-items-center mb-3" style="display: flex; justify-content: space-between; padding-bottom: 33px; margin-bottom: 0;">
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">상품명</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">이미지1</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">이미지2</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">이미지3</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">이미지4</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">이미지5</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">카테고리</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">등록/삭제</h4>
     </div>
+    <hr style="all: unset; display: block; width: 100%; height: 1px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
+
+    <div th:each="p:${list}">
+        <div class="d-flex align-items-center mb-3" style="display: flex; justify-content: space-between; padding-bottom: 33px; margin-bottom: 0;">
+            <h4 th:text="${p.name}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                <div th:if="${p.img1 != null}">
+                    <img th:src="@{/auth/prod/read-img(img=${p.img1})}" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+                <div th:if="${p.img1 == null}">
+                    <img src="/images/Noimg.jpg" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+            </div>
+
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                <div th:if="${p.img2 != null}">
+                    <img th:src="@{/auth/prod/read-img(img=${p.img2})}" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+                <div th:if="${p.img2 == null}">
+                    <img src="/images/Noimg.jpg" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+            </div>
+
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                <div th:if="${p.img3 != null}">
+                    <img th:src="@{/auth/prod/read-img(img=${p.img3})}" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+                <div th:if="${p.img3 == null}">
+                    <img src="/images/Noimg.jpg" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+            </div>
+
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                <div th:if="${p.img4 != null}">
+                    <img th:src="@{/auth/prod/read-img(img=${p.img4})}" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+                <div th:if="${p.img4 == null}">
+                    <img src="/images/Noimg.jpg" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+            </div>
+
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                <div th:if="${p.img5 != null}">
+                    <img th:src="@{/auth/prod/read-img(img=${p.img5})}" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+                <div th:if="${p.img5 == null}">
+                    <img src="/images/Noimg.jpg" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+            </div>
+
+            <h4 th:text="${p.categories}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+
+            <div style="flex: 1; flex-direction: column; display: flex; align-items: center; justify-content: center;">
+                <form th:action="@{/auth/auction/add}" method="get" style="margin-bottom: 10px;">
+                    <input type="hidden" name="prodnum" th:value="${p.num}">
+                    <button type="submit" style="width: 75px; background-color: #4CAF50; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px;">경매등록</button>
+                </form>
+                <form th:action="@{/auth/prod/del}">
+                    <input type="hidden" name="prodnum" th:value="${p.num}">
+                    <button type="submit" style="width: 75px; background-color: #f44336; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px;">삭제</button>
+                </form>
+            </div>
+        </div>
+        <hr style="all: unset; display: block; width: 100%; height: 1px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
+    </div>
+
+
 </div>
 
 <section id="latest-blog" class="padding-large">
