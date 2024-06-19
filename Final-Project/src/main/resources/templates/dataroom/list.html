@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Q&A</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .modal {
+            display: none; /* 기본적으로 숨김 */
+            position: fixed; /* 고정 위치 */
+            z-index: 1; /* 최상위에 배치 */
+            left: 0;
+            top: 0;
+            width: 100%; /* 전체 너비 */
+            height: 100%; /* 전체 높이 */
+            overflow: auto; /* 스크롤 가능하게 설정 */
+            background-color: rgb(0,0,0); /* 배경 색 */
+            background-color: rgba(0,0,0,0.4); /* 투명 배경 */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 상단에서 15% 정렬 */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* 너비 설정 (화면 크기에 따라 조정) */
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .post-item {
+            cursor: pointer;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        .post-content {
+            display: none; /* 기본적으로 숨김 */
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f0f0f0;
+        }
+        .reply-form {
+            display: none; /* 기본적으로 숨김 */
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<h1>Q&A 리스트</h1>
+<button onclick="openWritePopup()">글쓰기</button>
+
+<div id="postList">
+    <!-- 게시물 리스트 반복 -->
+    <div th:each="post : ${list}" class="post-item">
+        <h3 th:text="${post.title}" onclick="toggleContent(this)">제목</h3>
+        <p th:text="${#dates.format(post.wdate, 'yyyy-MM-dd')} + ' | ' + ${post.writer.id}">작성일 | 작성자</p>
+        <div class="post-content" th:text="${post.content}" style="display: none;">내용</div>
+        <div class="reply-form" style="display: none;">
+            <div th:each="reply: ${post.replies}">
+                <p th:text="${#dates.format(reply.wdate, 'yyyy-MM-dd')} + ' | ' + ${reply.writer.id}">작성일 | 작성자</p>
+                <div th:text="${reply.content}">내용</div>
+            </div>
+            <h3>댓글 작성</h3>
+            <form action="/auth/dataroom/reply" method="post">
+                <input type="hidden" name="dataroom" th:value="${post.num}">
+                <input type="hidden" name="writer" th:value="${session.loginId}">
+                <textarea name="content" rows="4" cols="50" required></textarea><br><br>
+                <button type="submit">작성</button>
+                <button type="button" onclick="toggleReplyForm(this)">취소</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="writeModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeWritePopup()">&times;</span>
+        <h2>Q&A 작성</h2>
+        <form id="writeForm" action="/auth/dataroom/add" method="post">
+            <label for="title">제목:</label>
+            <input type="text" id="title" name="title" required><br><br>
+            <label for="writer">작성자:</label>
+            <input type="text" th:value="${session.loginId}" id="writer" name="writer" readonly><br><br>
+            <label for="content">내용:</label><br>
+            <textarea id="content" name="content" rows="10" cols="50" required></textarea><br><br>
+            <label for="private">비밀글:</label>
+            <input type="checkbox" id="private" name="type" value="1"><br><br>
+            <button type="submit">작성</button>
+            <button type="button" onclick="closeWritePopup()">취소</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openWritePopup() {
+        document.getElementById('writeModal').style.display = 'block';
+    }
+
+    function closeWritePopup() {
+        document.getElementById('writeModal').style.display = 'none';
+    }
+
+    function toggleContent(postTitle) {
+        var content = postTitle.parentElement.querySelector('.post-content');
+        var replyForm = postTitle.parentElement.querySelector('.reply-form');
+
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            replyForm.style.display = 'block';
+        } else {
+            content.style.display = 'none';
+            replyForm.style.display = 'none';
+        }
+    }
+
+    function toggleReplyForm(button) {
+        var replyForm = button.parentElement;
+        replyForm.style.display = 'none';
+    }
+
+    document.getElementById('writeForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 기본 제출 이벤트를 막습니다.
+        alert('Q&A가 작성되었습니다.');
+        this.submit(); // 경고창을 띄운 후 폼을 제출합니다.
+    });
+
+    // 모달 이외의 영역 클릭 시 모달 닫기
+    window.onclick = function(event) {
+        var modal = document.getElementById('writeModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
