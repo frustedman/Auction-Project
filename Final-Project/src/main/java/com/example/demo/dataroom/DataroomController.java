@@ -22,13 +22,13 @@ public class DataroomController {
     @PostMapping("/add")
     public String add(DataroomDto dto){
         service.save(dto);
-        return "redirect:/auth/dataroom/list";
+        return "redirect:/all/qalist";
     }
     @PostMapping("/reply")
     public String reply(ReplyDto dto){
         log.debug("dto="+dto);
         rservice.save(dto);
         log.debug("after dto="+dto);
-        return "redirect:/auth/dataroom/list";
+        return "redirect:/all/qalist";
     }
 }

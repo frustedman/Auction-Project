@@ -19,7 +19,7 @@
         }
         .modal-content {
             background-color: #fefefe;
-            margin: 15% auto; /* 상단에서 15% 정렬 */
+            margin: 7% auto; /* 상단에서 15% 정렬 */
             padding: 20px;
             border: 1px solid #888;
             width: 80%; /* 너비 설정 (화면 크기에 따라 조정) */
@@ -55,6 +55,13 @@
             border: 1px solid #ddd;
             background-color: #f0f0f0;
         }
+        .title-container {
+            display: flex;
+            align-items: center;
+        }
+        .title-container h3 {
+            margin: 0 0 0 8px; /* 아이콘과 제목 사이에 간격 추가 */
+        }
     </style>
 </head>
 <body>
@@ -64,22 +71,29 @@
 <div id="postList">
     <!-- 게시물 리스트 반복 -->
     <div th:each="post : ${list}" class="post-item">
-        <h3 th:text="${post.title}" onclick="toggleContent(this)">제목</h3>
+        <div class="title-container" onclick="toggleContent(this)">
+            <svg th:if="${post.type==1}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+                <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+            </svg>
+            <h3 th:text="${post.title}">제목</h3>
+        </div>
         <p th:text="${#dates.format(post.wdate, 'yyyy-MM-dd')} + ' | ' + ${post.writer.id}">작성일 | 작성자</p>
-        <div class="post-content" th:text="${post.content}" style="display: none;">내용</div>
-        <div class="reply-form" style="display: none;">
-            <div th:each="reply: ${post.replies}">
-                <p th:text="${#dates.format(reply.wdate, 'yyyy-MM-dd')} + ' | ' + ${reply.writer.id}">작성일 | 작성자</p>
-                <div th:text="${reply.content}">내용</div>
+        <div th:if="${session.loginId}==${post.writer.id} or ${session.type} == 'admin'">
+            <div class="post-content" th:text="${post.content}" style="display: none;">내용</div>
+            <div class="reply-form" style="display: none;">
+                <div th:each="reply: ${post.replies}">
+                    <p th:text="${#dates.format(reply.wdate, 'yyyy-MM-dd')} + ' | ' + ${reply.writer.id}">작성일 | 작성자</p>
+                    <div th:text="${reply.content}">내용</div>
+                </div>
+                <h3>댓글 작성</h3>
+                <form action="/auth/dataroom/reply" method="post">
+                    <input type="hidden" name="dataroom" th:value="${post.num}">
+                    <input type="hidden" name="writer" th:value="${session.loginId}">
+                    <textarea name="content" rows="4" cols="50" required></textarea><br><br>
+                    <button type="submit">작성</button>
+                    <button type="button" onclick="toggleReplyForm(this)">취소</button>
+                </form>
             </div>
-            <h3>댓글 작성</h3>
-            <form action="/auth/dataroom/reply" method="post">
-                <input type="hidden" name="dataroom" th:value="${post.num}">
-                <input type="hidden" name="writer" th:value="${session.loginId}">
-                <textarea name="content" rows="4" cols="50" required></textarea><br><br>
-                <button type="submit">작성</button>
-                <button type="button" onclick="toggleReplyForm(this)">취소</button>
-            </form>
         </div>
     </div>
 </div>
@@ -105,7 +119,12 @@
 
 <script>
     function openWritePopup() {
-        document.getElementById('writeModal').style.display = 'block';
+        var loginId = document.getElementById('writer').value;
+        if(loginId===''){
+            alert('로그인 후 사용 가능합니다')
+        }else {
+            document.getElementById('writeModal').style.display = 'block';
+        }
     }
 
     function closeWritePopup() {
@@ -144,6 +163,5 @@
         }
     }
 </script>
-
 </body>
 </html>
