@@ -27,10 +27,10 @@ public class AuctionScheduler {
 	@Autowired
 	private ChatRoomService chatRoomService;
 
-	@Scheduled(cron = "0 0/1 * * * *") // 매 5분에 실행
+	@Scheduled(cron = "0 0/5 * * * *") // 매 5분에 실행
 	public void setStatus() {
 		Date date =new Date();
-		ArrayList<AuctionDto> list=service.getAll();
+		ArrayList<AuctionDto> list=service.getByStatus("경매중");
 		for(AuctionDto auction:list) {
 			if(auction.getEnd_time().before(date)) {
 				auction.setStatus("경매 마감");
