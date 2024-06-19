@@ -293,6 +293,9 @@
                             <a class="nav-link me-4" href="/all/list">Auction List</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link me-4" href="all/qalist">Q&A</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link me-4" href="/auth/rooms">Chat</a>
                         </li>
                         <li class="nav-item" th:if="${session.loginId == null}">
@@ -364,8 +367,8 @@
         <form th:action="@{/auth/member/point(id=${session.loginId})}" method="get">
             <button type="submit" class="custom-button">포인트 충전</button>
         </form>
-        <form th:action="@{/auth/dataroom/list}" method="get">
-            <button type="submit" class="custom-button">Q&A</button>
+        <form action="" method="get">
+            <button type="submit" class="custom-button">내 Q&A</button>
         </form>
         <form th:action="@{/auth/rooms}" method="get">
             <button type="submit" class="custom-button">채팅방</button>

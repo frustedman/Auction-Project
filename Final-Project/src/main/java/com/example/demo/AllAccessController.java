@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.demo.dataroom.DataroomDto;
+import com.example.demo.dataroom.DataroomService;
+import com.example.demo.dataroom.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +32,11 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/all")
 public class AllAccessController {
+
+	@Autowired
+	private DataroomService service;
+	@Autowired
+	private ReplyService rservice;
 
 	@Autowired
 	private AuctionService aservice;
@@ -103,5 +111,15 @@ public class AllAccessController {
 			throw new RuntimeException(e);
 		}
 		return result;
+	}
+
+	@RequestMapping("/qalist")
+	public String qalist(ModelMap map) {
+		ArrayList<DataroomDto> list=service.findAll();
+		for(DataroomDto dto:list){
+			dto.setReplies(rservice.findAll(dto));
+		}
+		map.addAttribute("list", list);
+		return "dataroom/list";
 	}
 }
