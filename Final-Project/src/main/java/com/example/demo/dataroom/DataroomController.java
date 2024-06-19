@@ -19,16 +19,6 @@ public class DataroomController {
     @Autowired
     private ReplyService rservice;
 
-    @RequestMapping("/list")
-    public String list(ModelMap map) {
-        ArrayList<DataroomDto> list=service.findAll();
-        for(DataroomDto dto:list){
-            dto.setReplies(rservice.findAll(dto));
-        }
-        map.addAttribute("list", list);
-        return "dataroom/list";
-    }
-
     @PostMapping("/add")
     public String add(DataroomDto dto){
         service.save(dto);
