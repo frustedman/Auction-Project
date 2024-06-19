@@ -353,15 +353,12 @@
 
             <button type="submit" class="custom-button">상품 등록</button>
         </form>
-        <form th:action="@{/auth/prod/myprod(seller=${session.loginId})}" method="get">
+        <form action="/auth/prod/myprod" method="get">
             <button type="submit" class="custom-button">내상품 목록</button>
         </form>
-        <form th:action="@{/auth/auction/myauction(seller=${session.loginId})}" method="get">
+        <form action="/auth/auction/myauction" method="get">
             <button type="submit" class="custom-button">내경매 목록</button>
         </form>
-        <!--                <form th:action="@{/auth/scrap/list(id=${session.loginId})}" method="get">-->
-        <!--                    <button type="submit" class="custom-button">스크랩 목록</button>-->
-        <!--                </form>-->
         <form th:action="@{/auth/member/point(id=${session.loginId})}" method="get">
             <button type="submit" class="custom-button">포인트 충전</button>
         </form>

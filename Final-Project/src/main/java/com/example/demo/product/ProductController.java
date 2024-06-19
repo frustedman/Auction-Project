@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -151,7 +152,8 @@ public class ProductController {
     }
 
     @GetMapping("/myprod")
-    public String myProduct(String seller, ModelMap map) {
+    public String myProduct(HttpSession session, ModelMap map) {
+        String seller = (String) session.getAttribute("loginId");
     	ArrayList<ProductDto> l=service.getBySeller(seller);
     	System.out.println(l.toString());
     	ArrayList<ProductDto> list=new ArrayList<>();
