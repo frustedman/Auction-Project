@@ -90,7 +90,11 @@
             border-top: 1px solid #ccc;
             padding: 10px;
         }
-
+        .last-message {
+            font-size: 10px; /* Adjust font size as needed */
+            color: grey;     /* Color the text grey */
+            margin-left: 10px; /* Optional: Add margin for better spacing */
+        }
         #messageInput {
             flex-grow: 1;
             padding: 8px;
@@ -222,49 +226,56 @@
         fetchRooms();
     }
     function showMessage(message) {
-        let messagesDiv = document.getElementById("messages");
-        let messageElement = document.createElement('div');
-        messageElement.className = 'message';
+        let messagesDiv = $("#messages");
+        let messageElement = $('<div class="message"></div>');
+
         if (message.contentType === 'image') {
             if (message.sender === sessionId) {
-                messageElement.classList.add('sender');
-                messageElement.style.backgroundColor = 'initial';
-                messageElement.innerHTML = '<span id="time"> ' + message.timestamp + ' </span>' +
-                    '<span id="image"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>';
+                messageElement.addClass('sender')
+                    .append('<span id="time">' + message.timestamp + '</span>')
+                    .append('<span id="image"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>');
             } else {
-                messageElement.classList.add('recipient');
-                messageElement.innerHTML = '<span id="receiver"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>' +
-                    '<span id="image"> ' + message.timestamp + ' </span>';
+                messageElement.addClass('recipient')
+                    .append('<span id="receiver"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>')
+                    .append('<span id="time">' + message.timestamp + '</span>');
             }
         } else {
             if (message.sender === sessionId) {
-                messageElement.classList.add('sender');
-                messageElement.style.backgroundColor = 'initial';
-                messageElement.innerHTML = '<span id="time"> ' + message.timestamp + ' </span>' + '<span id="sender">' + message.content + '</span>';
+                messageElement.addClass('sender')
+                    .append('<span id="time">' + message.timestamp + '</span>')
+                    .append('<span id="sender">' + message.content + '</span>');
             } else {
-                messageElement.classList.add('recipient');
-                messageElement.innerHTML = '<span id="receiver">' + message.content + '</span>' + '<span id="time"> ' + message.timestamp + ' </span>';
+                messageElement.addClass('recipient')
+                    .append('<span id="receiver">' + message.content + '</span>')
+                    .append('<span id="time">' + message.timestamp + '</span>');
             }
         }
-        messagesDiv.appendChild(messageElement);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        // Scroll to the bottom
+
+        messagesDiv.append(messageElement);
+        messagesDiv.scrollTop(messagesDiv.prop("scrollHeight"));
     }
 
     function loadPreviousMessages() {
         $.get('/auth/rooms/' + roomId + '/messages', function(messages) {
+            console.log(messages)
+
+            // 정렬된 메시지 출력
             messages.forEach(function(message) {
                 showMessage(message);
             });
+
         });
     }
 
     document.getElementById("messageInput").addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
+            event.preventDefault();
             sendMessage();
         }
     });
-
+    document.getElementById("sendMessageBtn").addEventListener("click", function() {
+        sendMessage();
+    });
     document.getElementById("sendImageButton").addEventListener("click", function() {
         document.getElementById('fileInput').click();
     });
@@ -275,6 +286,16 @@
             sendImage(file, 1000, 1000, 0.5);
         }
     });
+    function lastMessage(roomId) {
+        return  $.ajax({
+            url: '/auth/rooms/lastMessage',
+            method: 'GET',
+            data: {roomId: roomId},
+            success: function (response){
+                console.log('Last message fetched successfully:', response);
+            }
+        })
+    }
     function fetchRooms() {
         let member = ""
         console.log(1)
@@ -290,7 +311,15 @@
                     }else {
                         member = room.seller
                     }
-                    $('#rooms').append('<div class="room" data-id="' + room.id + '">' + member + '</div>');
+                    $('#rooms').append(
+                        '<div class="room" data-id="' + room.id + '">' +
+                        member +
+                        '<span class="last-message"><span id="lastMessage-' + room.id + '"></span></span>' +
+                        '</div>'
+                    );
+                    lastMessage(room.id).done(function(response) {
+                        $('#lastMessage-' + room.id).text(response.content[0].content);
+                    });
                 });
 
                 $('.room').click(function() {
@@ -323,7 +352,7 @@
                     url: '/auth/rooms/create',
                     method: 'POST',
                     data: { buyer: sessionId,
-                            seller: seller},
+                        seller: seller},
                     success: function() {
                         localStorage.setItem('roomCreated', 'true');
                         fetchRooms();
@@ -335,7 +364,7 @@
             }
         }
     });
-//ㅇ
+    //ㅇ
 
     connect();
 </script>

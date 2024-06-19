@@ -3,6 +3,7 @@ package com.example.demo.chat.controller;
 import com.example.demo.chat.domain.ChatMessage;
 import com.example.demo.chat.domain.ChatMessagePublisher;
 import com.example.demo.chat.domain.ChatRoom;
+import com.example.demo.chat.repository.RedisMessageRepository;
 import com.example.demo.chat.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/auth/rooms")
@@ -29,6 +28,7 @@ public class ChatController {
 
     private final ChatMessagePublisher chatMessagePublisher;
     private final ChatRoomService chatRoomService;
+    private final RedisMessageRepository redisMessageRepository;
 
     @GetMapping("/load")
     @ResponseBody
@@ -68,7 +68,7 @@ public class ChatController {
 
     @GetMapping("/{roomId}/messages")
     @ResponseBody
-    public List<ChatMessage> getChatMessages(@PathVariable String roomId) {
+    public Set<Object> getChatMessages(@PathVariable String roomId) {
         log.info("roomId={}", roomId);
         return chatRoomService.getAllChatMessages(roomId);
     }
@@ -82,7 +82,7 @@ public class ChatController {
         chatMessagePublisher.publish(message);
         return message;
     }
-//d
+    //d
     @MessageMapping("/chat/image/{roomId}")
     @SendTo("/sub/messages/{roomId}")
     public ChatMessage handleImageUpload(@DestinationVariable String roomId, @Payload ChatMessage message) {
@@ -100,4 +100,16 @@ public class ChatController {
         log.info("message={}", "ok");
         return "OK";
     }
+
+    @GetMapping("/lastMessage")
+    @ResponseBody
+    public Map<String,Object> lastMessage(String roomId) {
+        log.debug("roomId={}", roomId);
+        Set<Object> lastMessage = redisMessageRepository.getLastMessage(roomId);
+        log.info("lastMessage={}", lastMessage);
+        Map<String, Object> content = new HashMap<>();
+        content.put("content",lastMessage);
+        return content;
+    }
+
 }
