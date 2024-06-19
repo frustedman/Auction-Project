@@ -122,7 +122,8 @@ public class AuctionController {
 	
 	
 	@GetMapping("/myauction")
-	public String myauction(String seller,ModelMap map,HttpSession session) {
+	public String myauction(ModelMap map,HttpSession session) {
+		String seller = (String) session.getAttribute("loginId");
 		map.addAttribute("list", aservice.getBySeller(seller));
 		return "auction/myauction";
 	}

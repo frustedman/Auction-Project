@@ -31,7 +31,7 @@ public class Member {
     private String email;
 
     @OneToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
+	@OnDelete(action = OnDeleteAction.CASCADE)
     private Card cardnum;
 
     private int point;
