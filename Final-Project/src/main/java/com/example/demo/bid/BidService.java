@@ -34,4 +34,8 @@ public class BidService {
 		return list;
 		
 	}
+	public BidDto getByBuyer(int auction) {
+		ArrayList<Bid> byBuyerByPrice = dao.findByBuyerByPrice(auction);
+		return BidDto.create(byBuyerByPrice.get(0));
+	}
 }
