@@ -107,6 +107,14 @@
         }
 
         .slideshow-images {
+            display: flex;
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            width: 100%; /* 부모 요소의 너비에 맞춤 */
+            height: 100%; /* 부모 요소의 높이에 맞춤 */
+        }
+
+        .slideshow-images {
             position: relative;
             display: flex;
             animation: slide 10s infinite;
@@ -114,8 +122,8 @@
         }
 
         .slideshow-images img {
-            width: 100%; /* 이미지의 너비를 wrapper의 너비에 맞춤 */
-            height: 100%; /* 이미지의 높이를 wrapper의 높이에 맞춤 */
+            width: 330px; /* 이미지의 너비를 wrapper의 너비에 맞춤 */
+            height: 330px; /* 이미지의 높이를 wrapper의 높이에 맞춤 */
             object-fit: cover;
             position: relative;
         }
@@ -466,6 +474,9 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
                 </div>
                 <div class="dot-buttons"></div>
             </div>
+
+            <div class="v-line" style="border-left: 1px solid #000000; height: 380px"></div>
+
             <div class="text-content">
                 <span class="title" th:text="${s.title}"></span>
                 <span class="time">start:

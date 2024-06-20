@@ -54,7 +54,7 @@ public class AllAccessController {
 		}
 		map.addAttribute("list", l);
 		session.setAttribute("list", l);
-		return "auction/getbyprodname";
+		return "auction/list";
 	}
 
 	@ResponseBody

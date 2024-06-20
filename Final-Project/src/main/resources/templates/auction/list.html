@@ -334,8 +334,7 @@ $(document).ready(function(){
                         <div class="product-card position-relative" >
                             <!-- 1번째 사진 -->
                             <div class="image-holder">
-                                <img th:if="${s.product.img1 != null}" th:src="@{/all/read-img(img=${s.product.img1})}" alt="product-item" 
-                                 class="img-fluid">
+                                <img th:if="${s.product.img1 != null}" th:src="@{/all/read-img(img=${s.product.img1})}" alt="product-item" class="img-fluid" style="width: 300px; height: 300px">
 
                             </div>
                             <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
