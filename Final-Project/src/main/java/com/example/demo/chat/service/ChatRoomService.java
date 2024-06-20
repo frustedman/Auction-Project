@@ -32,7 +32,27 @@ public class ChatRoomService {
         log.debug("updateChatroom roomId: {}", roomId);
         redisChatRoomRepository.updateChatRoom(roomId);
     }
+    public void discountMen(String roomId,String member) {
+        log.debug("updateChatroom roomId: {}", roomId);
+        chatRoomMap.get(roomId).remove(member);
+    }
+    
+    
+    public boolean getChatroom(String roomId) {
+        log.debug("updateChatroom roomId: {}", roomId);
+        return redisChatRoomRepository.getMen(roomId);
+    }
+    
+    //채팅방 목록 불러오기
     public Set<Object> findByName(String name) {
+    	
+    	Set<Object> set = redisChatRoomRepository.findByName(name);
+    	// 재앙등급:2
+    	for(Object o:set) {
+    		ChatRoom room=(ChatRoom) o;
+    		room.setMen(null);
+    	}
+    	
         return redisChatRoomRepository.findByName(name);
     }
 
@@ -52,27 +72,30 @@ public class ChatRoomService {
     }
 
     public void addChatRoom(String roomId, String member){
-        if (chatRoomMap.get(roomId)==null){
+        if (!chatRoomMap.containsKey(roomId)){
             List<String> memberList = new ArrayList<>();
             memberList.add(member);
             chatRoomMap.put(roomId, memberList);
             return;
         }
-
-        if (chatRoomMap.get(roomId).size()==1 && !chatRoomMap.get(roomId).contains(member)) {
-            chatRoomMap.get(roomId).add(member);
-            log.debug("size={}", chatRoomMap.get(roomId).size());
+        if(!chatRoomMap.get(roomId).contains(member)) {
+        	chatRoomMap.get(roomId).add(member);
+        	log.debug("size={}", chatRoomMap.get(roomId).size());
         }
     }
 
     public boolean check(String roomId) {
         List<String> strings = chatRoomMap.get(roomId);
-        log.debug("strings size={}", strings.size());
-        log.debug("members={}", chatRoomMap.get(roomId).get(0));
+        log.info("strings size={}", strings.size());
+        log.info("members={}", chatRoomMap.get(roomId).get(0));
         if (strings.size()==2) {
             messageRepository.updateRead(roomId);
             return true;
         }
         return false;
+    }
+    public void check2(String roomId) {
+    	log.info("strings size={}", "ㄹㅇㅋㅋ");
+    	messageRepository.updateRead(roomId);
     }
 }

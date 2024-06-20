@@ -184,6 +184,7 @@
             loadPreviousMessages()
         })
         stompClient.send("/pub/enter/"+roomId)
+        
         loadPreviousMessages();
     }
 
@@ -283,6 +284,7 @@
     function loadPreviousMessages() {
         $.get('/auth/rooms/' + roomId + '/messages', function(messages) {
             console.log(messages)
+             $('#messages').empty();
 
             // 정렬된 메시지 출력
             messages.forEach(function(message) {
@@ -321,6 +323,22 @@
             }
         })
     }
+   
+    function out() {
+        return  $.ajax({
+            url: '/auth/rooms/out/'+roomId,
+            method: 'GET',
+            data: {roomId: roomId,
+            		member:sessionId},
+            success: function (response){
+                console.log(response.msg);
+            }
+        })
+    }
+    
+    
+    
+    
     function fetchRooms() {
         let member = ""
         console.log(1)
@@ -393,6 +411,7 @@
 
     connect();
 window.onbeforeunload = () =>{
+	out()
     console.log("안녕히 가세요~")
 }
 </script>
