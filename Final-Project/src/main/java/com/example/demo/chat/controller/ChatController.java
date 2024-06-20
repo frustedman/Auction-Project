@@ -42,9 +42,10 @@ public class ChatController {
         byName.forEach(System.out::println);
         return byName;
     }
-    @GetMapping(params = {"seller"})
-    public String rooms(@RequestParam String seller,Model model) {
+    @GetMapping(params = {"seller", "buyer"})
+    public String rooms(@RequestParam String seller,@RequestParam String buyer, Model model) {
         Set<Object> byName = chatRoomService.findByName(seller);
+        chatRoomService.createChatRoom(buyer,seller);
 //        if (byName != null) {
 //            seller="nope!!";
 //        }
@@ -68,8 +69,9 @@ public class ChatController {
 
     @GetMapping("/{roomId}/messages")
     @ResponseBody
-    public Set<Object> getChatMessages(@PathVariable String roomId) {
+    public List<Object> getChatMessages(@PathVariable String roomId) {
         log.info("roomId={}", roomId);
+        // 상대방이 들어왔을 트루로
         return chatRoomService.getAllChatMessages(roomId);
     }
 
@@ -78,6 +80,10 @@ public class ChatController {
     public ChatMessage sendMessage(@DestinationVariable String roomId, @Payload ChatMessage message) {
         message.setRoomId(roomId);
         message.updateTimestamp();
+        boolean check = chatRoomService.check(roomId);
+        if (check){
+            message.setRead(true);
+        }
         chatRoomService.updateChatroom(roomId);
         chatMessagePublisher.publish(message);
         return message;
@@ -111,5 +117,19 @@ public class ChatController {
         content.put("content",lastMessage);
         return content;
     }
+    @GetMapping("/enter/{roomId}")
+    @ResponseBody
+    public Map<Object, Object> enter(@PathVariable String roomId, @RequestParam String member) {
+        Map<Object, Object> map = new HashMap<>();
+        chatRoomService.addChatRoom(roomId,member);
+        chatRoomService.check(roomId);
+        map.put("message", member);
+        return map;
+    }
 
+    @MessageMapping("/enter/{roomId}")
+    @SendTo("/sub/enter/{roomId}")
+    public String reload(@DestinationVariable String roomId) {
+        return "reload";
+    }
 }
