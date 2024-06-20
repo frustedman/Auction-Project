@@ -254,8 +254,8 @@
 
 
     <div class="d-flex align-items-center mb-3" style="display: flex; justify-content: space-between; padding-bottom: 33px; margin-bottom: 0;">
-        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">제목</h4>
         <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">상품</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">제목</h4>
         <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">현재가</h4>
         <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">유형</h4>
         <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">종료시간</h4>
@@ -265,10 +265,6 @@
 
     <div th:each="p:${list}" >
         <div class="d-flex align-items-center mb-3" style="display: flex; justify-content: space-between; padding-bottom: 33px; margin-bottom: 0;">
-            <a th:href="@{/auth/auction/detail(num=${p.num})}"  style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;">
-                <h4 th:text="${p.title}"></h4>
-            </a>
-
             <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
                 <div th:if="${p.product.img1 != null}">
                     <img th:src="@{/auth/prod/read-img(img=${p.product.img1})}" style="width: 150px; height: 150px; object-fit: cover;">
@@ -277,6 +273,10 @@
                     <img src="/images/Noimg.jpg" style="width: 100px; height: 100px; object-fit: cover;">
                 </div>
             </div>
+
+            <a th:href="@{/auth/auction/detail(num=${p.num})}"  style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;">
+                <h4 th:text="${p.title}"></h4>
+            </a>
 
             <h4 th:text="${p.max}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
             <h4 th:text="${p.type}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
