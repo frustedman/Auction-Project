@@ -161,12 +161,29 @@
         if (currentSubscription !== null) {
             currentSubscription.unsubscribe();
         }
+        $.ajax({
+            url: "/auth/rooms/enter/"+newRoomId,
+            method: "get",
+            data:{
+                member: sessionId
+            },
+            success: function (message){
+                console.log(message.message)
+
+            }})
         roomId = newRoomId;
         document.getElementById("room-id").innerText = roomId;
         document.getElementById("messages").innerHTML = '';
         currentSubscription = stompClient.subscribe('/sub/messages/' + roomId, function (message) {
+            console.log(message)
             showMessage(JSON.parse(message.body));
+
         });
+        stompClient.subscribe('/sub/enter/'+roomId, function (msg) {
+            console.log(msg)
+            loadPreviousMessages()
+        })
+        stompClient.send("/pub/enter/"+roomId)
         loadPreviousMessages();
     }
 
@@ -228,7 +245,6 @@
     function showMessage(message) {
         let messagesDiv = $("#messages");
         let messageElement = $('<div class="message"></div>');
-
         if (message.contentType === 'image') {
             if (message.sender === sessionId) {
                 messageElement.addClass('sender')
@@ -242,17 +258,26 @@
         } else {
             if (message.sender === sessionId) {
                 messageElement.addClass('sender')
+                    .append('<span id="read_' + message.id+'"></span>')
                     .append('<span id="time">' + message.timestamp + '</span>')
                     .append('<span id="sender">' + message.content + '</span>');
             } else {
                 messageElement.addClass('recipient')
                     .append('<span id="receiver">' + message.content + '</span>')
-                    .append('<span id="time">' + message.timestamp + '</span>');
+                    .append('<span id="time">' + message.timestamp + '</span>')
+                    .append('<span id="read_' + message.id+'"></span>');
             }
+
         }
 
         messagesDiv.append(messageElement);
         messagesDiv.scrollTop(messagesDiv.prop("scrollHeight"));
+        console.log(message.read)
+        if (message.read){
+            $('#read_'+message.id).text("")
+        }else{
+            $('#read_'+message.id).text("안읽음")
+        }
     }
 
     function loadPreviousMessages() {
@@ -367,6 +392,9 @@
     //ㅇ
 
     connect();
+window.onbeforeunload = () =>{
+    console.log("안녕히 가세요~")
+}
 </script>
 </body>
 </html>

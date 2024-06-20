@@ -13,18 +13,20 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 public class ChatMessage implements Serializable {
-
+    @Setter
+    private String id;
     private String sender;
     private String contentType;
     private String content;
     private String timestamp;
     @Setter
     private String roomId;
+    @Setter
+    private boolean read=false;
 
+    public String updateTimestamp() {
 
-
-    public void updateTimestamp() {
-        this.timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+        return this.timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
 }
