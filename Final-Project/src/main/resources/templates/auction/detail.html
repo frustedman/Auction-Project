@@ -199,11 +199,88 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+
+        /* 기본 스타일 */
+        #billboard1 {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: auto;
+        }
+
+        .swiper1 {
+            height: 100%;
+        }
+
+        .swiper1-wrapper {
+            display: flex;
+            height: 100%;
+        }
+
+        .swiper1-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%; /* 슬라이드 폭을 컨테이너 폭에 맞춤 */
+            height: 100%;
+        }
+
+        #billboard1 .swiper1-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+        }
+
+        #billboard1 .swiper1-arrow svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--light-gray-color);
+        }
+
+        .swiper1-icon.swiper1-arrow:hover svg,
+        .swiper1-icon.swiper1-arrow:focus svg {
+            fill: var(--primary-color);
+        }
+
+        #billboard1 .swiper1-arrow.swiper1-arrow-prev {
+            left: 10px;
+        }
+
+        #billboard1 .swiper1-arrow.swiper1-arrow-next {
+            right: 10px;
+        }
+
+        .container, .container .row {
+            height: 100%;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+
     </style>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script
             src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
     <script src="/price.js"></script>
+
 </head>
 <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true"
       tabindex="0">
@@ -290,7 +367,8 @@
     <div class="search-popup-container">
 
         <form role="search" method="post" class="search-form" action="/all/getbyprodname">
-            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value="" name="prodname"/>
+            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value=""
+                   name="prodname"/>
             <button type="submit" class="search-submit">
                 <svg class="search">
                     <use xlink:href="#search"></use>
@@ -332,10 +410,13 @@
         <div class="container-fluid">
 
             <a class="navbar-brand" href="/">
-                <img src="/images/logo1.png" class="logo" style="height: 75px; width: 250px; margin-top: 3px; margin-bottom: 1px">
+                <img src="/images/logo1.png" class="logo"
+                     style="height: 75px; width: 250px; margin-top: 3px; margin-bottom: 1px">
             </a>
 
-            <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <svg class="navbar-icon">
                     <use xlink:href="#navbar-icon"></use>
                 </svg>
@@ -347,10 +428,12 @@
                         <!-- 여기는 뭔지 모르겠음 바꾸긴 했는데 어디가 바뀐지 모르겠음 -->
                         <img src="/images/logo1.png" class="logo">
                     </a>
-                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
+                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas"
+                            aria-label="Close" data-bs-target="#bdNavbar"></button>
                 </div>
                 <div class="offcanvas-body">
-                    <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
+                    <ul id="navbar"
+                        class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
                         <li class="nav-item">
                             <a class="nav-link me-4 active" href="/">Home</a>
                         </li>
@@ -464,53 +547,130 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
                 <input type="hidden" th:value="${s.num}" id="num" name="auction">
                 <input type="hidden" th:value="${session.loginId}" id="buyer" name="member">
             </form>
-            <div class="image-wrapper slideshow-container">
-                <div class="slideshow-images">
-                    <img th:if="${s.product.img1 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img1})}">
-                    <img th:if="${s.product.img2 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img2})}">
-                    <img th:if="${s.product.img3 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img3})}">
-                    <img th:if="${s.product.img4 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img4})}">
-                    <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img5})}">
-                </div>
-                <div class="dot-buttons"></div>
-            </div>
+            <!--            <div class="image-wrapper slideshow-container">-->
+            <!--                <div class="slideshow-images">-->
 
-            <div class="v-line" style="border-left: 1px solid #000000; height: 380px"></div>
 
-            <div class="text-content">
-                <span class="title" th:text="${s.title}"></span>
-                <span class="time">start:
-                    <span class="time" th:text="${start_time}"></span>
-                </span>
-                <span class="time">over: <span class="time" th:text="${end_time}"></span>
-                </span>
-                <span>현재가 </span>
-                <h5 th:text="${s.max}" id="max"></h5>
-                <div class="d-flex align-items-center mb-3 input1" style="justify-content: center;">
-                    <div class="input-group align-items-center mb-3" style="max-width: 200px;">
-                        <input type="number" class="form-control" th:placeholder="${s.max}" aria-label="Example text with button addon" aria-describedby="button-addon1" id="price">
-                        <button class="btn btn-outline-secondary" type="button" id="btn">입찰</button>
+            <!--                </div>-->
+            <!--                <div class="dot-buttons"></div>-->
+            <!--            </div>-->
+
+
+            <section id="billboard1" class="position-relative overflow-hidden bg-light-blue" style="flex: 1;">
+                <div class="swiper1 main-swiper1">
+                    <div class="swiper-wrapper">
+                        <!-- 사진1 -->
+                        <div class="swiper-slide">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-5 d-flex justify-content-center align-items-center">
+                                        <div class="image-holder">
+                                            <img th:if="${s.product.img1 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img1})}" style="width: 400px; height: 400px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 사진2 -->
+                        <div class="swiper-slide" th:if="${s.product.img2 != null}">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-5 d-flex justify-content-center align-items-center">
+                                        <div class="image-holder">
+                                            <img th:if="${s.product.img2 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img2})}" style="width: 400px; height: 400px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 사진3 -->
+                        <div class="swiper-slide" th:if="${s.product.img3 != null}">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-5 d-flex justify-content-center align-items-center">
+                                        <div class="image-holder">
+                                            <img th:if="${s.product.img3 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img3})}" style="width: 400px; height: 400px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 사진4 -->
+                        <div class="swiper-slide" th:if="${s.product.img4 != null}">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-5 d-flex justify-content-center align-items-center">
+                                        <div class="image-holder">
+                                            <img th:if="${s.product.img4 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img4})}" style="width: 400px; height: 400px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 사진5 -->
+                        <div class="swiper-slide" th:if="${s.product.img5 != null}">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-5 d-flex justify-content-center align-items-center">
+                                        <div class="image-holder">
+                                            <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img5})}" style="width: 400px; height: 400px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <span th:text="${s.status}"></span>
-                <div style="text-align: center;">
-                    <button id="reportBtn" style="justify-content: center;">신고하기</button>
-                    <button id="scrapBtn" style="justify-content: center;">스크랩하기</button>
-                    <button id="cancelScrapBtn" style="justify-content: center;">스크랩취소</button>
+                <div class="swiper1-icon swiper1-arrow swiper1-arrow-prev">
+                    <svg class="chevron-left">
+                        <use xlink:href="#chevron-left" />
+                    </svg>
                 </div>
+                <div class="swiper1-icon swiper1-arrow swiper1-arrow-next">
+                    <svg class="chevron-right">
+                        <use xlink:href="#chevron-right" />
+                    </svg>
+                </div>
+            </section>
+
+
+    <div class="v-line" style="border-left: 1px solid #000000; height: 400px"></div>
+
+    <div class="text-content" style="flex: 1;">
+        <span class="title" th:text="${s.title}"></span>
+        <span class="time">start:
+                    <span class="time" th:text="${start_time}"></span>
+                </span>
+        <span class="time">over: <span class="time" th:text="${end_time}"></span>
+                </span>
+        <span>현재가 </span>
+        <h5 th:text="${s.max}" id="max"></h5>
+        <div class="d-flex align-items-center mb-3 input1" style="justify-content: center;">
+            <div class="input-group align-items-center mb-3" style="max-width: 200px;">
+                <input type="number" class="form-control" th:placeholder="${s.max}"
+                       aria-label="Example text with button addon" aria-describedby="button-addon1" id="price">
+                <button class="btn btn-outline-secondary" type="button" id="btn">입찰</button>
             </div>
         </div>
-        <div class="row1" id="row1">
-            <div class="text-content2">
-                <span>시작가 </span>
-                <h5 th:text="${s.min}"></h5>
-                <span>제품명:
+        <span th:text="${s.status}"></span>
+        <div style="text-align: center;">
+            <button id="reportBtn" style="justify-content: center;">신고하기</button>
+            <button id="scrapBtn" style="justify-content: center;">스크랩하기</button>
+            <button id="cancelScrapBtn" style="justify-content: center;">스크랩취소</button>
+        </div>
+    </div>
+    </div>
+    <div class="row1" id="row1">
+        <div class="text-content2">
+            <span>시작가 </span>
+            <h5 th:text="${s.min}"></h5>
+            <span>제품명:
                     <span th:text="${s.product.name}"></span>
                 </span>
-                <span th:text="${s.content}"></span>
-                <a th:href="@{/auth/rooms(seller=${s.seller.id})}" style="justify-content: center;">채팅하기</a>
-            </div>
+            <span th:text="${s.content}"></span>
+            <a th:href="@{/auth/rooms(seller=${s.seller.id})}" style="justify-content: center;">채팅하기</a>
         </div>
+    </div>
     </div>
     <div id="reportModal" class="modal">
         <div class="modal-content">
@@ -547,7 +707,8 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
                 <div class="row d-flex flex-wrap justify-content-between">
                     <div class="col-lg-3 col-sm-6 pb-3">
                         <div class="footer-menu">
-                            <img src="/images/logo1.png" alt="logo" style="height: 75px; width: 250px; margin-top: 3px; margin-bottom: 1px">
+                            <img src="/images/logo1.png" alt="logo"
+                                 style="height: 75px; width: 250px; margin-top: 3px; margin-bottom: 1px">
                             <p>Nisi, purus vitae, ultrices nunc. Sit ac sit suscipit
                                 hendrerit. Gravida massa volutpat aenean odio erat nullam
                                 fringilla.</p>
@@ -780,5 +941,19 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
         });
     });
 </script>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const swiper = new Swiper('.main-swiper1', {
+            loop: true,
+            navigation: {
+                nextEl: '.swiper1-arrow-next',
+                prevEl: '.swiper1-arrow-prev',
+            },
+        });
+    });
+</script>
+
 </body>
 </html>
