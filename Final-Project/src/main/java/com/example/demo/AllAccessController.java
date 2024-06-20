@@ -18,10 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.auction.AuctionDto;
 import com.example.demo.auction.AuctionService;
@@ -113,13 +110,14 @@ public class AllAccessController {
 		return result;
 	}
 
-	@RequestMapping("/qalist")
-	public String qalist(ModelMap map) {
+	@GetMapping("/qalist")
+	public String qalist(ModelMap map, @RequestParam(value = "type", defaultValue = "0")int type) {
 		ArrayList<DataroomDto> list=service.findAll();
 		for(DataroomDto dto:list){
 			dto.setReplies(rservice.findAll(dto));
 		}
 		map.addAttribute("list", list);
+		map.addAttribute("type", type);
 		return "dataroom/list";
 	}
 }

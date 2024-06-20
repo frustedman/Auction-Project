@@ -67,10 +67,15 @@
 <body>
 <h1>Q&A 리스트</h1>
 <button onclick="openWritePopup()">글쓰기</button>
+<select id="postFilter" onchange="filterPosts()">
+    <option value="all">전체 글</option>
+    <option th:if="${type==0}"  value="my">나의 글</option>
+    <option th:if="${type==1}" value="my" selected>나의 글</option>
+</select>
 
 <div id="postList">
     <!-- 게시물 리스트 반복 -->
-    <div th:each="post : ${list}" class="post-item">
+    <div th:each="post : ${list}" class="post-item" th:attr="data-writer=${post.writer.id}">
         <div class="title-container" onclick="toggleContent(this)">
             <svg th:if="${post.type==1}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
                 <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
@@ -161,6 +166,28 @@
         if (event.target == modal) {
             modal.style.display = "none";
         }
+    }
+
+    function filterPosts() {
+        var filter = document.getElementById('postFilter').value;
+        var loginId = document.getElementById('writer').value;
+        var posts = document.getElementsByClassName('post-item');
+
+        for (var i = 0; i < posts.length; i++) {
+            var writerId = posts[i].getAttribute('data-writer');
+
+            if (filter === 'all') {
+                posts[i].style.display = 'block';
+            } else if (filter === 'my' && loginId === writerId) {
+                posts[i].style.display = 'block';
+            } else {
+                posts[i].style.display = 'none';
+            }
+        }
+    }
+    // 페이지 로드 시 나의 글 필터링 수행
+    window.onload = function() {
+        filterPosts();
     }
 </script>
 </body>
