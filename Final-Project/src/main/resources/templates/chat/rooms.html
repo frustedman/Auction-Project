@@ -156,38 +156,38 @@
             console.log('Connected: ' + frame);
         });
     }
-    
-    // 거대한 재앙 예상
-    function discountMem(){
-             let message = {
-                 sender: sessionId,
-                 read:false
-             }
-             stompClient.send("/pub/chatcheck/" + roomId, {}, JSON.stringify(message));
-    	currentSubscription.unsubscribe();
-    }
+
     function openChatRoom(newRoomId) {
         if (currentSubscription !== null) {
-            discountMem()
+            currentSubscription.unsubscribe();
         }
+        $.ajax({
+            url: "/auth/rooms/enter/"+newRoomId,
+            method: "get",
+            data:{
+                member: sessionId
+            },
+            success: function (message){
+                console.log(message.message)
+
+            }})
         roomId = newRoomId;
         document.getElementById("room-id").innerText = roomId;
         document.getElementById("messages").innerHTML = '';
         currentSubscription = stompClient.subscribe('/sub/messages/' + roomId, function (message) {
-        	if(message!=null){
+            console.log(message)
             showMessage(JSON.parse(message.body));
-        	}
+
         });
-        sendCheck()
+        stompClient.subscribe('/sub/enter/'+roomId, function (msg) {
+            console.log(msg)
+            loadPreviousMessages()
+        })
+        stompClient.send("/pub/enter/"+roomId)
+        
         loadPreviousMessages();
     }
-    function sendCheck() {
-            let message = {
-                sender: sessionId,
-                read:true
-            };
-            stompClient.send("/pub/chatcheck/" + roomId, {}, JSON.stringify(message));
-       }
+
     function sendMessage() {
         let messageInput = document.getElementById("messageInput").value;
         if (messageInput.trim() !== '') {
@@ -246,44 +246,45 @@
     function showMessage(message) {
         let messagesDiv = $("#messages");
         let messageElement = $('<div class="message"></div>');
-
         if (message.contentType === 'image') {
             if (message.sender === sessionId) {
                 messageElement.addClass('sender')
-                .append('<span class="read">' + read + '</span>')
                     .append('<span id="time">' + message.timestamp + '</span>')
                     .append('<span id="image"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>');
             } else {
                 messageElement.addClass('recipient')
                     .append('<span id="receiver"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>')
-                    .append('<span id="time">' + message.timestamp + '</span>')
-                .append('<span class="read">' + read + '</span>')
+                    .append('<span id="time">' + message.timestamp + '</span>');
             }
         } else {
             if (message.sender === sessionId) {
                 messageElement.addClass('sender')
-                .append('<span class="read">'+'</span>')
+                    .append('<span id="read_' + message.id+'"></span>')
                     .append('<span id="time">' + message.timestamp + '</span>')
                     .append('<span id="sender">' + message.content + '</span>');
             } else {
                 messageElement.addClass('recipient')
                     .append('<span id="receiver">' + message.content + '</span>')
                     .append('<span id="time">' + message.timestamp + '</span>')
-                .append('<span class="read">' + '</span>')
+                    .append('<span id="read_' + message.id+'"></span>');
             }
+
         }
-			
+
         messagesDiv.append(messageElement);
         messagesDiv.scrollTop(messagesDiv.prop("scrollHeight"));
-        $('.read').text("1")
-		if(message.read){
-			$('.read').text("0")
-		}
+        console.log(message.read)
+        if (message.read){
+            $('#read_'+message.id).text("")
+        }else{
+            $('#read_'+message.id).text("안읽음")
+        }
     }
 
     function loadPreviousMessages() {
         $.get('/auth/rooms/' + roomId + '/messages', function(messages) {
             console.log(messages)
+             $('#messages').empty();
 
             // 정렬된 메시지 출력
             messages.forEach(function(message) {
@@ -322,6 +323,22 @@
             }
         })
     }
+   
+    function out() {
+        return  $.ajax({
+            url: '/auth/rooms/out/'+roomId,
+            method: 'GET',
+            data: {roomId: roomId,
+            		member:sessionId},
+            success: function (response){
+                console.log(response.msg);
+            }
+        })
+    }
+    
+    
+    
+    
     function fetchRooms() {
         let member = ""
         console.log(1)
@@ -393,6 +410,10 @@
     //ㅇ
 
     connect();
+window.onbeforeunload = () =>{
+	out()
+    console.log("안녕히 가세요~")
+}
 </script>
 </body>
 </html>

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.demo.dataroom.DataroomDto;
+import com.example.demo.dataroom.DataroomService;
+import com.example.demo.dataroom.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -15,10 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.auction.AuctionDto;
 import com.example.demo.auction.AuctionService;
@@ -29,6 +29,11 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/all")
 public class AllAccessController {
+
+	@Autowired
+	private DataroomService service;
+	@Autowired
+	private ReplyService rservice;
 
 	@Autowired
 	private AuctionService aservice;
@@ -49,7 +54,7 @@ public class AllAccessController {
 		}
 		map.addAttribute("list", l);
 		session.setAttribute("list", l);
-		return "auction/getbyprodname";
+		return "auction/list";
 	}
 
 	@ResponseBody
@@ -103,5 +108,16 @@ public class AllAccessController {
 			throw new RuntimeException(e);
 		}
 		return result;
+	}
+
+	@GetMapping("/qalist")
+	public String qalist(ModelMap map, @RequestParam(value = "type", defaultValue = "0")int type) {
+		ArrayList<DataroomDto> list=service.findAll();
+		for(DataroomDto dto:list){
+			dto.setReplies(rservice.findAll(dto));
+		}
+		map.addAttribute("list", list);
+		map.addAttribute("type", type);
+		return "dataroom/list";
 	}
 }

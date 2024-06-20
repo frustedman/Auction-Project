@@ -27,7 +27,6 @@
 }
 
 .container1 {
- 	position: relative; 
 	max-width: 1000px; /* 원하는 최대 너비 설정 */
 	max-height: 1000px; /* 원하는 최대 너비 설정 */
 	margin: 0 auto; /* 가운데 정렬을 위해 사용 */
@@ -43,21 +42,6 @@
 	justify-content: center;
 	flex: 1;
 }
-.text-content2>span {
-	display : block;
-	/* 각각의 텍스트 요소를 블록 레벨 요소로 설정하여 위아래 여백을 추가 */
-	margin-bottom: 10px;
-	font-size: 20px;
-	font-weight: lighter;
-	display: block;
-}
-.text-content2>h5 {
-	display: block; /* 각각의 텍스트 요소를 블록 레벨 요소로 설정하여 위아래 여백을 추가 */
-	margin-bottom: 10px;
-	font-size: 15px;
-	font-weight: lighter;
-}
-
 
 .text-content>span {
 	text-align: center; display : block;
@@ -91,7 +75,6 @@
 	margin-left: 10px; /* 원하는 글자 크기 설정 */
 }
 
-
 .image-wrapper {
 	flex: 1;
 	overflow: hidden; /* 넘치는 부분을 숨김 */
@@ -102,53 +85,6 @@
 	height: 90%; /* 이미지의 높이를 wrapper의 높이에 맞춤 */
 	object-fit: cover;
 }
-.slideshow-images {
- position: relative; 	
-  display: flex;
-  animation: slide 10s infinite;
-  transition: transform 0.5s ease;
-}
-.slideshow-images img {
-width : 100%;/* 이미지의 너비를 wrapper의 너비에 맞춤 */
-height: 100%; /* 이미지의 높이를 wrapper의 높이에 맞춤 */
-object-fit: cover;
-position: relative;
-}
-
-.slideshow-images {
-    position: relative; /* 이미지를 포함하는 div의 위치를 상대적으로 설정 */
-}
-
-.dot-buttons {
-    position: relative;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex; /* 점(dot) 버튼을 가로로 나열하기 위해 Flexbox 사용 */
-    justify-content: center; /* 점(dot) 버튼을 가로로 가운데 정렬 */
-    width: 100%; /* 부모 요소인 slideshow-container에 맞춰 너비 설정 */
-    z-index: 10; /* 다른 요소들 위에 점(dot) 버튼이 보이도록 z-index 설정 */
-}
-
-.dot {
-	align-items: center;
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: gray;
-    margin: 0 5px;
-    margin-top: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.dot.active {
-    background-color: black;
-}
-
-
-
 
 .title {
 	display: block; /* 제목을 블록 레벨 요소로 설정하여 아래에 여백이 추가되도록 함 */
@@ -189,6 +125,7 @@ position: relative;
 	cursor: pointer;
 }
 </style>
+<script src="/js/modernizr.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
@@ -487,16 +424,10 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
 					<input type="hidden" th:value="${session.loginId}" id="buyer"
 						name="member">
 				</form>
-		<div class="image-wrapper slideshow-container">		
-				<div class="slideshow-images">
-					<img th:if="${s.product.img1 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img1})}"> 
-					<img th:if="${s.product.img2 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img2})}"> 
-					<img th:if="${s.product.img3 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img3})}"> 
-					<img th:if="${s.product.img4 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img4})}"> 
-					<img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img5})}"> 
+				<div class="image-wrapper">
+					<img th:if="${s.product.img1 != null}"
+						th:src="@{/auth/prod/read-img(img=${s.product.img1})}"> <br>
 				</div>
-			 <div class="dot-buttons"></div>
-		</div>	  	
 				<div class="text-content">
 					<span class="title" th:text="${s.title}"></span> <span class="time">start:
 						<span class="time" th:text="${start_time}"></span>
@@ -520,17 +451,22 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
 							<button id="cancelScrapBtn" style="justify-content: center;" >스크랩취소</button>
 					</div>
 				</div>
+				<!--  
+img1: <img th:if="${s.product.img1 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img1})}" style="width: 100px; height: 100px"> <br>
+img2: <img th:if="${s.product.img2 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img2})}" style="width: 100px; height: 100px"><br>
+img3: <img th:if="${s.product.img3 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img3})}" style="width: 100px; height: 100px"><br>
+img4: <img th:if="${s.product.img4 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img4})}" style="width: 100px; height: 100px"> <br>
+img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img5})}" style="width: 100px; height: 100px"> <br>
+-->
+				<!--  <a th:href="@{/auth/rooms(seller=${s.seller.id})}">채팅하기</a>-->
 			</div>
 			<div class="row1" id="row1">
-				<div class="text-content2">
-					<span>시작가 </span>
-					<h5 th:text="${s.min}"></h5>
-					<span>제품명: <span th:text="${s.product.name}"></span></span> 
-					<span th:text="${s.content}"></span>
-					<a th:href="@{/auth/rooms(seller=${s.seller.id}, buyer=${session.loginId})}" style="justify-content: center;" >채팅하기</a>
-				</div>
+				<span>시작가: <span th:text="${s.min}"></span></span> <span>내용: <span th:text="${s.content}"></span></span> 
+				<span>제품명: <span th:text="${s.product.name}"></span></span>
+				<a th:href="@{/auth/rooms(seller=${s.seller.id},buyer=${session.loginId})}" style="justify-content: center;" >채팅하기</a>
 			</div>
-	</div>		
+		</div>
+		<!-- 페이징 작업 같음, 점점 두개 중앙으로 지정 -->
 		<div id="reportModal" class="modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
