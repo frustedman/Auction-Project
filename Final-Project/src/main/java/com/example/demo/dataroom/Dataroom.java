@@ -46,7 +46,7 @@ public class Dataroom {
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .type(dto.getType())
-
+                .wdate(dto.getWdate())
                 .build();
     }
 

@@ -15,6 +15,10 @@ public class DataroomService {
         dao.save(Dataroom.create(dto));
     }
 
+    public DataroomDto get(int num){
+        return DataroomDto.create(dao.findById(num).orElse(null));
+    }
+
     public void del(DataroomDto dto){
         dao.delete(Dataroom.create(dto));
     }

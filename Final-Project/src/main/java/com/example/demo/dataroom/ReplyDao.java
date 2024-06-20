@@ -7,5 +7,5 @@ import java.util.ArrayList;
 
 @Repository
 public interface ReplyDao extends JpaRepository<Reply, Integer> {
-    ArrayList<Reply> findByDataroom(Dataroom dataroom);
+    ArrayList<Reply> findAllByDataroomOrderByWdate(Dataroom dataroom);
 }
