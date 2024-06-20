@@ -32,13 +32,9 @@ public class ChatRoomService {
         log.debug("updateChatroom roomId: {}", roomId);
         redisChatRoomRepository.updateChatRoom(roomId);
     }
-    public void updateMen(String roomId) {
+    public void discountMen(String roomId,String member) {
         log.debug("updateChatroom roomId: {}", roomId);
-        redisChatRoomRepository.updateMen(roomId);
-    }
-    public void discountMen(String roomId) {
-        log.debug("updateChatroom roomId: {}", roomId);
-        redisChatRoomRepository.discountMen(roomId);
+        chatRoomMap.get(roomId).remove(member);
     }
     
     
@@ -76,27 +72,30 @@ public class ChatRoomService {
     }
 
     public void addChatRoom(String roomId, String member){
-        if (chatRoomMap.get(roomId)==null){
+        if (!chatRoomMap.containsKey(roomId)){
             List<String> memberList = new ArrayList<>();
             memberList.add(member);
             chatRoomMap.put(roomId, memberList);
             return;
         }
-
-        if (chatRoomMap.get(roomId).size()==1 && !chatRoomMap.get(roomId).contains(member)) {
-            chatRoomMap.get(roomId).add(member);
-            log.debug("size={}", chatRoomMap.get(roomId).size());
+        if(!chatRoomMap.get(roomId).contains(member)) {
+        	chatRoomMap.get(roomId).add(member);
+        	log.debug("size={}", chatRoomMap.get(roomId).size());
         }
     }
 
     public boolean check(String roomId) {
         List<String> strings = chatRoomMap.get(roomId);
-        log.debug("strings size={}", strings.size());
-        log.debug("members={}", chatRoomMap.get(roomId).get(0));
+        log.info("strings size={}", strings.size());
+        log.info("members={}", chatRoomMap.get(roomId).get(0));
         if (strings.size()==2) {
             messageRepository.updateRead(roomId);
             return true;
         }
         return false;
+    }
+    public void check2(String roomId) {
+    	log.info("strings size={}", "ㄹㅇㅋㅋ");
+    	messageRepository.updateRead(roomId);
     }
 }
