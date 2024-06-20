@@ -527,7 +527,7 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
 					<h5 th:text="${s.min}"></h5>
 					<span>제품명: <span th:text="${s.product.name}"></span></span> 
 					<span th:text="${s.content}"></span>
-					<a th:href="@{/auth/rooms(seller=${s.seller.id})}" style="justify-content: center;" >채팅하기</a>
+					<a th:href="@{/auth/rooms(seller=${s.seller.id}, buyer=${session.loginId})}" style="justify-content: center;" >채팅하기</a>
 				</div>
 			</div>
 	</div>		

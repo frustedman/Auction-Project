@@ -156,20 +156,38 @@
             console.log('Connected: ' + frame);
         });
     }
-
+    
+    // 거대한 재앙 예상
+    function discountMem(){
+             let message = {
+                 sender: sessionId,
+                 read:false
+             }
+             stompClient.send("/pub/chatcheck/" + roomId, {}, JSON.stringify(message));
+    	currentSubscription.unsubscribe();
+    }
     function openChatRoom(newRoomId) {
         if (currentSubscription !== null) {
-            currentSubscription.unsubscribe();
+            discountMem()
         }
         roomId = newRoomId;
         document.getElementById("room-id").innerText = roomId;
         document.getElementById("messages").innerHTML = '';
         currentSubscription = stompClient.subscribe('/sub/messages/' + roomId, function (message) {
+        	if(message!=null){
             showMessage(JSON.parse(message.body));
+        	}
         });
+        sendCheck()
         loadPreviousMessages();
     }
-
+    function sendCheck() {
+            let message = {
+                sender: sessionId,
+                read:true
+            };
+            stompClient.send("/pub/chatcheck/" + roomId, {}, JSON.stringify(message));
+       }
     function sendMessage() {
         let messageInput = document.getElementById("messageInput").value;
         if (messageInput.trim() !== '') {
@@ -232,27 +250,35 @@
         if (message.contentType === 'image') {
             if (message.sender === sessionId) {
                 messageElement.addClass('sender')
+                .append('<span class="read">' + read + '</span>')
                     .append('<span id="time">' + message.timestamp + '</span>')
                     .append('<span id="image"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>');
             } else {
                 messageElement.addClass('recipient')
                     .append('<span id="receiver"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>')
-                    .append('<span id="time">' + message.timestamp + '</span>');
+                    .append('<span id="time">' + message.timestamp + '</span>')
+                .append('<span class="read">' + read + '</span>')
             }
         } else {
             if (message.sender === sessionId) {
                 messageElement.addClass('sender')
+                .append('<span class="read">'+'</span>')
                     .append('<span id="time">' + message.timestamp + '</span>')
                     .append('<span id="sender">' + message.content + '</span>');
             } else {
                 messageElement.addClass('recipient')
                     .append('<span id="receiver">' + message.content + '</span>')
-                    .append('<span id="time">' + message.timestamp + '</span>');
+                    .append('<span id="time">' + message.timestamp + '</span>')
+                .append('<span class="read">' + '</span>')
             }
         }
-
+			
         messagesDiv.append(messageElement);
         messagesDiv.scrollTop(messagesDiv.prop("scrollHeight"));
+        $('.read').text("1")
+		if(message.read){
+			$('.read').text("0")
+		}
     }
 
     function loadPreviousMessages() {

@@ -19,7 +19,6 @@ public class Product {
     private int num;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member seller;
 

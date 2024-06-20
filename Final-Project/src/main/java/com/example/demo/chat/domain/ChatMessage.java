@@ -20,6 +20,8 @@ public class ChatMessage implements Serializable {
     private String timestamp;
     @Setter
     private String roomId;
+    @Setter
+    private boolean read=false;
 
 
 

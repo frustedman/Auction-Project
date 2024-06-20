@@ -14,19 +14,22 @@ public class ChatRoom {
     private String id;
     private String buyer;
     private String seller;
+    private Long men;
 
     @Builder
-    public ChatRoom(String id, String buyer, String seller) {
+    public ChatRoom(String id, String buyer, String seller,Long men) {
         this.id = id;
         this.buyer = buyer;
         this.seller = seller;
+        this.men=men;
     }
 
-    public static ChatRoom createChatRoom(String buyer, String seller) {
+    public static ChatRoom createChatRoom(String buyer, String seller,Long men) {
         return ChatRoom.builder()
                 .id(UUID.randomUUID().toString())
                 .buyer(buyer)
                 .seller(seller)
+                .men(men)
                 .build();
     }
     public static ChatRoom updateChatRoom(String roomId, String buyer, String seller) {

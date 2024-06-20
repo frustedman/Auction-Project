@@ -42,9 +42,10 @@ public class ChatController {
         byName.forEach(System.out::println);
         return byName;
     }
-    @GetMapping(params = {"seller"})
-    public String rooms(@RequestParam String seller,Model model) {
-        Set<Object> byName = chatRoomService.findByName(seller);
+    @GetMapping(params = {"seller", "buyer"})
+    public String rooms(@RequestParam String seller, @RequestParam String buyer,Model model) {
+//    	 Set<Object> byName = chatRoomService.findByName(seller);
+    		 chatRoomService.createChatRoom(buyer, seller);
 //        if (byName != null) {
 //            seller="nope!!";
 //        }
@@ -79,9 +80,29 @@ public class ChatController {
         message.setRoomId(roomId);
         message.updateTimestamp();
         chatRoomService.updateChatroom(roomId);
+        if(chatRoomService.getChatroom(roomId)) {
+        	message.setRead(true);
+        }
         chatMessagePublisher.publish(message);
         return message;
     }
+    
+    
+    @MessageMapping("/chatcheck/{roomId}")
+    @SendTo("/sub/messages/{roomId}")
+    public ChatMessage sendMcheck(@DestinationVariable String roomId, @Payload ChatMessage check) {
+        check.setRoomId(roomId);
+        if(check.isRead()) {
+        	check.updateTimestamp();
+            chatRoomService.updateMen(roomId);
+            chatMessagePublisher.publish(check);
+        }else {
+        	chatRoomService.discountMen(roomId);
+        }
+        return check;
+    }
+    
+    
     //d
     @MessageMapping("/chat/image/{roomId}")
     @SendTo("/sub/messages/{roomId}")

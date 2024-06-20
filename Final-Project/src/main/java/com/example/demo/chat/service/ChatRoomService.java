@@ -34,7 +34,31 @@ public class ChatRoomService {
         log.debug("updateChatroom roomId: {}", roomId);
         redisChatRoomRepository.updateChatRoom(roomId);
     }
+    public void updateMen(String roomId) {
+        log.debug("updateChatroom roomId: {}", roomId);
+        redisChatRoomRepository.updateMen(roomId);
+    }
+    public void discountMen(String roomId) {
+        log.debug("updateChatroom roomId: {}", roomId);
+        redisChatRoomRepository.discountMen(roomId);
+    }
+    
+    
+    public boolean getChatroom(String roomId) {
+        log.debug("updateChatroom roomId: {}", roomId);
+        return redisChatRoomRepository.getMen(roomId);
+    }
+    
+    //채팅방 목록 불러오기
     public Set<Object> findByName(String name) {
+    	
+    	Set<Object> set = redisChatRoomRepository.findByName(name);
+    	// 재앙등급:2
+    	for(Object o:set) {
+    		ChatRoom room=(ChatRoom) o;
+    		room.setMen(null);
+    	}
+    	
         return redisChatRoomRepository.findByName(name);
     }
 
