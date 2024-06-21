@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>카드 등록</title>
+  <script>
+    function moveFocus(current, nextFieldId) {
+      if (current.value.length >= 4) {
+        document.getElementById(nextFieldId).focus();
+      }
+    }
+
+    function assembleCardNumber() {
+      var part1 = document.getElementById("cardnum1").value;
+      var part2 = document.getElementById("cardnum2").value;
+      var part3 = document.getElementById("cardnum3").value;
+      var part4 = document.getElementById("cardnum4").value;
+      document.getElementById("fullcardnum").value = part1 + part2 + part3 + part4;
+    }
+
+    function assembleValidDate() {
+      var month = document.getElementById("exp_month").value;
+      var year = document.getElementById("exp_year").value;
+      document.getElementById("fullvaliddate").value = month + year;
+    }
+
+    function validateExpiryDate() {
+      var month = document.getElementById("exp_month").value;
+      var year = document.getElementById("exp_year").value;
+      if (month < 1 || month > 12) {
+        alert("유효한 월을 입력하세요 (01-12).");
+        return false;
+      }
+      if (year.length !== 2) {
+        alert("유효한 연도를 입력하세요 (두 자리).");
+        return false;
+      }
+      return true;
+    }
+
+    function onSubmitForm() {
+      assembleCardNumber();
+      assembleValidDate();
+      return validateExpiryDate();
+    }
+
+    function allowOnlyNumbers(event) {
+      var input = event.target.value;
+      event.target.value = input.replace(/[^0-9]/g, '');
+    }
+  </script>
+</head>
+<body>
+<h2>카드 등록 폼</h2>
+<form action="/auth/member/card" method="post" onsubmit="return onSubmitForm()">
+  <input type="hidden" th:value="${session.loginId}" name="id">
+  <label for="type">카드 종류:</label><br>
+  <select id="type" name="type" required>
+    <option value="BC">BC카드</option>
+    <option value="삼성">삼성카드</option>
+    <option value="국민">국민카드</option>
+    <option value="하나">하나카드</option>
+  </select><br><br>
+
+  <label for="cardnum1">카드 번호:</label><br>
+  <input type="text" id="cardnum1" name="cardnum1" maxlength="4" required oninput="moveFocus(this, 'cardnum2'); allowOnlyNumbers(event);">
+  -
+  <input type="text" id="cardnum2" name="cardnum2" maxlength="4" required oninput="moveFocus(this, 'cardnum3'); allowOnlyNumbers(event);">
+  -
+  <input type="text" id="cardnum3" name="cardnum3" maxlength="4" required oninput="moveFocus(this, 'cardnum4'); allowOnlyNumbers(event);">
+  -
+  <input type="text" id="cardnum4" name="cardnum4" maxlength="4" required oninput="allowOnlyNumbers(event);"><br><br>
+
+  <input type="hidden" id="fullcardnum" name="cardnum">
+
+  <label for="exp_month">유효기간 (MM/YY):</label><br>
+  <input type="text" id="exp_month" name="exp_month" maxlength="2" placeholder="MM" required style="width: 30px;" oninput="allowOnlyNumbers(event);">
+  /
+  <input type="text" id="exp_year" name="exp_year" maxlength="2" placeholder="YY" required style="width: 30px;" oninput="allowOnlyNumbers(event);"><br><br>
+
+  <input type="hidden" id="fullvaliddate" name="validDate">
+
+  <label for="cvc">CVC 번호:</label><br>
+  <input type="text" id="cvc" name="cvc" maxlength="3" required oninput="allowOnlyNumbers(event);"><br><br>
+
+  <label for="pwd">비밀번호:</label><br>
+  <input type="password" id="pwd" name="pwd" required><br><br>
+
+  <button type="submit">카드 등록</button>
+</form>
+</body>
+</html>

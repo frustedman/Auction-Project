@@ -1,28 +1,22 @@
 package com.example.demo.card;
 
-import jakarta.persistence.*;
 import lombok.*;
+import com.example.demo.card.Card.Type;
 
-@Entity
+@Setter
 @Getter
 @NoArgsConstructor
 @ToString
-public class Card {
-    @Id
+public class CardDto {
     private long cardnum;
     private int validDate;
     private int cvc;
     private int pwd;
     private int price;
-    @Enumerated(EnumType.STRING)
     private Type type;
 
-    public enum Type {
-        BC, 삼성, 국민, 하나
-    }
-
-    public static Card create(CardDto dto){
-        return Card.builder()
+    public static CardDto create(Card dto){
+        return CardDto.builder()
                 .cardnum(dto.getCardnum())
                 .validDate(dto.getValidDate())
                 .cvc(dto.getCvc())
@@ -33,13 +27,12 @@ public class Card {
     }
 
     @Builder
-    public Card(long cardnum,int validDate, int cvc, int pwd, int price, Type type) {
+    public CardDto(long cardnum,int validDate, int cvc, int pwd, int price, Card.Type type) {
         this.cardnum = cardnum;
-        this.validDate = validDate;
+        this.validDate=validDate;
         this.cvc = cvc;
         this.pwd = pwd;
         this.price = price;
         this.type = type;
     }
-
 }
