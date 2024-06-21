@@ -116,11 +116,12 @@ public class AuctionController {
 		return "/auction/detail";
 	}
 
+	@GetMapping("/list")
+	public String list(ModelMap map) {
+		map.addAttribute("list", aservice.getAll());
+		return "auction/adminlist";
+	}
 
-	
-	
-	
-	
 	@GetMapping("/myauction")
 	public String myauction(ModelMap map,HttpSession session) {
 		String seller = (String) session.getAttribute("loginId");
@@ -133,6 +134,13 @@ public class AuctionController {
 		AuctionDto auction=aservice.get(num);
 		auction.setStatus("경매 마감");
 		return "redirect:/auth/report/list";
+	}
+
+	@RequestMapping("/del")
+	public String del(int num, ModelMap map) {
+		aservice.delete(num);
+		map.addAttribute("list", aservice.getAll());
+		return "auction/adminlist";
 	}
 	
 	
