@@ -1,20 +1,17 @@
 package com.example.demo.auction;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Set;
-
 import com.example.demo.bid.BidDto;
 import com.example.demo.bid.BidService;
 import com.example.demo.chat.domain.ChatRoom;
 import com.example.demo.chat.service.ChatRoomService;
-import com.example.demo.user.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Set;
 
 @Component
 @Slf4j
@@ -41,7 +38,7 @@ public class AuctionScheduler {
 				if (byName.isEmpty()){
 					log.debug("byName:{}",byName);
 					log.debug("id={}", byBuyer.getBuyer().getId());
-					chatRoomService.createChatRoom(byBuyer.getBuyer().getId(), seller);
+					chatRoomService.createChatRoom(String.valueOf(auction.getNum()),byBuyer.getBuyer().getId(), seller);
 					return;
 				}
 				service.save(auction);
@@ -50,7 +47,7 @@ public class AuctionScheduler {
 						ChatRoom chatRoom = (ChatRoom) obj;
 						String chatRoomSeller = chatRoom.getSeller();
 						if (!chatRoomSeller.equals(seller)){
-							chatRoomService.createChatRoom(byBuyer.getBuyer().getId(), seller);// Get seller from ChatRoom
+							chatRoomService.createChatRoom(String.valueOf(auction.getNum()),byBuyer.getBuyer().getId(), seller);// Get seller from ChatRoom
 						}
 						System.out.println("ChatRoom Seller: " + chatRoomSeller);
 						// Additional processing if needed

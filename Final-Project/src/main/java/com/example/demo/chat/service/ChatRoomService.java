@@ -1,6 +1,7 @@
 package com.example.demo.chat.service;
 
-import com.example.demo.chat.domain.ChatMessage;
+import com.example.demo.auction.Auction;
+import com.example.demo.auction.AuctionDao;
 import com.example.demo.chat.domain.ChatRoom;
 import com.example.demo.chat.repository.RedisChatRoomRepository;
 import com.example.demo.chat.repository.RedisMessageRepository;
@@ -18,11 +19,18 @@ public class ChatRoomService {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final RedisChatRoomRepository redisChatRoomRepository;
+    private final AuctionDao auctionDao;
     private final RedisMessageRepository messageRepository;
     private final Map<String, List<String>> chatRoomMap = new HashMap<>();
     private final List<String> members = new ArrayList<>();
-    public ChatRoom createChatRoom(String buyer, String seller) {
-        return redisChatRoomRepository.save(buyer,seller);
+    public void createChatRoom(String id,String buyer, String seller) {
+        if (redisChatRoomRepository.findRoomById(id)==null && !buyer.equals(seller)){
+            Optional<Auction> byId = auctionDao.findById(Integer.valueOf(id));
+            String name = byId.get().getProduct().getName();
+            redisChatRoomRepository.save(id, buyer, seller, name);
+            log.debug("productName={}",byId.get().getProduct().getName());
+//        return redisChatRoomRepository.save(id,buyer,seller,name);
+        }
     }
 
     //    public List<Object> findAllChatRooms() {
@@ -36,23 +44,19 @@ public class ChatRoomService {
         log.debug("updateChatroom roomId: {}", roomId);
         chatRoomMap.get(roomId).remove(member);
     }
-    
-    
-    public boolean getChatroom(String roomId) {
+
+
+    public ChatRoom getChatroom(String roomId) {
         log.debug("updateChatroom roomId: {}", roomId);
-        return redisChatRoomRepository.getMen(roomId);
+        return redisChatRoomRepository.findRoomById(roomId);
     }
-    
+
     //채팅방 목록 불러오기
     public Set<Object> findByName(String name) {
-    	
-    	Set<Object> set = redisChatRoomRepository.findByName(name);
-    	// 재앙등급:2
-    	for(Object o:set) {
-    		ChatRoom room=(ChatRoom) o;
-    		room.setMen(null);
-    	}
-    	
+
+        Set<Object> set = redisChatRoomRepository.findByName(name);
+        // 재앙등급:2
+
         return redisChatRoomRepository.findByName(name);
     }
 
@@ -79,8 +83,8 @@ public class ChatRoomService {
             return;
         }
         if(!chatRoomMap.get(roomId).contains(member)) {
-        	chatRoomMap.get(roomId).add(member);
-        	log.debug("size={}", chatRoomMap.get(roomId).size());
+            chatRoomMap.get(roomId).add(member);
+            log.debug("size={}", chatRoomMap.get(roomId).size());
         }
     }
 
@@ -95,7 +99,7 @@ public class ChatRoomService {
         return false;
     }
     public void check2(String roomId) {
-    	log.info("strings size={}", "ㄹㅇㅋㅋ");
-    	messageRepository.updateRead(roomId);
+        log.info("strings size={}", "ㄹㅇㅋㅋ");
+        messageRepository.updateRead(roomId);
     }
 }

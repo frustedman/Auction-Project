@@ -95,20 +95,39 @@ public class MemberController {
 	@GetMapping("/auth/member/card")
 	public String cardform(String id, ModelMap map) {
 		MemberDto m = service.getUser(id);
+		if(m.getCardnum()!=null){
+			map.addAttribute("flag",false);
+		}
+		else{
+			map.addAttribute("flag",true);
+		}
 		map.addAttribute("member", m);
 		return "member/card";
 	}
 
 	@PostMapping("/auth/member/card")
 	public String card(CardDto dto, String id, ModelMap map) {
-		log.debug("id: {}", id);
-		log.debug("dto: {}", dto);
-		CardDto c = cservice.get(Card.create(dto));
-		log.debug("c: {}", c);
+		//일치하는 카드 가져오기
 		MemberDto m = service.getUser(id);
+		CardDto c = cservice.get(Card.create(dto));
+		if(c==null){
+			map.addAttribute("msg","일치하는 카드가 없습니다");
+			map.addAttribute("flag",true);
+			map.addAttribute("member", m);
+			return "member/card";
+		}
+		log.debug("c: {}", c);
 		log.debug("m: {}", m);
 		m.setCardnum(Card.create(c));
-		service.edit(m);
+		//같은카드를 두명이서 등록하면 오류 발생
+		try {
+			service.edit(m);
+		}catch(Exception e){
+			map.addAttribute("msg","이미 등록된 카드입니다.");
+			map.addAttribute("flag",true);
+			map.addAttribute("member", m);
+			return "member/card";
+		}
 		return "redirect:/auth/member/card?id="+id;
 	}
 
