@@ -3,7 +3,6 @@ package com.example.demo.chat.repository;
 import com.example.demo.chat.domain.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -21,8 +20,8 @@ public class RedisChatRoomRepository {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ZSetOperations<String, Object> zSetOperations;
     private final SetOperations<String, Object> setOperations;
-    public ChatRoom save(String buyer, String seller){
-        ChatRoom chatRoom = ChatRoom.createChatRoom(buyer,seller,0L);
+    public ChatRoom save(String id,String buyer, String seller,String roomName){
+        ChatRoom chatRoom = ChatRoom.createChatRoom(id,buyer,seller, roomName);
         String chatRoomId = chatRoom.getId();
         long timestamp = Instant.now().toEpochMilli();
         log.info("timestamp={}", timestamp);
@@ -50,9 +49,9 @@ public class RedisChatRoomRepository {
     }
 
     public ChatRoom findRoomById(String id){
-        return (ChatRoom) redisTemplate.opsForHash().get("CHAT_ROOMS", id);
+        return (ChatRoom) redisTemplate.opsForValue().get(id);
     }
-    
+
     // 재앙 발생 등급 3
     public void updateChatRoom(String roomId){
         long timestamp = Instant.now().toEpochMilli();
@@ -62,45 +61,24 @@ public class RedisChatRoomRepository {
         String buyer = room.getBuyer();
         String seller = room.getSeller();
         redisTemplate.opsForValue().set(roomId, room);
-        room.setMen(0L);
         zSetOperations.add("ROOM_"+ buyer, chatRoom, timestamp );
         zSetOperations.add("ROOM_"+seller, chatRoom, timestamp );
-        
+
     }
-    
-    public void updateMen(String roomId){
-        //long timestamp = Instant.now().toEpochMilli();
-        Object chatRoom = redisTemplate.opsForValue().get(roomId);
-        ChatRoom room = (ChatRoom) chatRoom;
-        assert room != null;
-        room.setMen(room.getMen()+1);
-        redisTemplate.opsForValue().set(roomId, room);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+room.getMen());
-    }
-    
-    public void discountMen(String roomId){
-        //long timestamp = Instant.now().toEpochMilli();
-        Object chatRoom = redisTemplate.opsForValue().get(roomId);
-        ChatRoom room = (ChatRoom) chatRoom;
-        assert room != null;
-        room.setMen(room.getMen()-1);
-        redisTemplate.opsForValue().set(roomId, room);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+room.getMen());
-    }
-    
-    
-    
+
+
+
+
+
+
     public boolean getMen(String roomId){
         //long timestamp = Instant.now().toEpochMilli();
         Object chatRoom = redisTemplate.opsForValue().get(roomId);
         ChatRoom room = (ChatRoom) chatRoom;
-        System.out.println("====================================="+room.getMen());
         assert room != null;
-        if(room.getMen()>1) {
-        	return true;
-        }
-        return false;
+        return true;
     }
+
 
 
     public Set<Object> findByName(String name){
