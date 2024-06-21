@@ -9,6 +9,16 @@
             margin: 0;
             padding: 0;
         }
+        .unread-badge {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            font-size: 10px;
+            /*position: absolute;*/
+            top: 5px;
+            right: -5px;
+        }
 
         #container {
             display: flex;
@@ -168,11 +178,11 @@
                 member: sessionId
             },
             success: function (message){
-                console.log(message.message)
-
+                console.log(message)
+                document.getElementById("room-id").innerText = message.message.name
             }})
         roomId = newRoomId;
-        document.getElementById("room-id").innerText = roomId;
+        // document.getElementById("room-id").innerText = roomId;
         document.getElementById("messages").innerHTML = '';
         currentSubscription = stompClient.subscribe('/sub/messages/' + roomId, function (message) {
             console.log(message)
@@ -184,7 +194,7 @@
             loadPreviousMessages()
         })
         stompClient.send("/pub/enter/"+roomId)
-        
+        fetchRooms()
         loadPreviousMessages();
     }
 
@@ -249,12 +259,14 @@
         if (message.contentType === 'image') {
             if (message.sender === sessionId) {
                 messageElement.addClass('sender')
+                    .append('<span id="read_' + message.id+'"></span>')
                     .append('<span id="time">' + message.timestamp + '</span>')
                     .append('<span id="image"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>');
             } else {
                 messageElement.addClass('recipient')
                     .append('<span id="receiver"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>')
-                    .append('<span id="time">' + message.timestamp + '</span>');
+                    .append('<span id="time">' + message.timestamp + '</span>')
+                    .append('<span id="read_' + message.id+'"></span>');
             }
         } else {
             if (message.sender === sessionId) {
@@ -284,7 +296,7 @@
     function loadPreviousMessages() {
         $.get('/auth/rooms/' + roomId + '/messages', function(messages) {
             console.log(messages)
-             $('#messages').empty();
+            $('#messages').empty();
 
             // 정렬된 메시지 출력
             messages.forEach(function(message) {
@@ -323,32 +335,44 @@
             }
         })
     }
-   
+
     function out() {
         return  $.ajax({
             url: '/auth/rooms/out/'+roomId,
             method: 'GET',
             data: {roomId: roomId,
-            		member:sessionId},
+                member:sessionId},
             success: function (response){
                 console.log(response.msg);
             }
         })
     }
-    
-    
-    
-    
+    const unRead= (roomId)=>{
+        return $.ajax({
+            url: '/auth/rooms/unread/'+roomId,
+            method: 'get',
+            data: {roomId: roomId,
+                member:sessionId},
+            success: function (cnt){
+                console.log(cnt.unreadMessagesByRoomId)
+            }
+        })
+    }
+
+
+
     function fetchRooms() {
         let member = ""
         console.log(1)
         $.ajax({
             url: '/auth/rooms/load',
             method: 'GET',
-            data: {name: sessionId},
+            data: {name: sessionId,
+                roomId:roomId},
             success: function(rooms) {
                 $('#rooms').empty();
-                rooms.forEach(function(room) {
+                rooms.byName.forEach(function(room) {
+
                     if (room.seller===sessionId){
                         member = room.buyer
                     }else {
@@ -357,12 +381,23 @@
                     $('#rooms').append(
                         '<div class="room" data-id="' + room.id + '">' +
                         member +
-                        '<span class="last-message"><span id="lastMessage-' + room.id + '"></span></span>' +
-                        '</div>'
+                        '<span class="last-message"><span id="lastMessage-' + room.id + '"></span></span>'+
+                        '<span id="unread_' + room.id + '" class="unread-badge" style="display: none"></span>' + '</div>'
+
                     );
                     lastMessage(room.id).done(function(response) {
-                        $('#lastMessage-' + room.id).text(response.content[0].content);
+                        if (response.content[0].contentType==="image"){
+                            $('#lastMessage-' + room.id).text("사진");
+                        }else {
+                            $('#lastMessage-' + room.id).text(response.content[0].content);
+                        }
                     });
+                    unRead(room.id).done(function (response) {
+                        if (response.unreadMessagesByRoomId > 0) {
+                            $('#unread_' + room.id).text(response.unreadMessagesByRoomId).show()
+                        }
+
+                    })
                 });
 
                 $('.room').click(function() {
@@ -410,10 +445,10 @@
     //ㅇ
 
     connect();
-window.onbeforeunload = () =>{
-	out()
-    console.log("안녕히 가세요~")
-}
+    window.onbeforeunload = () =>{
+        out()
+        console.log("안녕히 가세요~")
+    }
 </script>
 </body>
 </html>
