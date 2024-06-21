@@ -3,6 +3,10 @@ package com.example.demo.user;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.demo.card.Card;
+import com.example.demo.card.CardDto;
+import com.example.demo.card.CardService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,11 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 
+@Slf4j
 @Controller
 public class MemberController {
 
 	@Autowired
 	private MemberService service;
+	@Autowired
+	private CardService cservice;
 
 	@GetMapping("/join")
 	public String joinForm() {
@@ -60,9 +67,10 @@ public class MemberController {
 	}
 
 	@RequestMapping("/auth/out")
-	public String out(String id) {
+	public String out(String id, ModelMap map) {
 		service.delMember(id);
-		return "redirect:/logout";
+		map.addAttribute("list",service.getAll());
+		return "member/list";
 	}
 
 	@RequestMapping("/auth/member/list")
@@ -82,6 +90,45 @@ public class MemberController {
 	public String edit(MemberDto m) {
 		service.edit(m);
 		return "redirect:/auth/member/list";
+	}
+
+	@GetMapping("/auth/member/card")
+	public String cardform(String id, ModelMap map) {
+		MemberDto m = service.getUser(id);
+		if(m.getCardnum()!=null){
+			map.addAttribute("flag",false);
+		}
+		else{
+			map.addAttribute("flag",true);
+		}
+		map.addAttribute("member", m);
+		return "member/card";
+	}
+
+	@PostMapping("/auth/member/card")
+	public String card(CardDto dto, String id, ModelMap map) {
+		//일치하는 카드 가져오기
+		MemberDto m = service.getUser(id);
+		CardDto c = cservice.get(Card.create(dto));
+		if(c==null){
+			map.addAttribute("msg","일치하는 카드가 없습니다");
+			map.addAttribute("flag",true);
+			map.addAttribute("member", m);
+			return "member/card";
+		}
+		log.debug("c: {}", c);
+		log.debug("m: {}", m);
+		m.setCardnum(Card.create(c));
+		//같은카드를 두명이서 등록하면 오류 발생
+		try {
+			service.edit(m);
+		}catch(Exception e){
+			map.addAttribute("msg","이미 등록된 카드입니다.");
+			map.addAttribute("flag",true);
+			map.addAttribute("member", m);
+			return "member/card";
+		}
+		return "redirect:/auth/member/card?id="+id;
 	}
 
 	@GetMapping("/auth/member/point")

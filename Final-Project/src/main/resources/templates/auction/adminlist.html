@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,11 +21,11 @@
     <!-- script
     ================================================== -->
     <script src="/js/modernizr.js"></script>
-    <title>alItem | 상품등록</title>
+    <title>alItem | 내경매 목록</title>
     <style>
         .container1 {
-            max-width: 1000px; /* 원하는 최대 너비 설정 */
-            max-height: 700px; /* 원하는 최대 높이 설정 */
+            max-width: 1250px; /* 원하는 최대 너비 설정 */
+            /*max-height: 700px; !* 원하는 최대 높이 설정 *!*/
             margin: 0 auto; /* 가운데 정렬을 위해 사용 */
         }
         .file-inputs {
@@ -256,17 +258,59 @@
 <section id="company-services" class="padding-large">
 </section>
 
-
+<!--여기서부터 하면 됌-->
 <div class="container1">
     <div class="row1">
         <div class="display-header d-flex justify-content-between pb-3">
-            <h2 class="display-7 text-dark text-uppercase" style="margin-bottom: 25px">상품정보</h2>
+            <h2 class="display-7 text-dark text-uppercase" style="margin-bottom: 25px">등록한 경매 목록</h2>
         </div>
         <hr style="all: unset; display: block; width: 100%; height: 2px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
     </div>
-    <div>
 
+
+    <div class="d-flex align-items-center mb-3" style="display: flex; justify-content: space-between; padding-bottom: 33px; margin-bottom: 0;">
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">상품</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">제목</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">카테고리</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">현재가</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">유형</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">종료시간</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">상태</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">삭제</h4>
     </div>
+    <hr style="all: unset; display: block; width: 100%; height: 1px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
+
+    <div th:each="p:${list}" >
+        <div class="d-flex align-items-center mb-3" style="display: flex; justify-content: space-between; padding-bottom: 33px; margin-bottom: 0;">
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                <div th:if="${p.product.img1 != null}">
+                    <img th:src="@{/auth/prod/read-img(img=${p.product.img1})}" style="width: 150px; height: 150px; object-fit: cover;">
+                </div>
+                <div th:if="${p.product.img1 == null}">
+                    <img src="/images/Noimg.jpg" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+            </div>
+
+            <a th:href="@{/auth/auction/detail(num=${p.num})}"  style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;">
+                <h4 th:text="${p.title}"></h4>
+            </a>
+
+            <h4 th:text="${p.product.categories}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+            <h4 th:text="${p.max}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+            <h4 th:text="${p.type}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+            <h4 th:text="${p.end_time}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+            <h4 th:text="${p.status}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+            <div style="flex: 1; flex-direction: column; display: flex; align-items: center; justify-content: center;">
+                <form th:action="@{/auth/auction/del}">
+                    <input type="hidden" name="num" th:value="${p.num}">
+                    <button type="submit" style="width: 75px; background-color: #f44336; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px;">삭제</button>
+                </form>
+            </div>
+        </div>
+        <hr style="all: unset; display: block; width: 100%; height: 1px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
+    </div>
+
+
 </div>
 
 <section id="latest-blog" class="padding-large">
