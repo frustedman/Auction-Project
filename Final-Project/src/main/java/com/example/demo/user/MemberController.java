@@ -67,9 +67,10 @@ public class MemberController {
 	}
 
 	@RequestMapping("/auth/out")
-	public String out(String id) {
+	public String out(String id, ModelMap map) {
 		service.delMember(id);
-		return "redirect:/logout";
+		map.addAttribute("list",service.getAll());
+		return "member/list";
 	}
 
 	@RequestMapping("/auth/member/list")
