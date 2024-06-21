@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.demo.auction.Auction;
 import com.example.demo.dataroom.DataroomDto;
 import com.example.demo.dataroom.DataroomService;
 import com.example.demo.dataroom.ReplyService;
@@ -60,16 +61,25 @@ public class AllAccessController {
 	@ResponseBody
 	@GetMapping("/ajaxcategories")
 	public Map Ajaxcategories(Product.Categories categories,HttpSession session) {
-		ArrayList<AuctionDto> l =new ArrayList<>();
-		System.out.println(categories);
-		ArrayList<AuctionDto> list=aservice.getByProdCategories(categories);
+		Auction.Type atype= (Auction.Type) session.getAttribute("atype");
 		Map map=new HashMap();
-		for(AuctionDto dto:list) {
-			if(dto.getStatus().equals("경매중")) {
-				l.add(dto);
+		ArrayList<AuctionDto> list2 =aservice.getByStatus("경매중");
+		ArrayList<AuctionDto> list=new ArrayList<>();
+		if (atype == null) {
+			for(AuctionDto dto:list2) {
+				if (dto.getProduct().getCategories().equals(categories)) {
+					list.add(dto);
+				}
 			}
+		}else {
+			for(AuctionDto dto:list2) {
+				if (dto.getType().equals(atype) && dto.getProduct().getCategories().equals(categories)) {
+					list.add(dto);
+				}
+			}
+
 		}
-		map.put("list", l);
+		map.put("list", list);
 		return map;
 	}
 	@GetMapping("/categories")
@@ -87,8 +97,20 @@ public class AllAccessController {
 	}
 	
 	@GetMapping("/list")
-	public String list(ModelMap map) {
-		map.addAttribute("list", aservice.getByStatus("경매중"));
+	public String list(ModelMap map, HttpSession session, Auction.Type atype) {
+		ArrayList<AuctionDto> list2 =aservice.getByStatus("경매중");
+		ArrayList<AuctionDto> list=new ArrayList<>();
+		if (atype == null) {
+			list = list2;
+		}else {
+			for(AuctionDto dto:list2) {
+				if(dto.getType().equals(atype)) {
+					list.add(dto);
+				}
+			}
+			session.setAttribute("auction_type", atype);
+		}
+		map.addAttribute("list", list);
 		return "auction/list";
 	}
 
