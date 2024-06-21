@@ -92,7 +92,7 @@ public class AuctionService {
 	}
 
 	// 타입으로 찾기
-	public ArrayList<AuctionDto> getByType(String type) {
+	public ArrayList<AuctionDto> getByType(Auction.Type type) {
 		List<Auction> l = dao.findByType(type);
 		ArrayList<AuctionDto> list = new ArrayList<>();
 		for (Auction a : l) {
