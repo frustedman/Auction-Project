@@ -8,5 +8,5 @@ import java.util.Date;
 
 @Repository
 public interface CardDao extends JpaRepository<Card, Integer> {
-    Card findCardByCardnumAndValidDateAndCvcAndPwdAndType(long cardnum, int validDate, int cvc, int password, Type type);
+    Card findCardByCardnumAndValidDateAndCvcAndPwdAndType(String cardnum, int validDate, int cvc, int password, Type type);
 }

@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 public class Card {
     @Id
-    private long cardnum;
+    private String cardnum;
     private int validDate;
     private int cvc;
     private int pwd;
@@ -33,7 +33,7 @@ public class Card {
     }
 
     @Builder
-    public Card(long cardnum,int validDate, int cvc, int pwd, int price, Type type) {
+    public Card(String cardnum,int validDate, int cvc, int pwd, int price, Type type) {
         this.cardnum = cardnum;
         this.validDate = validDate;
         this.cvc = cvc;

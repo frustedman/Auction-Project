@@ -99,13 +99,16 @@ public class MemberController {
 	}
 
 	@PostMapping("/auth/member/card")
-	public String card(Card card, String id, ModelMap map) {
-		CardDto dto = cservice.get(card);
-		log.debug("card: {}", card);
+	public String card(CardDto dto, String id, ModelMap map) {
+		log.debug("id: {}", id);
+		log.debug("dto: {}", dto);
+		CardDto c = cservice.get(Card.create(dto));
+		log.debug("c: {}", c);
 		MemberDto m = service.getUser(id);
-		m.setCardnum(Card.create(dto));
+		log.debug("m: {}", m);
+		m.setCardnum(Card.create(c));
 		service.edit(m);
-		return "redirect:/auth/member/card";
+		return "redirect:/auth/member/card?id="+id;
 	}
 
 	@GetMapping("/auth/member/point")
