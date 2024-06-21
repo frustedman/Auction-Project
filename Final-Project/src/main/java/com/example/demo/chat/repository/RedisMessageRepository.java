@@ -1,9 +1,9 @@
 package com.example.demo.chat.repository;
 
 import com.example.demo.chat.domain.ChatMessage;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.message.Message;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Repository;
@@ -39,6 +39,19 @@ public class RedisMessageRepository {
                 .map(key -> redisTemplate.opsForValue().get(key))
                 .collect(Collectors.toList());
     }
+
+    public int getUnreadMessagesByRoomId(String roomId, String member) {
+        List<Object> messagesByRoomId = getMessagesByRoomId(roomId);
+        int cnt = 0;
+        for (Object msg : messagesByRoomId) {
+            ChatMessage chatMessage = (ChatMessage) msg;
+            if (!chatMessage.isRead() && !member.equals(chatMessage.getSender())){
+                cnt += 1;
+            }
+        }
+        return cnt;
+    }
+
     public Set<Object> getLastMessage(String roomId) {
         Set<Object> range = zSetOperations.range("CHAT_MESSAGE_" + roomId, -1, -1);
         log.debug("roomId in messageRepository={}", roomId);
