@@ -53,4 +53,11 @@ public class DataroomController {
         map.put("flag", true);
         return map;
     }
+
+    @GetMapping("/detail")
+    public String detail(int num, ModelMap map){
+        DataroomDto dto = service.get(num);
+        map.addAttribute("dataroom", dto);
+        return "dataroom/detail";
+    }
 }

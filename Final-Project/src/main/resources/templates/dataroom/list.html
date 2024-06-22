@@ -694,7 +694,7 @@
             <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">날짜</h4>
             <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">작성자</h4>
             <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">내용</h4>
-            <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">수정</h4>
+<!--            <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">수정</h4>-->
             <!--        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">상태</h4>-->
         </div>
         <hr style="all: unset; display: block; width: 100%; height: 1px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
@@ -711,7 +711,7 @@
                 <!--                </div>-->
                 <!--            </div>-->
 
-                <a th:href="@{/auth/auction/detail(num=${p.num})}"
+                <a th:href="@{/auth/dataroom/detail(num=${p.num})}"
                    style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;">
                     <h4 th:text="${p.title}"></h4>
                 </a>
@@ -725,17 +725,17 @@
                     style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
                 <h4 th:text="${p.content}"
                     style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
-                <div style="flex: 1; flex-direction: column; display: flex; align-items: center; justify-content: center;"
-                     class="edit-del">
-                    <button onclick="editPost(this)"
-                            style="width: 75px; background-color: #4CAF50; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px; margin-bottom: 10px;">
-                        수정
-                    </button>
-                    <button onclick="deletePost(this)"
-                            style="width: 75px; background-color: #f44336; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px;">
-                        삭제
-                    </button>
-                </div>
+<!--                <div style="flex: 1; flex-direction: column; display: flex; align-items: center; justify-content: center;"-->
+<!--                     class="edit-del">-->
+<!--                    <button onclick="editPost(this)"-->
+<!--                            style="width: 75px; background-color: #4CAF50; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px; margin-bottom: 10px;">-->
+<!--                        수정-->
+<!--                    </button>-->
+<!--                    <button onclick="deletePost(this)"-->
+<!--                            style="width: 75px; background-color: #f44336; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px;">-->
+<!--                        삭제-->
+<!--                    </button>-->
+<!--                </div>-->
                 <!--            <h4 th:text="${p.status}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>-->
             </div>
             <hr style="all: unset; display: block; width: 100%; height: 1px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
