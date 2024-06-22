@@ -362,67 +362,11 @@
 
 <!-- 배너 밑 섹션 -->
 <section id="company-services" class="padding-large">
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-3 col-md-6 pb-3">-->
-<!--                <div class="icon-box d-flex">-->
-<!--                    <div class="icon-box-icon pe-3 pb-3">-->
-<!--                        <svg class="cart-outline">-->
-<!--                            <use xlink:href="#cart-outline" />-->
-<!--                        </svg>-->
-<!--                    </div>-->
-<!--                    <div class="icon-box-content">-->
-<!--                        <h3 class="card-title text-uppercase text-dark">Free delivery</h3>-->
-<!--                        <p>Consectetur adipi elit lorem ipsum dolor sit amet.</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-3 col-md-6 pb-3">-->
-<!--                <div class="icon-box d-flex">-->
-<!--                    <div class="icon-box-icon pe-3 pb-3">-->
-<!--                        <svg class="quality">-->
-<!--                            <use xlink:href="#quality" />-->
-<!--                        </svg>-->
-<!--                    </div>-->
-<!--                    <div class="icon-box-content">-->
-<!--                        <h3 class="card-title text-uppercase text-dark">Quality guarantee</h3>-->
-<!--                        <p>Dolor sit amet orem ipsu mcons ectetur adipi elit.</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-3 col-md-6 pb-3">-->
-<!--                <div class="icon-box d-flex">-->
-<!--                    <div class="icon-box-icon pe-3 pb-3">-->
-<!--                        <svg class="price-tag">-->
-<!--                            <use xlink:href="#price-tag" />-->
-<!--                        </svg>-->
-<!--                    </div>-->
-<!--                    <div class="icon-box-content">-->
-<!--                        <h3 class="card-title text-uppercase text-dark">Daily offers</h3>-->
-<!--                        <p>Amet consectetur adipi elit loreme ipsum dolor sit.</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-3 col-md-6 pb-3">-->
-<!--                <div class="icon-box d-flex">-->
-<!--                    <div class="icon-box-icon pe-3 pb-3">-->
-<!--                        <svg class="shield-plus">-->
-<!--                            <use xlink:href="#shield-plus" />-->
-<!--                        </svg>-->
-<!--                    </div>-->
-<!--                    <div class="icon-box-content">-->
-<!--                        <h3 class="card-title text-uppercase text-dark">100% secure payment</h3>-->
-<!--                        <p>Rem Lopsum dolor sit amet, consectetur adipi elit.</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 </section>
 
 <!-- 여기부터 해야댐 -->
-<!-- mobile-products -->
-<section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
+<!-- high-bidding -->
+<section id="high-bidding" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
         <div class="row">
             <!-- 제목이랑 shop가기 -->
@@ -439,7 +383,7 @@
                         <div class="product-card position-relative" >
                             <!-- 1번째 사진 -->
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid" style="width: 300px; height: 300px">
                             </div>
                             <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
                             <div class="cart-concern position-absolute">
@@ -538,12 +482,13 @@
             </div>
         </div>
     </div>
+
     <!-- 페이징 작업 같음, 점점 두개 중앙으로 지정 -->
     <div class="swiper-pagination position-absolute text-center"></div>
 </section>
 
 <!-- lastest posts, 최근 게시물 -->
-<section id="latest-blog" class="padding-large">
+<section id="latest" class="padding-large">
     <div class="container">
         <div class="row">
             <div class="display-header d-flex justify-content-between pb-3">
@@ -608,7 +553,7 @@
 
 
 <!-- shop our 블라인드 -->
-<section id="instagram" class="padding-large overflow-hidden no-padding-top">
+<section id="blind" class="padding-large overflow-hidden no-padding-top">
     <div class="container">
         <div class="row">
             <div class="display-header text-uppercase text-dark text-center pb-3">
@@ -671,7 +616,7 @@
 </section>
 
 <!-- shop our event -->
-<section id="instagram" class="padding-large overflow-hidden no-padding-top">
+<section id="event" class="padding-large overflow-hidden no-padding-top">
     <div class="container">
         <div class="row">
             <div class="display-header text-uppercase text-dark text-center pb-3">
