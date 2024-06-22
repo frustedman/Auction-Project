@@ -328,9 +328,14 @@
     <!-- script
     ================================================== -->
     <script src="/js/modernizr.js"></script>
-    <title>alItem | 내경매 목록</title>
+    <title>alItem | Q&A</title>
     <style>
         /* Modal styles */
+        .container1 {
+            max-width: 1000px; /* 원하는 최대 너비 설정 */
+            max-height: 700px; /* 원하는 최대 높이 설정 */
+            margin: 0 auto; /* 가운데 정렬을 위해 사용 */
+        }
         .modal {
             display: none; /* Hidden by default */
             position: fixed; /* Stay in place */
@@ -340,8 +345,8 @@
             width: 100%; /* Full width */
             height: 100%; /* Full height */
             overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
             padding-top: 60px;
         }
 
@@ -352,7 +357,7 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%; /* Could be more or less, depending on screen size */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             animation: fadeIn 0.5s;
         }
@@ -384,7 +389,6 @@
         }
 
 
-
         /* Label styles */
         label {
             font-weight: bold;
@@ -404,8 +408,12 @@
 
         /* Animation */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
     </style>
@@ -650,94 +658,89 @@
 </section>
 
 <!--여기서부터 하면 됌-->
-
-<select id="postFilter" onchange="filterPosts()">
-    <option value="all">전체 글</option>
-    <option th:if="${type==0}" value="my">나의 글</option>
-    <option th:if="${type==1}" value="my" selected>나의 글</option>
-</select>
-<a href="#" class="button" onclick="openWritePopup()">글쓰기</a>
-<div id="writeModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeWritePopup()">&times;</span>
-        <h2>Q&A 작성</h2>
-        <form id="writeForm" action="/auth/dataroom/add" method="post">
-            <label for="title">제목:</label>
-            <input type="text" id="title" name="title" required><br><br>
-            <label for="writer">작성자:</label>
-            <input type="text" th:value="${session.loginId}" id="writer" name="writer" readonly><br><br>
-            <label for="content">내용:</label><br>
-            <textarea id="content" name="content" rows="10" cols="50" required></textarea><br><br>
-            <label for="private">비밀글:</label>
-            <input type="checkbox" id="private" name="type" value="1"><br><br>
-            <button type="submit">작성</button>
-            <button type="button" onclick="closeWritePopup()">취소</button>
-        </form>
-    </div>
-</div>
 <div class="container1">
-    <div class="row1">
-        <div class="display-header d-flex justify-content-between pb-3">
-            <h2 class="display-7 text-dark text-uppercase" style="margin-bottom: 25px"></h2>
+    <h2 class="display-7 text-dark text-uppercase" style="margin-bottom: 25px">Q&A</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <select id="postFilter" onchange="filterPosts()" style="padding: 10px 20px; background-color: #f0f0f0; color: #333; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; font-size: 16px;">
+            <option value="all">전체 글</option>
+            <option th:if="${type==0}" value="my">나의 글</option>
+            <option th:if="${type==1}" value="my" selected>나의 글</option>
+        </select>
+        <a href="#" class="button" onclick="openWritePopup()" style="padding: 10px 20px; background-color: #f0f0f0; color: #333; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; font-size: 16px; text-decoration: none;">글쓰기</a>
+    </div>
+    <div id="writeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeWritePopup()">&times;</span>
+            <h2>Q&A 작성</h2>
+            <form id="writeForm" action="/auth/dataroom/add" method="post">
+                <label for="title">제목:</label>
+                <input type="text" id="title" name="title" required><br><br>
+                <label for="writer">작성자:</label>
+                <input type="text" th:value="${session.loginId}" id="writer" name="writer" readonly><br><br>
+                <label for="content">내용:</label><br>
+                <textarea id="content" name="content" rows="10" cols="50" required></textarea><br><br>
+                <label for="private">비밀글:</label>
+                <input type="checkbox" id="private" name="type" value="1"><br><br>
+                <button type="submit">작성</button>
+                <button type="button" onclick="closeWritePopup()">취소</button>
+            </form>
         </div>
+    </div>
+    <div class="container1">
         <hr style="all: unset; display: block; width: 100%; height: 2px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
-    </div>
-
-
-    <div class="d-flex align-items-center mb-3"
-         style="display: flex; justify-content: space-between; padding-bottom: 33px; margin-bottom: 0;">
-        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">제목</h4>
-        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">날짜</h4>
-        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">작성자</h4>
-        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">내용</h4>
-        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">수정</h4>
-        <!--        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">상태</h4>-->
-    </div>
-    <hr style="all: unset; display: block; width: 100%; height: 1px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
-
-    <div class="post-item" th:attr="data-writer=${p.writer.id}" th:each="p:${list}">
         <div class="d-flex align-items-center mb-3"
              style="display: flex; justify-content: space-between; padding-bottom: 33px; margin-bottom: 0;">
-            <!--            <div style="flex: 1; display: flex; align-items: center; justify-content: center;">-->
-            <!--                <div th:if="${p.product.img1 != null}">-->
-            <!--                    <img th:src="@{/auth/prod/read-img(img=${p.product.img1})}" style="width: 150px; height: 150px; object-fit: cover;">-->
-            <!--                </div>-->
-            <!--                <div th:if="${p.product.img1 == null}">-->
-            <!--                    <img src="/images/Noimg.jpg" style="width: 100px; height: 100px; object-fit: cover;">-->
-            <!--                </div>-->
-            <!--            </div>-->
-
-            <a th:href="@{/auth/auction/detail(num=${p.num})}"
-               style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;">
-                <h4 th:text="${p.title}"></h4>
-            </a>
-            <!--        <div th:if="${session.loginId}==${post.writer.id} or ${session.type} == 'admin'">-->
-            <!--            <input class="post-content" type="text" readonly th:value="${post.content}" style="display: none;">-->
-            <!--            <input class="post-num" type="hidden" th:value="${post.num}">-->
-
-            <h4 th:text="${#dates.format(p.wdate, 'yyyy-MM-dd')}"
-                style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
-            <h4 th:text="${p.writer.id}"
-                style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
-            <h4 th:text="${p.content}"
-                style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
-            <div style="flex: 1; flex-direction: column; display: flex; align-items: center; justify-content: center;"
-                 class="edit-del">
-                <button onclick="editPost(this)"
-                        style="width: 75px; background-color: #4CAF50; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px; margin-bottom: 10px;">
-                    수정
-                </button>
-                <button onclick="deletePost(this)"
-                        style="width: 75px; background-color: #f44336; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px;">
-                    삭제
-                </button>
-            </div>
-            <!--            <h4 th:text="${p.status}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>-->
+            <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">제목</h4>
+            <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">날짜</h4>
+            <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">작성자</h4>
+            <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">내용</h4>
+            <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">수정</h4>
+            <!--        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">상태</h4>-->
         </div>
         <hr style="all: unset; display: block; width: 100%; height: 1px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
+
+        <div class="post-item" th:attr="data-writer=${p.writer.id}" th:each="p:${list}">
+            <div class="d-flex align-items-center mb-3"
+                 style="display: flex; justify-content: space-between; padding-bottom: 33px; margin-bottom: 0;">
+                <!--            <div style="flex: 1; display: flex; align-items: center; justify-content: center;">-->
+                <!--                <div th:if="${p.product.img1 != null}">-->
+                <!--                    <img th:src="@{/auth/prod/read-img(img=${p.product.img1})}" style="width: 150px; height: 150px; object-fit: cover;">-->
+                <!--                </div>-->
+                <!--                <div th:if="${p.product.img1 == null}">-->
+                <!--                    <img src="/images/Noimg.jpg" style="width: 100px; height: 100px; object-fit: cover;">-->
+                <!--                </div>-->
+                <!--            </div>-->
+
+                <a th:href="@{/auth/auction/detail(num=${p.num})}"
+                   style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;">
+                    <h4 th:text="${p.title}"></h4>
+                </a>
+                <!--        <div th:if="${session.loginId}==${post.writer.id} or ${session.type} == 'admin'">-->
+                <!--            <input class="post-content" type="text" readonly th:value="${post.content}" style="display: none;">-->
+                <!--            <input class="post-num" type="hidden" th:value="${post.num}">-->
+
+                <h4 th:text="${#dates.format(p.wdate, 'yyyy-MM-dd')}"
+                    style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+                <h4 th:text="${p.writer.id}"
+                    style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+                <h4 th:text="${p.content}"
+                    style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+                <div style="flex: 1; flex-direction: column; display: flex; align-items: center; justify-content: center;"
+                     class="edit-del">
+                    <button onclick="editPost(this)"
+                            style="width: 75px; background-color: #4CAF50; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px; margin-bottom: 10px;">
+                        수정
+                    </button>
+                    <button onclick="deletePost(this)"
+                            style="width: 75px; background-color: #f44336; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 10px;">
+                        삭제
+                    </button>
+                </div>
+                <!--            <h4 th:text="${p.status}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>-->
+            </div>
+            <hr style="all: unset; display: block; width: 100%; height: 1px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
+        </div>
     </div>
-
-
 </div>
 
 <section id="latest-blog" class="padding-large">
