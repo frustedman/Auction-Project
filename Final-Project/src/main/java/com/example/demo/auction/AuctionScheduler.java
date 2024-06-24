@@ -75,7 +75,7 @@ public class AuctionScheduler {
 				if (byName.isEmpty()) {
 					log.debug("byName:{}", byName);
 					log.debug("id={}", byBuyer.getBuyer().getId());
-					chatRoomService.createChatRoom(byBuyer.getBuyer().getId(), seller);
+					chatRoomService.createChatRoom(String.valueOf(auction.getNum()),byBuyer.getBuyer().getId(), seller);
 					return;
 				}
 				for (Object obj : byName) {
@@ -83,7 +83,7 @@ public class AuctionScheduler {
 						ChatRoom chatRoom = (ChatRoom) obj;
 						String chatRoomSeller = chatRoom.getSeller();
 						if (!chatRoomSeller.equals(seller)) {
-							chatRoomService.createChatRoom(byBuyer.getBuyer().getId(), seller);// Get seller from
+							chatRoomService.createChatRoom(String.valueOf(auction.getNum()),byBuyer.getBuyer().getId(), seller);// Get seller from
 																								// ChatRoom
 						}
 						System.out.println("ChatRoom Seller: " + chatRoomSeller);
