@@ -333,7 +333,6 @@
         /* Modal styles */
         .container1 {
             max-width: 1000px; /* 원하는 최대 너비 설정 */
-            max-height: 700px; /* 원하는 최대 높이 설정 */
             margin: 0 auto; /* 가운데 정렬을 위해 사용 */
         }
         .modal {
@@ -711,13 +710,22 @@
                 <!--                </div>-->
                 <!--            </div>-->
 
-                <a th:href="@{/auth/dataroom/detail(num=${p.num})}"
+                <a th:if="${p.type==0 or (p.type==1 and session.loginId==p.writer.id)}" th:href="@{/auth/dataroom/detail(num=${p.num})}"
                    style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;">
-                    <div>
+                    <div style="display: flex; align-items: center; justify-content: center;">
                     <svg th:if="${p.type==1}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
                         <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                     </svg>
                     <h4 th:text="${p.title}"></h4>
+                    </div>
+                </a>
+                <a th:href="@{/auth/dataroom/detail(num=${p.num})}" th:if="${p.type==1 and session.loginId!=p.writer.id}" th:onclick="${p.type == 1 and session.loginId != p.writer.id} ? 'return false;' : ''"
+                   style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;">
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <svg th:if="${p.type==1}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+                            <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                        </svg>
+                        <h4 th:text="${p.title}"></h4>
                     </div>
                 </a>
                 <!--        <div th:if="${session.loginId}==${post.writer.id} or ${session.type} == 'admin'">-->
@@ -1065,6 +1073,7 @@
     window.onload = function () {
         filterPosts();
     }
+
 </script>
 <script src="/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
