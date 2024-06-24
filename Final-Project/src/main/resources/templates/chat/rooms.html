@@ -490,6 +490,7 @@
         }
 
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
@@ -839,6 +840,45 @@
                 #fileInput {
                     display: none;
                 }
+                #plusButton {
+                    background-color: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    font-size: 18px;
+                    cursor: pointer;
+                    margin-right: 10px;
+                    margin-top: 8px;
+                }
+
+                #menu {
+                    display: none;
+                    position: absolute;
+                    bottom: 50px;
+                    left: 10px;
+                    background-color: white;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    z-index: 1000;
+                }
+
+                #menu ul {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 10px;
+                }
+
+                #menu ul li {
+                    padding: 10px;
+                    cursor: pointer;
+                }
+
+                #menu ul li:hover {
+                    background-color: #f0f0f0;
+                }
             </style>
             <title>Chat Room</title>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -863,12 +903,18 @@
                     </div>
                 </div>
                 <div id="messageInputContainer">
+                    <button id="plusButton">+</button>
                     <input type="hidden" th:value="${seller}" id="seller">
                     <input type="hidden" id="session-id" th:value="${session.loginId}">
                     <input type="text" id="messageInput" placeholder="Enter your message">
                     <button id="sendMessageBtn">Send</button>
                     <input type="file" id="fileInput">
                     <button id="sendImageButton">Send Image</button>
+                    <div id="menu">
+                        <ul>
+                            <li id="checkDelivery">Check Delivery Status</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1170,9 +1216,20 @@
                 out()
                 console.log("안녕히 가세요~")
             }
+/* 여기서 부터 플러스 버튼 */
+            $("#plusButton").click(function () {
+                $("#menu").toggle();
+            });
+
+            $("#checkDelivery").click(function () {
+                alert('Delivery status checked.');
+            });
         </script>
         </body>
         </html>
+
+
+
     </div>
 </div>
 
@@ -1320,7 +1377,6 @@
         </div>
     </div>
 </div>
-
 <script src="/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
