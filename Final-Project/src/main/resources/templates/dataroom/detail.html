@@ -77,6 +77,11 @@
         .buttons button[type="button"]:hover {
             background-color: #0056b3;
         }
+        .right-buttons {
+            display: flex;
+            gap: 10px; /* Adds some space between the buttons */
+            margin-left: auto; /* Pushes the buttons to the right */
+        }
     </style>
 </head>
 
@@ -307,7 +312,8 @@
         <hr style="all: unset; display: block; width: 100%; height: 2px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
     </div>
     <div>
-        <form>
+        <form id="editForm">
+            <input type="hidden" name="num" th:value="${dataroom.num}">
             <label for="title">제목:</label>
             <input type="text" id="title" name="title" th:value="${dataroom.title}" readonly>
 
@@ -321,8 +327,11 @@
             <textarea id="content" name="content" rows="10" readonly th:text="${dataroom.content}"></textarea>
 
             <div class="buttons">
-                <button type="button" onclick="window.location.href='/dataroom/edit/${dataroom.num}'">수정</button>
-                <button type="button" onclick="window.location.href='/dataroom'">목록으로</button>
+                <button id="listButton" type="button" onclick="window.location.href='/all/qalist'">목록으로</button>
+                <div class="right-buttons">
+                <button id="editButton" type="button" th:if="${session.loginId==dataroom.writer.id}" onclick="enableEditMode()">수정</button>
+                <button type="button" th:if="${session.loginId==dataroom.writer.id}" th:onclick="'deleteMode(' + ${dataroom.num} + ')'">삭제</button>
+                </div>
             </div>
         </form>
     </div>
@@ -472,7 +481,72 @@
         </div>
     </div>
 </div>
+<script>
 
+    function enableEditMode() {
+        // Enable the textarea for editing
+        document.getElementById('content').removeAttribute('readonly');
+
+        // Change the edit button to save button
+        const editButton = document.getElementById('editButton');
+        editButton.textContent = '수정완료';
+        editButton.setAttribute('onclick', 'saveChanges()');
+
+        // Change the list button to cancel button
+        const listButton = document.getElementById('listButton');
+        listButton.textContent = '수정취소';
+        listButton.setAttribute('onclick', 'cancelEdit()');
+    }
+
+    function saveChanges() {
+        // Save changes logic here, for now we just disable the textarea
+        document.getElementById('content').setAttribute('readonly', 'readonly');
+        let fdata = new FormData($('#editForm')[0]);
+        $.ajax({
+            url: '/auth/dataroom/update',
+            type: 'POST',
+            data: fdata,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (res) {
+                alert('수정이 완료되었습니다.')
+                revertButtons();
+            },
+            error: function (error) {
+                alert('수정에 실패했습니다. 다시 시도해주세요.');
+            }
+        });
+        // Revert buttons back to original state
+    }
+
+    function deleteMode(dataroomNum){
+        if (confirm("정말 삭제 하시겠습니까?")) {
+            window.location.href = '/auth/dataroom/delete?num=' + dataroomNum;
+        }
+    }
+    function cancelEdit() {
+        // Revert the textarea to original content and make it readonly again
+        const textarea = document.getElementById('content');
+        textarea.setAttribute('readonly', 'readonly');
+        textarea.value = textarea.defaultValue;  // Revert to original content
+
+        // Revert buttons back to original state
+        revertButtons();
+    }
+
+    function revertButtons() {
+        // Revert the save button back to edit button
+        const editButton = document.getElementById('editButton');
+        editButton.textContent = '수정';
+        editButton.setAttribute('onclick', 'enableEditMode()');
+
+        // Revert the cancel button back to list button
+        const listButton = document.getElementById('listButton');
+        listButton.textContent = '목록으로';
+        listButton.setAttribute('onclick', "window.location.href='/all/qalist'");
+    }
+</script>
 <script src="/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>

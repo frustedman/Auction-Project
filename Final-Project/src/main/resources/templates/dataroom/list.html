@@ -713,7 +713,12 @@
 
                 <a th:href="@{/auth/dataroom/detail(num=${p.num})}"
                    style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;">
+                    <div>
+                    <svg th:if="${p.type==1}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+                        <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                    </svg>
                     <h4 th:text="${p.title}"></h4>
+                    </div>
                 </a>
                 <!--        <div th:if="${session.loginId}==${post.writer.id} or ${session.type} == 'admin'">-->
                 <!--            <input class="post-content" type="text" readonly th:value="${post.content}" style="display: none;">-->

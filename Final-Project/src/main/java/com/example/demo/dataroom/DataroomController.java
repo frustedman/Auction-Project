@@ -35,7 +35,7 @@ public class DataroomController {
     }
 
     @ResponseBody
-    @GetMapping("/update")
+    @PostMapping("/update")
     public Map update(int num, String content){
         DataroomDto dto = service.get(num);
         dto.setContent(content);
@@ -44,14 +44,14 @@ public class DataroomController {
         map.put("flag", true);
         return map;
     }
-    @ResponseBody
+
     @GetMapping("/delete")
-    public Map delete(int num){
+    public String delete(int num){
         DataroomDto dto = service.get(num);
         service.del(dto);
         Map map = new HashMap<>();
         map.put("flag", true);
-        return map;
+        return "redirect:/all/qalist";
     }
 
     @GetMapping("/detail")
