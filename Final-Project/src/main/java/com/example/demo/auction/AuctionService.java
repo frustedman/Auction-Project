@@ -26,6 +26,8 @@ public class AuctionService {
 	public void setTime(AuctionDto dto, int t) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dto.getStart_time());
+//		int time = cal.get(Calendar.MINUTE);
+//		cal.set(Calendar.MINUTE, t + time);
 		int time = cal.get(Calendar.HOUR);
 		cal.set(Calendar.HOUR, t + time);
 		dto.setEnd_time(cal.getTime());
@@ -92,7 +94,7 @@ public class AuctionService {
 	}
 
 	// 타입으로 찾기
-	public ArrayList<AuctionDto> getByType(String type) {
+	public ArrayList<AuctionDto> getByType(Auction.Type type) {
 		List<Auction> l = dao.findByType(type);
 		ArrayList<AuctionDto> list = new ArrayList<>();
 		for (Auction a : l) {

@@ -22,7 +22,7 @@
     <title>alItem | 상품등록</title>
     <style>
         .container1 {
-            max-width: 1000px; /* 원하는 최대 너비 설정 */
+            max-width: 1250px; /* 원하는 최대 너비 설정 */
             max-height: 700px; /* 원하는 최대 높이 설정 */
             margin: 0 auto; /* 가운데 정렬을 위해 사용 */
         }
@@ -174,11 +174,26 @@
                         <li class="nav-item">
                             <a class="nav-link me-4 active" href="/">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-4" href="/all/list">Auction List</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Auction</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/all/list" class="dropdown-item">All</a>
+                                </li>
+                                <li>
+                                    <a href="/all/list?atype=NORMAL" class="dropdown-item">Normal</a>
+                                </li>
+                                <li>
+                                    <a href="/all/list?atype=BLIND" class="dropdown-item">Blind</a>
+                                </li>
+                                <li>
+                                    <a href="/all/list?atype=EVENT" class="dropdown-item">Event</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link me-4" href="all/qalist">Q&A</a>
+                            <a class="nav-link me-4" href="/all/qalist">Q&A</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link me-4" href="/auth/rooms">Chat</a>

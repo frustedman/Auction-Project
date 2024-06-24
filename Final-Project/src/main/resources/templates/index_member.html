@@ -289,11 +289,26 @@
                         <li class="nav-item">
                             <a class="nav-link me-4 active" href="/">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-4" href="/all/list">Auction List</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Auction</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/all/list" class="dropdown-item">All</a>
+                                </li>
+                                <li>
+                                    <a href="/all/list?atype=NORMAL" class="dropdown-item">Normal</a>
+                                </li>
+                                <li>
+                                    <a href="/all/list?atype=BLIND" class="dropdown-item">Blind</a>
+                                </li>
+                                <li>
+                                    <a href="/all/list?atype=EVENT" class="dropdown-item">Event</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link me-4" href="all/qalist?type=0">Q&A</a>
+                            <a class="nav-link me-4" href="/all/qalist">Q&A</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link me-4" href="/auth/rooms">Chat</a>
@@ -351,11 +366,13 @@
     </nav>
 </header>
 
+
+
 <div class="wrapper">
     <div class="container">
-        <form th:action="@{/auth/prod/add(seller=${session.loginId})}" method="get">
-            <h1 style="margin-top: 30px; margin-bottom: 75px">My Page</h1>
-
+        <form th:action="@{/auth/prod/add}" method="get">
+            <input type="hidden" name="seller" th:value="${session.loginId}" />
+            <h1 style="margin-top:100px; margin-bottom: 15px">My Page</h1>
             <button type="submit" class="custom-button">상품 등록</button>
         </form>
         <form action="/auth/prod/myprod" method="get">
@@ -364,17 +381,24 @@
         <form action="/auth/auction/myauction" method="get">
             <button type="submit" class="custom-button">내경매 목록</button>
         </form>
-        <form th:action="@{/auth/member/point(id=${session.loginId})}" method="get">
-            <button type="submit" class="custom-button">포인트 충전</button>
+        <form th:action="@{/auth/member/card}" method="get">
+            <input type="hidden" name="id" th:value="${session.loginId}" />
+            <button type="submit" class="custom-button">카드 등록</button>
         </form>
-        <form action="/all/qalist" method="get">
-            <input type="hidden" name="type" value="1">
-            <button type="submit" class="custom-button">내 Q&A</button>
+        <form th:action="@{/auth/member/point}" method="get">
+            <input type="hidden" name="id" th:value="${session.loginId}" />
+            <button type="submit" class="custom-button">포인트 충전</button>
         </form>
         <form th:action="@{/auth/rooms}" method="get">
             <button type="submit" class="custom-button">채팅방</button>
         </form>
     </div>
 </div>
+
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="/js/plugins.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
 </body>
 </html>

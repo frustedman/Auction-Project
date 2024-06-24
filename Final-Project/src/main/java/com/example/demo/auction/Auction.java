@@ -1,7 +1,5 @@
 package com.example.demo.auction;
 
-
-
 import java.util.Date;
 
 import org.hibernate.annotations.OnDelete;

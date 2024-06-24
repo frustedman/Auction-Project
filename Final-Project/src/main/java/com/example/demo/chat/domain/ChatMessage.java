@@ -1,13 +1,13 @@
 package com.example.demo.chat.domain;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.persistence.Temporal;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Getter
 @NoArgsConstructor

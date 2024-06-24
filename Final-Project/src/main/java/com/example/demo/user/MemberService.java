@@ -30,6 +30,7 @@ public class MemberService {
       u.setExp(dto.getExp());
       u.setType(dto.getType());
       u.setEmail(dto.getEmail());
+      u.setCardnum(dto.getCardnum());
       u.setPoint(dto.getPoint());
       u.setRank(dto.getRank());
       dao.save(u);

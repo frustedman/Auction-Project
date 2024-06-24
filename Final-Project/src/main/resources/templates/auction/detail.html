@@ -28,7 +28,7 @@
 
         .container1 {
             position: relative;
-            max-width: 1000px; /* 원하는 최대 너비 설정 */
+            max-width: 1250px; /* 원하는 최대 너비 설정 */
             max-height: 1000px; /* 원하는 최대 너비 설정 */
             margin: 0 auto; /* 가운데 정렬을 위해 사용 */
         }
@@ -410,13 +410,10 @@
         <div class="container-fluid">
 
             <a class="navbar-brand" href="/">
-                <img src="/images/logo1.png" class="logo"
-                     style="height: 75px; width: 250px; margin-top: 3px; margin-bottom: 1px">
+                <img src="/images/logo1.png" class="logo" style="height: 75px; width: 250px; margin-top: 3px; margin-bottom: 1px">
             </a>
 
-            <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false"
-                    aria-label="Toggle navigation">
+            <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <svg class="navbar-icon">
                     <use xlink:href="#navbar-icon"></use>
                 </svg>
@@ -428,20 +425,33 @@
                         <!-- 여기는 뭔지 모르겠음 바꾸긴 했는데 어디가 바뀐지 모르겠음 -->
                         <img src="/images/logo1.png" class="logo">
                     </a>
-                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas"
-                            aria-label="Close" data-bs-target="#bdNavbar"></button>
+                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
                 </div>
                 <div class="offcanvas-body">
-                    <ul id="navbar"
-                        class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
+                    <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
                         <li class="nav-item">
                             <a class="nav-link me-4 active" href="/">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-4" href="/all/list">Auction List</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Auction</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/all/list" class="dropdown-item">All</a>
+                                </li>
+                                <li>
+                                    <a href="/all/list?atype=NORMAL" class="dropdown-item">Normal</a>
+                                </li>
+                                <li>
+                                    <a href="/all/list?atype=BLIND" class="dropdown-item">Blind</a>
+                                </li>
+                                <li>
+                                    <a href="/all/list?atype=EVENT" class="dropdown-item">Event</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link me-4" href="all/qalist">Q&A</a>
+                            <a class="nav-link me-4" href="/all/qalist">Q&A</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link me-4" href="/auth/rooms">Chat</a>
@@ -532,7 +542,7 @@ img2: <img th:if="${s.product.img2 != null}" th:src="@{/auth/prod/read-img(img=$
 img3: <img th:if="${s.product.img3 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img3})}" style="width: 100px; height: 100px"><br>
 img4: <img th:if="${s.product.img4 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img4})}" style="width: 100px; height: 100px"> <br>
 img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=${s.product.img5})}" style="width: 100px; height: 100px"> <br>
-<a th:href="@{/auth/rooms(seller=${s.seller.id})}">채팅하기</a>
+<a th:href="@{/auth/rooms(id=${s.num},seller=${s.seller.id},buyer=${session.loginId})}">채팅하기</a>
 <a href="/index_member">home으로</a>
 <span>시작시간: <span th:text="${s.start_time}"></span></span>
 -->
@@ -546,6 +556,8 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
             <form id="scrap">
                 <input type="hidden" th:value="${s.num}" id="num" name="auction">
                 <input type="hidden" th:value="${session.loginId}" id="buyer" name="member">
+                <input type="hidden" th:value="${s.seller.id}" id="seller" name="seller">
+                <input type="hidden" th:value="${point}" id="point" >
             </form>
             <!--            <div class="image-wrapper slideshow-container">-->
             <!--                <div class="slideshow-images">-->
@@ -642,12 +654,12 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
                     <span class="time" th:text="${start_time}"></span>
                 </span>
         <span class="time">over: <span class="time" th:text="${end_time}"></span>
-                </span>
-        <span>현재가 </span>
-        <h5 th:text="${s.max}" id="max"></h5>
+                </span>        
+        <span th:if="${s.type != T(com.example.demo.auction.Auction.Type).BLIND}">현재가 </span>
+        <h5 th:text="${s.max}" th:if="${s.type != T(com.example.demo.auction.Auction.Type).BLIND}"  id="max"></h5>
         <div class="d-flex align-items-center mb-3 input1" style="justify-content: center;">
-            <div class="input-group align-items-center mb-3" style="max-width: 200px;">
-                <input type="number" class="form-control" th:placeholder="${s.max}"
+            <div class="input-group align-items-center mb-3" style="max-width: 250px;">
+                <input type="number" class="form-control" th:placeholder="${'내 포인트 : '+point}"
                        aria-label="Example text with button addon" aria-describedby="button-addon1" id="price">
                 <button class="btn btn-outline-secondary" type="button" id="btn">입찰</button>
             </div>

@@ -2,6 +2,7 @@ package com.example.demo.scrap;
 
 import com.example.demo.auction.Auction;
 import com.example.demo.user.Member;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
