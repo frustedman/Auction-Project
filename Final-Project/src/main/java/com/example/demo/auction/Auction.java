@@ -61,6 +61,8 @@ public class Auction {
     private int time;
     @Column(columnDefinition = "INT DEFAULT 0", insertable = false, updatable = false)
     private int bidcount;
+    @OneToOne
+    private Member mino;
     
     public enum Type {
         NORMAL, BLIND, EVENT
@@ -81,12 +83,13 @@ public class Auction {
     			.title(dto.getTitle())
     			.time(dto.getTime())
     			.bidcount(dto.getBidcount())
+    			.mino(dto.getMino())
     			.build();
     }
 
     @Builder
 	public Auction(int num, Member seller, int min, int max, Product product, String status, Date start_time, Date end_time,
-                   Type type,String content,String title,int time,int bidcount) {
+                   Type type,String content,String title,int time,int bidcount,Member mino) {
 		this.num = num;
 		this.seller = seller;
 		this.min = min;
@@ -100,6 +103,7 @@ public class Auction {
 		this.title=title;
 		this.time=time;
 		this.bidcount=bidcount;
+		this.mino=mino;
     }
     public Auction(int num) {
     	this.num=num;
