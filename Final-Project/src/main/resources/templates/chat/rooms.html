@@ -744,7 +744,7 @@
 
                 #container {
                     display: flex;
-                    height: 100vh;
+                    height: 80vh;
                 }
 
                 #chat-rooms {
@@ -821,27 +821,57 @@
                     display: flex;
                     border-top: 1px solid #ccc;
                     padding: 10px;
+                    background-color: #f9f9f9;
                 }
+
                 .last-message {
                     font-size: 10px; /* Adjust font size as needed */
                     color: grey;     /* Color the text grey */
                     margin-left: 10px; /* Optional: Add margin for better spacing */
                 }
+
                 #messageInput {
                     flex-grow: 1;
-                    padding: 8px;
+                    padding: 12px 15px;
+                    border: 1px solid #ccc;
+                    border-radius: 20px;
+                    outline: none;
+                    transition: border-color 0.3s;
+                }
+
+                #messageInput:focus {
+                    border-color: grey;
                 }
 
                 #sendMessageBtn, #sendImageButton {
                     margin-left: 10px;
-                    padding: 8px;
+                    padding: 12px 15px;
+                    border: none;
+                    border-radius: 20px;
+                    color: white;
+                    background-color: black;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                }
+
+                #sendMessageBtn:hover, #sendImageButton:hover {
+                    background-color: grey;
+                }
+
+                #sendMessageBtn:active, #sendImageButton:active {
+                    background-color: black;
                 }
 
                 #fileInput {
                     display: none;
                 }
+            </style>
+            <style>
+                #plusButton:hover {
+                    background-color: grey;
+                }
                 #plusButton {
-                    background-color: #007bff;
+                    background-color: black;
                     color: white;
                     border: none;
                     border-radius: 50%;
@@ -851,6 +881,7 @@
                     cursor: pointer;
                     margin-right: 10px;
                     margin-top: 8px;
+                    transition: background-color 0.3s;
                 }
 
                 #menu {
@@ -897,7 +928,7 @@
             </div>
             <div id="chat-container">
                 <div id="chat">
-                    <h2>Chat Room: <span id="room-id"></span></h2>
+                    <h2><span id="room-id"></span></h2>
                     <div id="messages">
                         <!-- Messages will be loaded here -->
                     </div>

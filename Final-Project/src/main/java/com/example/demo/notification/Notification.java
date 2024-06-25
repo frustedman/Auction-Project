@@ -1,8 +1,6 @@
 package com.example.demo.notification;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Notification implements Serializable {
     private String name;
     private String title;
@@ -22,8 +21,6 @@ public class Notification implements Serializable {
         this.title = title;
         this.content = content;
         this.time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
-    }
-    public Notification() {
     }
     public static Notification create(String name, String title, String content) {
         return Notification.builder()
