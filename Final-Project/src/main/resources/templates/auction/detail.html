@@ -653,13 +653,13 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
                 </span>
         <span class="time">over: <span class="time" th:text="${end_time}"></span>
                 </span>
-        <span>현재가 </span>
-        <h5 th:text="${s.max}" id="max"></h5>
+        <span th:if="${s.type != T(com.example.demo.auction.Auction.Type).BLIND}" >현재가 </span>
+        <h5 th:text="${s.max}" th:if="${s.type != T(com.example.demo.auction.Auction.Type).BLIND}" id="max"></h5>
         <div class="d-flex align-items-center mb-3 input1" style="justify-content: center;">
-            <div class="input-group align-items-center mb-3" style="max-width: 200px;">
-                <input type="number" class="form-control" th:placeholder="${s.max}"
-                       aria-label="Example text with button addon" aria-describedby="button-addon1" id="price">
-                <button class="btn btn-outline-secondary" type="button" id="btn">입찰</button>
+            <div class="input-group align-items-center mb-3" style="max-width: 250px;">
+                <input type="number" class="form-control" th:placeholder="${'내 포인트 : ' +point}"
+                       aria-label="Example text with button addon" aria-describedby="button-addon1" id="price" style="border-radius: 10px 0 0 10px;">
+                <button class="btn btn-outline-secondary" type="button" id="btn" style="background-color: #4CAF50; color: white; border-radius: 0 10px 10px 0;">입찰</button>
             </div>
         </div>
         <span th:text="${s.status}"></span>

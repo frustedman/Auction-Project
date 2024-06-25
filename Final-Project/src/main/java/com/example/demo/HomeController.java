@@ -37,6 +37,28 @@ public class HomeController {
 				break;
 			}
 		}
+		ArrayList<AuctionDto> l2=aservice.getAll();
+		ArrayList<String> list2= new ArrayList<>();
+		for(int i=0;i<l2.size();i++) {
+			if(l2.get(i).getType().equals(Auction.Type.BLIND) && l2.get(i).getStatus().equals("경매중")) {
+				list2.add(null);
+				map.addAttribute("BA"+(list2.size()),l2.get(i));
+			}
+			if(list2.size()>5) {
+				break;
+			}
+		}
+		ArrayList<AuctionDto> l3=aservice.getAll();
+		ArrayList<String> list3= new ArrayList<>();
+		for(int i=0;i<l2.size();i++) {
+			if(l2.get(i).getType().equals(Auction.Type.EVENT) && l3.get(i).getStatus().equals("경매중")) {
+				list3.add(null);
+				map.addAttribute("EA"+(list3.size()),l3.get(i));
+			}
+			if(list3.size()>5) {
+				break;
+			}
+		}
 		return "index";
 	}
 	

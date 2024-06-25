@@ -111,6 +111,7 @@ public class AllAccessController {
 			session.setAttribute("auction_type", atype);
 		}
 		map.addAttribute("list", list);
+		map.addAttribute("type",atype);
 		return "auction/list";
 	}
 
