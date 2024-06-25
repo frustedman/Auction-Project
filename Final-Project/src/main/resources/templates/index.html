@@ -189,18 +189,6 @@
                         <li class="nav-item dropdown">
                             <a id="bell" class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">🔔</a>
                             <ul class="dropdown-menu" id="notificationList">
-                                <li>
-                                    <a href="/all/list" class="dropdown-item">All</a>
-                                </li>
-                                <li>
-                                    <a href="" class="dropdown-item">Normal</a>
-                                </li>
-                                <li>
-                                    <a href="" class="dropdown-item">Blind</a>
-                                </li>
-                                <li>
-                                    <a href="" class="dropdown-item">Event</a>
-                                </li>
                             </ul>
                         </li>
                         <li class="nav-item" th:if="${session.loginId == null}">
@@ -442,8 +430,7 @@
     <!--    </div>-->
 </section>
 
-<!-- 여기부터 해야댐 -->
-<!-- mobile-products -->
+<!-- high-bidding -->
 <section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
         <div class="row">
@@ -629,132 +616,247 @@
 </section>
 
 
-<!-- shop our 블라인드 -->
-<section id="instagram" class="padding-large overflow-hidden no-padding-top">
+<section id="mobile-products1" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
         <div class="row">
-            <div class="display-header text-uppercase text-dark text-center pb-3">
-                <h2 class="display-7">Blind Auction</h2>
+            <!-- 제목이랑 shop가기 -->
+            <div class="display-header d-flex justify-content-between pb-3">
+                <h2 class="display-7 text-dark text-uppercase">Blind Acution</h2>
+                <div class="btn-right">
+                    <a href="/all/list?atype=BLIND" class="btn btn-medium btn-normal text-uppercase">Go to Auction</a>
+                </div>
             </div>
-            <div class="d-flex flex-wrap">
-                <figure class="instagram-item pe-2">
-                    <a href="https://templatesjungle.com/" class="image-link position-relative">
-                        <img src="/images/insta-item1.jpg" alt="instagram" class="insta-image">
-                        <div class="icon-overlay position-absolute d-flex justify-content-center">
-                            <svg class="instagram">
-                                <use xlink:href="#instagram"></use>
-                            </svg>
+
+            <div class="swiper product-swiper1">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" th:if="${HBA1 !=null}">
+                        <div class="product-card position-relative" >
+                            <!-- 1번째 사진 -->
+                            <div class="image-holder">
+                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid" style="width: 300px; height: 300px">
+                            </div>
+                            <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <!-- 사진 밑 제품명 -->
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${HBA1.num})}" th:text="${HBA1.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary" th:text="${HBA1.max + '원'}"></span>
+                            </div>
+
                         </div>
-                    </a>
-                </figure>
-                <figure class="instagram-item pe-2">
-                    <a href="https://templatesjungle.com/" class="image-link position-relative">
-                        <img src="/images/insta-item2.jpg" alt="instagram" class="insta-image">
-                        <div class="icon-overlay position-absolute d-flex justify-content-center">
-                            <svg class="instagram">
-                                <use xlink:href="#instagram"></use>
-                            </svg>
+                    </div>
+                    <!-- 2번째 사진 -->
+                    <div class="swiper-slide" th:if="${HBA2 !=null}">
+                        <div class="product-card position-relative">
+                            <div class="image-holder">
+                               <img th:src="@{/all/read-img(img=${HBA2.product.img1})}" alt="product-item" class="img-fluid">
+                            </div>
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${HBA2.num})}" th:text="${HBA2.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary" th:text="${HBA2.max + '원'}"></span>
+                            </div>
                         </div>
-                    </a>
-                </figure>
-                <figure class="instagram-item pe-2">
-                    <a href="https://templatesjungle.com/" class="image-link position-relative">
-                        <img src="/images/insta-item3.jpg" alt="instagram" class="insta-image">
-                        <div class="icon-overlay position-absolute d-flex justify-content-center">
-                            <svg class="instagram">
-                                <use xlink:href="#instagram"></use>
-                            </svg>
+                    </div>
+                    <!-- 3번째 사진 -->
+                    <div class="swiper-slide" th:if="${HBA3 !=null}" >
+                        <div class="product-card position-relative">
+                            <div class="image-holder">
+                                <img th:src="@{/all/read-img(img=${HBA3.product.img1})}" alt="product-item" class="img-fluid">
+                            </div>
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${HBA3.num})}" th:text="${HBA3.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary" th:text="${HBA3.max + '원'}" ></span>
+                            </div>
                         </div>
-                    </a>
-                </figure>
-                <figure class="instagram-item pe-2">
-                    <a href="https://templatesjungle.com/" class="image-link position-relative">
-                        <img src="/images/insta-item4.jpg" alt="instagram" class="insta-image">
-                        <div class="icon-overlay position-absolute d-flex justify-content-center">
-                            <svg class="instagram">
-                                <use xlink:href="#instagram"></use>
-                            </svg>
+                    </div>
+                    <!-- 4번째 사진 -->
+                    <div class="swiper-slide" th:if="${HBA4 !=null}" >
+                        <div class="product-card position-relative">
+                            <div class="image-holder">
+                                <img th:src="@{/all/read-img(img=${HBA4.product.img1})}" alt="product-item" class="img-fluid">
+                            </div>
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${HBA4.num})}" th:text="${HBA4.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary"  th:text="${HBA4.max + '원'}"></span>
+                            </div>
                         </div>
-                    </a>
-                </figure>
-                <figure class="instagram-item pe-2">
-                    <a href="https://templatesjungle.com/" class="image-link position-relative">
-                        <img src="/images/insta-item5.jpg" alt="instagram" class="insta-image">
-                        <div class="icon-overlay position-absolute d-flex justify-content-center">
-                            <svg class="instagram">
-                                <use xlink:href="#instagram"></use>
-                            </svg>
+                    </div>
+                    <!-- 5번째 사진 -->
+                    <div class="swiper-slide" th:if="${HBA5 !=null}" >
+                        <div class="product-card position-relative">
+                            <div class="image-holder">
+                               <img th:src="@{/all/read-img(img=${HBA5.product.img1})}" alt="product-item" class="img-fluid">
+                            </div>
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${HBA5.num})}" th:text="${HBA5.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary" th:text="${HBA5.max + '원'}" ></span>
+                            </div>
                         </div>
-                    </a>
-                </figure>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- 페이징 작업 같음, 점점 두개 중앙으로 지정 -->
+    <div class="swiper-pagination position-absolute text-center"></div>
 </section>
 
-<!-- shop our event -->
-<section id="instagram" class="padding-large overflow-hidden no-padding-top">
+<section id="mobile-products2" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
         <div class="row">
-            <div class="display-header text-uppercase text-dark text-center pb-3">
-                <h2 class="display-7">Event Auction</h2>
+            <!-- 제목이랑 shop가기 -->
+            <div class="display-header d-flex justify-content-between pb-3">
+                <h2 class="display-7 text-dark text-uppercase">Event Auction</h2>
+                <div class="btn-right">
+                    <a href="/all/lista?atype=EVENT" class="btn btn-medium btn-normal text-uppercase">Go to Auction</a>
+                </div>
             </div>
-            <div class="d-flex flex-wrap">
-                <figure class="instagram-item pe-2">
-                    <a href="https://templatesjungle.com/" class="image-link position-relative">
-                        <img src="/images/insta-item1.jpg" alt="instagram" class="insta-image">
-                        <div class="icon-overlay position-absolute d-flex justify-content-center">
-                            <svg class="instagram">
-                                <use xlink:href="#instagram"></use>
-                            </svg>
+
+            <div class="swiper product-swiper2">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" th:if="${HBA1 !=null}">
+                        <div class="product-card position-relative" >
+                            <!-- 1번째 사진 -->
+                            <div class="image-holder">
+                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid" style="width: 300px; height: 300px">
+                            </div>
+                            <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <!-- 사진 밑 제품명 -->
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${HBA1.num})}" th:text="${HBA1.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary" th:text="${HBA1.max + '원'}"></span>
+                            </div>
+
                         </div>
-                    </a>
-                </figure>
-                <figure class="instagram-item pe-2">
-                    <a href="https://templatesjungle.com/" class="image-link position-relative">
-                        <img src="/images/insta-item2.jpg" alt="instagram" class="insta-image">
-                        <div class="icon-overlay position-absolute d-flex justify-content-center">
-                            <svg class="instagram">
-                                <use xlink:href="#instagram"></use>
-                            </svg>
+                    </div>
+                    <!-- 2번째 사진 -->
+                    <div class="swiper-slide" th:if="${HBA2 !=null}">
+                        <div class="product-card position-relative">
+                            <div class="image-holder">
+                               <img th:src="@{/all/read-img(img=${HBA2.product.img1})}" alt="product-item" class="img-fluid">
+                            </div>
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${HBA2.num})}" th:text="${HBA2.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary" th:text="${HBA2.max + '원'}"></span>
+                            </div>
                         </div>
-                    </a>
-                </figure>
-                <figure class="instagram-item pe-2">
-                    <a href="https://templatesjungle.com/" class="image-link position-relative">
-                        <img src="/images/insta-item3.jpg" alt="instagram" class="insta-image">
-                        <div class="icon-overlay position-absolute d-flex justify-content-center">
-                            <svg class="instagram">
-                                <use xlink:href="#instagram"></use>
-                            </svg>
+                    </div>
+                    <!-- 3번째 사진 -->
+                    <div class="swiper-slide" th:if="${HBA3 !=null}" >
+                        <div class="product-card position-relative">
+                            <div class="image-holder">
+                                <img th:src="@{/all/read-img(img=${HBA3.product.img1})}" alt="product-item" class="img-fluid">
+                            </div>
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${HBA3.num})}" th:text="${HBA3.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary" th:text="${HBA3.max + '원'}" ></span>
+                            </div>
                         </div>
-                    </a>
-                </figure>
-                <figure class="instagram-item pe-2">
-                    <a href="https://templatesjungle.com/" class="image-link position-relative">
-                        <img src="/images/insta-item4.jpg" alt="instagram" class="insta-image">
-                        <div class="icon-overlay position-absolute d-flex justify-content-center">
-                            <svg class="instagram">
-                                <use xlink:href="#instagram"></use>
-                            </svg>
+                    </div>
+                    <!-- 4번째 사진 -->
+                    <div class="swiper-slide" th:if="${HBA4 !=null}" >
+                        <div class="product-card position-relative">
+                            <div class="image-holder">
+                                <img th:src="@{/all/read-img(img=${HBA4.product.img1})}" alt="product-item" class="img-fluid">
+                            </div>
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${HBA4.num})}" th:text="${HBA4.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary"  th:text="${HBA4.max + '원'}"></span>
+                            </div>
                         </div>
-                    </a>
-                </figure>
-                <figure class="instagram-item pe-2">
-                    <a href="https://templatesjungle.com/" class="image-link position-relative">
-                        <img src="/images/insta-item5.jpg" alt="instagram" class="insta-image">
-                        <div class="icon-overlay position-absolute d-flex justify-content-center">
-                            <svg class="instagram">
-                                <use xlink:href="#instagram"></use>
-                            </svg>
+                    </div>
+                    <!-- 5번째 사진 -->
+                    <div class="swiper-slide" th:if="${HBA5 !=null}" >
+                        <div class="product-card position-relative">
+                            <div class="image-holder">
+                               <img th:src="@{/all/read-img(img=${HBA5.product.img1})}" alt="product-item" class="img-fluid">
+                            </div>
+                            <div class="cart-concern position-absolute">
+                                <div class="cart-button d-flex">
+                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                </div>
+                            </div>
+                            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                                <h3 class="card-title text-uppercase">
+                                    <a th:href="@{/auth/auction/detail(num=${HBA5.num})}" th:text="${HBA5.title}"></a>
+                                </h3>
+                                <span class="item-price text-primary" th:text="${HBA5.max + '원'}" ></span>
+                            </div>
                         </div>
-                    </a>
-                </figure>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-</section>
 
+    <!-- 페이징 작업 같음, 점점 두개 중앙으로 지정 -->
+    <div class="swiper-pagination position-absolute text-center"></div>
+</section>
 <!-- 제일 아래 섹션 -->
 <footer id="footer" class="overflow-hidden">
     <div class="container">
