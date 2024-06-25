@@ -379,8 +379,45 @@
         <form th:action="@{/auth/report/list}" method="get">
             <button type="submit" class="custom-button">신고 관리</button>
         </form>
+        <div>
+        <button class="custom-button" id="openModalBtn">알림 전송</button>
+        </div>
     </div>
 </div>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form th:action="@{/auth/report/notice}" method="post">
+            <label for="title">알림 제목:</label>
+            <input id="title" name="title">
+            <label for="notice">알림 내용:</label>
+            <textarea id="notice" name="content" rows="4" cols="50"></textarea>
+            <button type="submit" class="custom-button">전송</button>
+        </form>
+    </div>
+</div>
+<script>
+    // 모달 열기
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("openModalBtn");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // 모달 닫기
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // 모달 외부 클릭시 닫기
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 
 <script src="/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>

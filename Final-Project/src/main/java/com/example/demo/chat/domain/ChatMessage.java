@@ -1,9 +1,6 @@
 package com.example.demo.chat.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @NoArgsConstructor
 @ToString
+@AllArgsConstructor
 public class ChatMessage implements Serializable {
     @Setter
     private String id;
