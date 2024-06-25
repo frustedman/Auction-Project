@@ -19,6 +19,10 @@
     <!-- script
     ================================================== -->
     <script src="/js/modernizr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
@@ -109,7 +113,7 @@
                 <a href="/all/categories?categories=의류" title="의류">Clothing</a>
             </li>
             <li class="cat-list-item">
-               <a href="/all/categories?categories=디지털기기" title="디지털기기">Digital Devices</a>
+                <a href="/all/categories?categories=디지털기기" title="디지털기기">Digital Devices</a>
             </li>
             <li class="cat-list-item">
                 <a href="/all/categories?categories=골동품" title="골동품">Antiques</a>
@@ -165,21 +169,27 @@
                                     <a href="/all/list" class="dropdown-item">All</a>
                                 </li>
                                 <li>
-                                    <a href="/all/list?atype=NORMAL" class="dropdown-item">Normal</a>
+                                    <a href="" class="dropdown-item">Normal</a>
                                 </li>
                                 <li>
-                                    <a href="/all/list?atype=BLIND" class="dropdown-item">Blind</a>
+                                    <a href="" class="dropdown-item">Blind</a>
                                 </li>
                                 <li>
-                                    <a href="/all/list?atype=EVENT" class="dropdown-item">Event</a>
+                                    <a href="" class="dropdown-item">Event</a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link me-4" href="/all/qalist">Q&A</a>
                         </li>
-                         <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link me-4" href="/auth/rooms">Chat</a>
+                        </li>
+                        <input id="sessionId" type="hidden" th:value="${session.loginId}">
+                        <li class="nav-item dropdown">
+                            <a id="bell" class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">🔔</a>
+                            <ul class="dropdown-menu" id="notificationList">
+                            </ul>
                         </li>
                         <li class="nav-item" th:if="${session.loginId == null}">
                             <a class="nav-link me-4" href="/auth/login">Login</a>
@@ -200,19 +210,19 @@
                                     </li>
                                     <!-- 마이페이지 -->
                                     <li class="pe-3">
-                                    	<div th:if="${session.type !=null}">
-                                        <a th:href="@{/auth/index_{type}(type=${session.type})}">
-                                            <svg class="user">
-                                                <use xlink:href="#user"></use>
-                                            </svg>
-                                        </a>
+                                        <div th:if="${session.type !=null}">
+                                            <a th:href="@{/auth/index_{type}(type=${session.type})}">
+                                                <svg class="user">
+                                                    <use xlink:href="#user"></use>
+                                                </svg>
+                                            </a>
                                         </div>
                                         <div th:if="${session.type ==null}">
-                                        <a th:href="@{/auth/index_}">
-                                            <svg class="user">
-                                                <use xlink:href="#user"></use>
-                                            </svg>
-                                        </a>
+                                            <a th:href="@{/auth/index_}">
+                                                <svg class="user">
+                                                    <use xlink:href="#user"></use>
+                                                </svg>
+                                            </a>
                                         </div>
                                     </li>
                                     <!-- 스크랩 -->
@@ -362,9 +372,64 @@
 
 <!-- 배너 밑 섹션 -->
 <section id="company-services" class="padding-large">
+    <!--    <div class="container">-->
+    <!--        <div class="row">-->
+    <!--            <div class="col-lg-3 col-md-6 pb-3">-->
+    <!--                <div class="icon-box d-flex">-->
+    <!--                    <div class="icon-box-icon pe-3 pb-3">-->
+    <!--                        <svg class="cart-outline">-->
+    <!--                            <use xlink:href="#cart-outline" />-->
+    <!--                        </svg>-->
+    <!--                    </div>-->
+    <!--                    <div class="icon-box-content">-->
+    <!--                        <h3 class="card-title text-uppercase text-dark">Free delivery</h3>-->
+    <!--                        <p>Consectetur adipi elit lorem ipsum dolor sit amet.</p>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="col-lg-3 col-md-6 pb-3">-->
+    <!--                <div class="icon-box d-flex">-->
+    <!--                    <div class="icon-box-icon pe-3 pb-3">-->
+    <!--                        <svg class="quality">-->
+    <!--                            <use xlink:href="#quality" />-->
+    <!--                        </svg>-->
+    <!--                    </div>-->
+    <!--                    <div class="icon-box-content">-->
+    <!--                        <h3 class="card-title text-uppercase text-dark">Quality guarantee</h3>-->
+    <!--                        <p>Dolor sit amet orem ipsu mcons ectetur adipi elit.</p>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="col-lg-3 col-md-6 pb-3">-->
+    <!--                <div class="icon-box d-flex">-->
+    <!--                    <div class="icon-box-icon pe-3 pb-3">-->
+    <!--                        <svg class="price-tag">-->
+    <!--                            <use xlink:href="#price-tag" />-->
+    <!--                        </svg>-->
+    <!--                    </div>-->
+    <!--                    <div class="icon-box-content">-->
+    <!--                        <h3 class="card-title text-uppercase text-dark">Daily offers</h3>-->
+    <!--                        <p>Amet consectetur adipi elit loreme ipsum dolor sit.</p>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="col-lg-3 col-md-6 pb-3">-->
+    <!--                <div class="icon-box d-flex">-->
+    <!--                    <div class="icon-box-icon pe-3 pb-3">-->
+    <!--                        <svg class="shield-plus">-->
+    <!--                            <use xlink:href="#shield-plus" />-->
+    <!--                        </svg>-->
+    <!--                    </div>-->
+    <!--                    <div class="icon-box-content">-->
+    <!--                        <h3 class="card-title text-uppercase text-dark">100% secure payment</h3>-->
+    <!--                        <p>Rem Lopsum dolor sit amet, consectetur adipi elit.</p>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 </section>
 
-<!-- 여기부터 해야댐 -->
 <!-- high-bidding -->
 <section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
@@ -383,7 +448,7 @@
                         <div class="product-card position-relative" >
                             <!-- 1번째 사진 -->
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid" style="width: 300px; height: 300px">
+                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
                             <div class="cart-concern position-absolute">
@@ -405,7 +470,7 @@
                     <div class="swiper-slide" th:if="${HBA2 !=null}">
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                               <img th:src="@{/all/read-img(img=${HBA2.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA2.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -462,7 +527,7 @@
                     <div class="swiper-slide" th:if="${HBA5 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                               <img th:src="@{/all/read-img(img=${HBA5.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA5.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -482,7 +547,6 @@
             </div>
         </div>
     </div>
-
     <!-- 페이징 작업 같음, 점점 두개 중앙으로 지정 -->
     <div class="swiper-pagination position-absolute text-center"></div>
 </section>
@@ -935,7 +999,74 @@
         </div>
     </div>
 </div>
+<title>Notifications</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let stompClient = null;
+    let sessionId = document.getElementById("sessionId").value
+    function connect() {
+        let socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log("frame:"+frame)
+            stompClient.subscribe("/sub/notice/list/"+sessionId,function(message) {
+                displayNotifications(message)
+                console.log("Wlahrl")
+                console.log("sessionId : "+sessionId)
+                $.ajax({
+                    url: '/auth/notifications', // 서버의 요청 처리 주소
+                    type: 'GET',
+                    data:{member:sessionId},
+                    success: function(data) {
+                        console.log(data)
+                        displayNotifications(data); // 성공적으로 데이터를 받으면 화면에 표시
+                    },
+                    error: function() {
+                        alert('Failed to fetch notifications.');
+                    }
+                });
+            });
+            console.log('Connected: ' + frame);
+        });
+    }
+    $(document).ready(function() {
+        $('#bell').click(function() {
+            $.ajax({
+                url: '/auth/notifications', // 서버의 요청 처리 주소
+                type: 'GET',
+                data:{member:sessionId},
+                success: function(data) {
+                    console.log(data)
+                    displayNotifications(data); // 성공적으로 데이터를 받으면 화면에 표시
+                },
+                error: function() {
+                    alert('Failed to fetch notifications.');
+                }
+            });
+        });
 
+
+    });
+    function displayNotifications(notifications) {
+        let notificationList = $('#notificationList');
+        notificationList.empty(); // 기존 목록 지우기
+
+        $.each(notifications, function(index, notification) {
+            let listItem = $('<li class="list-group-item"></li>');
+            listItem.append('<h5 class="mb-1">' + notification.title + '</h5>');
+            listItem.append('<p class="mb-1">' + notification.content + '</p>');
+            listItem.append('<small>' + notification.name + ' - ' + notification.time + '</small>');
+
+            notificationList.append(listItem);
+        });
+    }
+    if (sessionId!==null){
+        console.log("rlahWl")
+        connect()
+        console.log(sessionId)
+
+    }
+</script>
 <script src="/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
