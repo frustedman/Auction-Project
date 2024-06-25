@@ -24,17 +24,13 @@ public class MemberService {
       return new MemberDto(u.getId(),u.getPwd(),u.getName(),u.getEmail(),u.getCardnum(),u.getPoint(),u.getRank(),u.getExp(),u.getType());
    }
 
-   public void edit(MemberDto dto) {
-      Member u = dao.findById(dto.getId()).orElse(null);
-      u.setName(dto.getName());
-      u.setExp(dto.getExp());
-      u.setType(dto.getType());
-      u.setEmail(dto.getEmail());
-      u.setCardnum(dto.getCardnum());
-      u.setPoint(dto.getPoint());
-      u.setRank(dto.getRank());
-      dao.save(u);
-   }
+//   public void edit(MemberDto dto) {
+//      Member u = dao.findById(dto.getId()).orElse(null);
+//      u.setName(dto.getName());
+//      u.setEmail(dto.getEmail());
+//      u.setPwd(passwordEncoder.encode(dto.getPwd()));
+//      dao.save(u);
+//   }
 
    // id로 검색
    public MemberDto getUser(String id) {

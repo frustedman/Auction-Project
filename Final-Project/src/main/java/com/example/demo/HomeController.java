@@ -59,6 +59,18 @@ public class HomeController {
 				break;
 			}
 		}
+		ArrayList<AuctionDto> l4 = aservice.getAll();
+		ArrayList<String> list4= new ArrayList<>();
+		for(int i=0;i<l4.size();i++) {
+			if(l4.get(i).getStatus().equals("경매중")) {
+				list4.add(null);
+				map.addAttribute("LA"+(list4.size()),l4.get(i));
+			}
+			if(list4.size()>5) {
+				break;
+			}
+		}
+
 		return "index";
 	}
 	
