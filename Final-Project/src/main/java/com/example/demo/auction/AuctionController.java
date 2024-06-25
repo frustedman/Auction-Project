@@ -22,10 +22,11 @@ import com.example.demo.bid.BidService;
 import com.example.demo.product.ProductDto;
 import com.example.demo.product.ProductService;
 import com.example.demo.user.Member;
+import com.example.demo.user.MemberDto;
+import com.example.demo.user.MemberService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -39,6 +40,9 @@ public class AuctionController {
 	private BidService bservice; // 추가, 수정 / parent로 검색
 	@Autowired
 	private ProductService pservice;
+	@Autowired
+	private MemberService mservice;
+	
 	@GetMapping("add")
 	public String addform(int prodnum,ModelMap map) {
 		ProductDto prod=pservice.getProd(prodnum);
@@ -60,24 +64,37 @@ public class AuctionController {
 	@MessageMapping("/price")
 	@SendTo("/sub/bid")
 	public Map send(BidAddDto b) throws InterruptedException {
-		System.out.println(b);
 		Map map=new HashMap();
-		try{
-			AuctionDto d=aservice.get(b.getParent());
-			map.put("parent", b.getParent());
-			BidDto dto=new BidDto(b.getNum(),new Auction(b.getParent()),new Member(b.getBuyer()),b.getPrice(),new Date());
-			if(dto.getBidtime().after(d.getEnd_time())) {
+		MemberDto buyer= mservice.getUser(b.getBuyer());
+		AuctionDto auction=aservice.get(b.getParent());
+		map.put("parent", b.getParent());
+		BidDto dto=new BidDto(b.getNum(),Auction.create(auction),Member.create(buyer),b.getPrice(),new Date());
+		if(!(auction.getType().equals(Auction.Type.EVENT))) {
+			if(dto.getBidtime().after(auction.getEnd_time())) {
 				map.put("msg","end");
 				return map;
 			}
-			bservice.save(dto);
-			d.setBidcount(d.getBidcount()+1);
-			d.setMax(b.getPrice());
-			aservice.save(d);
-			
-		}catch(Exception e) {
-			return null;
+			if(bservice.getByParent(b.getParent()).size()>0 && !auction.getType().equals(Auction.Type.BLIND)) {
+				BidDto pbid=bservice.getByBuyer(auction.getNum());
+				int getPoint=pbid.getPrice();
+				System.out.println(getPoint);
+				MemberDto pbuyer= mservice.getUser(pbid.getBuyer().getId());
+				System.out.println(pbuyer.getId());
+				pbuyer.setPoint(pbuyer.getPoint()+getPoint);
+				System.out.println(pbuyer.getPoint());
+				mservice.edit(pbuyer);
+			}
 		}
+		buyer.setPoint(buyer.getPoint()-b.getPrice());
+		bservice.save(dto);
+		auction.setBidcount(auction.getBidcount()+1);
+		if((auction.getType().equals(Auction.Type.EVENT))) {
+			auction.setMax(auction.getMax()+b.getPrice());
+		}else {
+			auction.setMax(b.getPrice());
+		}
+		aservice.save(auction);
+		mservice.edit(buyer);
 		String price=""+b.getPrice();
 		map.put("price", price);
 		return map;
@@ -99,7 +116,7 @@ public class AuctionController {
 	
 	
 	@RequestMapping("/detail")
-	public String detail(int num,ModelMap map) {
+	public String detail(int num,ModelMap map,HttpSession session) {
 		AuctionDto dto=aservice.get(num);
 		map.addAttribute("s", aservice.get(num));
 		Calendar cal = Calendar.getInstance();
@@ -113,6 +130,8 @@ public class AuctionController {
 		time2+="시"+cal.get(Calendar.MINUTE)+"분";
 		map.addAttribute("start_time", time);
 		map.addAttribute("end_time", time2);
+		String id=(String) session.getAttribute("loginId");
+		map.addAttribute("point",mservice.getUser(id).getPoint());
 		return "/auction/detail";
 	}
 

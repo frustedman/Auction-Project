@@ -1,12 +1,9 @@
 package com.example.demo.user;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.demo.card.Card;
-import com.example.demo.card.CardDto;
-import com.example.demo.card.CardService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,7 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.auction.Auction;
+import com.example.demo.auction.AuctionDto;
+import com.example.demo.auction.AuctionService;
+import com.example.demo.card.Card;
+import com.example.demo.card.CardDto;
+import com.example.demo.card.CardService;
+
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
@@ -25,6 +30,8 @@ public class MemberController {
 	private MemberService service;
 	@Autowired
 	private CardService cservice;
+	@Autowired
+	private AuctionService aservice;
 
 	@GetMapping("/join")
 	public String joinForm() {
@@ -44,7 +51,19 @@ public class MemberController {
 	}
 
 	@RequestMapping("/auth/login")
-	public String alogin() {
+	public String alogin(ModelMap map) {
+		ArrayList<AuctionDto> l=aservice.getAllByBids("경매중");
+		ArrayList<String> list= new ArrayList<>();
+		for(int i=0;i<l.size();i++) {
+			if(l.get(i).getType().equals(Auction.Type.BLIND)) {
+				l.get(i).setMax(l.get(i).getMin());
+			}
+			list.add(null);
+			map.addAttribute("HBA"+(list.size()),l.get(i));
+			if(list.size()>5) {
+				break;
+			}
+		}
 		return "index";
 	}
 
