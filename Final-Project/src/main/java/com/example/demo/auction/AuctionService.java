@@ -26,10 +26,10 @@ public class AuctionService {
 	public void setTime(AuctionDto dto, int t) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dto.getStart_time());
-//		int time = cal.get(Calendar.MINUTE);
-//		cal.set(Calendar.MINUTE, t + time);
-		int time = cal.get(Calendar.HOUR);
-		cal.set(Calendar.HOUR, t + time);
+		int time = cal.get(Calendar.MINUTE);
+		cal.set(Calendar.MINUTE, t + time);
+//		int time = cal.get(Calendar.HOUR);
+//		cal.set(Calendar.HOUR, t + time);
 		dto.setEnd_time(cal.getTime());
 	}
 
