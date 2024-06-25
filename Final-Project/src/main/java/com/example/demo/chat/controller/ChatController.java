@@ -1,5 +1,6 @@
 package com.example.demo.chat.controller;
 
+import com.example.demo.auction.AuctionService;
 import com.example.demo.chat.domain.ChatMessage;
 import com.example.demo.chat.domain.ChatMessagePublisher;
 import com.example.demo.chat.domain.ChatRoom;
@@ -31,6 +32,7 @@ public class ChatController {
     private final ChatMessagePublisher chatMessagePublisher;
     private final ChatRoomService chatRoomService;
     private final RedisMessageRepository redisMessageRepository;
+    private final AuctionService auctionService;
 
     @GetMapping("/load")
     @ResponseBody
@@ -150,6 +152,7 @@ public class ChatController {
         log.debug("roomIddd={}", roomId);
         log.debug("chatRoomName={}",chatRoomService.getChatroom(roomId));
         map.put("message", chatRoomService.getChatroom(roomId));
+        map.put("seller", auctionService.get(Integer.parseInt(roomId)).getSeller());
         return map;
     }
 

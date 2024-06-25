@@ -713,12 +713,12 @@
 
 
 <div class="container1">
-    <div class="row1">
-        <div class="display-header d-flex justify-content-between pb-3">
-            <h2 class="display-7 text-dark text-uppercase" style="margin-bottom: 25px">올톡</h2>
-        </div>
-        <hr style="all: unset; display: block; width: 100%; height: 2px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">
-    </div>
+    <!--    <div class="row1">-->
+    <!--        <div class="display-header d-flex justify-content-between pb-3">-->
+    <!--            <h2 class="display-7 text-dark text-uppercase" style="margin-bottom: 25px">올톡</h2>-->
+    <!--        </div>-->
+    <!--        <hr style="all: unset; display: block; width: 100%; height: 2px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">-->
+    <!--    </div>-->
     <div>
         <!DOCTYPE html>
         <html lang="en" xmlns:th="http://www.thymeleaf.org">
@@ -882,13 +882,14 @@
                     margin-right: 10px;
                     margin-top: 8px;
                     transition: background-color 0.3s;
+                    position: relative; /* 상대적인 위치로 변경 */
                 }
 
                 #menu {
                     display: none;
                     position: absolute;
-                    bottom: 50px;
-                    left: 10px;
+                    bottom: 0px; /* 버튼 위에 위치하도록 조정 */
+                    left: 10; /* 버튼의 왼쪽에 맞추기 */
                     background-color: white;
                     border: 1px solid #ccc;
                     border-radius: 5px;
@@ -909,6 +910,12 @@
 
                 #menu ul li:hover {
                     background-color: #f0f0f0;
+                }
+                .modal-dialog {
+                    margin-top: 100px; /* 여기에서 margin-top 값을 조정합니다 */
+                }
+                .text-right {
+                    text-align: right;
                 }
             </style>
             <title>Chat Room</title>
@@ -943,8 +950,39 @@
                     <button id="sendImageButton">Send Image</button>
                     <div id="menu">
                         <ul>
-                            <li id="checkDelivery">Check Delivery Status</li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- 모달 HTML -->
+            <div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deliveryModalLabel">운송장 등록</h5>
+                            <button type="button" id="closeBtn" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addDeliveryForm">
+                                <input type="hidden" id="auction" name="auction">
+                                <input type="hidden" class="form-control" id="t_key" name="t_key" value="XzpEJRtZ44DRUcMUMEsqZQ" readonly>
+                                <label for="t_code">택배사</label>
+                                <select class="form-control" name="t_code" id="t_code">
+                                    <option value="01">우체국택배</option>
+                                    <option value="04">CJ대한통운</option>
+                                    <option value="05">한진택배</option>
+                                    <option value="06">로젠택배</option>
+                                    <option value="08">롯데택배</option>
+                                </select>
+                                <label for="t_invoice">운송장 번호</label>
+                                <input type="text" class="form-control" name="t_invoice" id="t_invoice" placeholder="운송장 번호">
+                                <div class="form-group text-right"> <!-- Add text-right class here -->
+                                    <button id="addDeliveryBtn" type="button" onclick="addDelivery()" class="btn btn-default">등록하기</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -978,6 +1016,23 @@
                     success: function (message){
                         console.log(message)
                         document.getElementById("room-id").innerText = message.message.name
+                        document.getElementById("auction").value = message.message.id
+                        var ul = document.querySelector("#menu ul");
+                        ul.innerHTML = ''; // Clear existing content
+
+                        if (message.message.seller === sessionId) {
+                            // If seller is current user
+                            var li = document.createElement("li");
+                            li.id = "addDelivery";
+                            li.innerText = "운송장 등록";
+                            ul.appendChild(li);
+                        } else {
+                            // If seller is not current user
+                            var li = document.createElement("li");
+                            li.id = "checkDelivery";
+                            li.innerText = "배송 조회";
+                            ul.appendChild(li);
+                        }
                     }})
                 roomId = newRoomId;
                 // document.getElementById("room-id").innerText = roomId;
@@ -1222,7 +1277,6 @@
 
                 function createRoom() {
                     let seller = document.getElementById("seller").value
-                    alert(seller)
                     if (seller) {
                         $.ajax({
                             url: '/auth/rooms/create',
@@ -1247,14 +1301,142 @@
                 out()
                 console.log("안녕히 가세요~")
             }
-/* 여기서 부터 플러스 버튼 */
+            /* 여기서 부터 플러스 버튼 */
             $("#plusButton").click(function () {
                 $("#menu").toggle();
             });
 
-            $("#checkDelivery").click(function () {
-                alert('Delivery status checked.');
+            // $("#checkDelivery").click(function () {
+            //     $("#menu").hide();
+            //     let fdata = new FormData($('#addDeliveryForm')[0]);
+            //     $.ajax({
+            //         url: '/auth/delivery/check',
+            //         type: 'POST',
+            //         data: fdata,
+            //         contentType: false,
+            //         processData: false,
+            //         dataType: 'json',
+            //         success: function (res) {
+            //             if(res.dto!=null) {
+            //                 let form = $('<form>', {
+            //                     'action': 'https://info.sweettracker.co.kr/tracking/5',
+            //                     'method': 'POST'
+            //                 });
+            //
+            //                 // t_key 입력 필드 추가
+            //                 $('<input>').attr({
+            //                     'type': 'hidden',
+            //                     'name': 't_key',
+            //                     'value': res.dto.t_key  // 이미 제공된 API key를 사용
+            //                 }).appendTo(form);
+            //
+            //                 // t_code 입력 필드 추가
+            //                 $('<input>').attr({
+            //                     'type': 'hidden',
+            //                     'name': 't_code',
+            //                     'value': res.dto.t_code
+            //                 }).appendTo(form);
+            //
+            //                 // t_invoice 입력 필드 추가
+            //                 $('<input>').attr({
+            //                     'type': 'hidden',
+            //                     'name': 't_invoice',
+            //                     'value': res.dto.t_invoice
+            //                 }).appendTo(form);
+            //
+            //                 // 폼을 body에 추가하고 제출
+            //                 form.appendTo('body').submit();
+            //             }
+            //             else{
+            //                 alert('운송장이 등록되지 않았습니다.')
+            //             }
+            //         },
+            //         error: function (error) {
+            //             alert('운송장이 등록되지 않았습니다.')
+            //         }
+            //     });
+            // });
+            $(document).on('click', '#addDelivery', function () {
+                $("#menu").hide();
+                $("#deliveryModal").modal('show');
             });
+            $(document).on('click', '#checkDelivery', function () {
+                $("#menu").hide();
+                let fdata = new FormData($('#addDeliveryForm')[0]);
+                $.ajax({
+                    url: '/auth/delivery/check',
+                    type: 'POST',
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function (res) {
+                        if(res.dto!=null) {
+                            let form = $('<form>', {
+                                'action': 'https://info.sweettracker.co.kr/tracking/5',
+                                'method': 'POST'
+                            });
+
+                            // t_key 입력 필드 추가
+                            $('<input>').attr({
+                                'type': 'hidden',
+                                'name': 't_key',
+                                'value': res.dto.t_key  // 이미 제공된 API key를 사용
+                            }).appendTo(form);
+
+                            // t_code 입력 필드 추가
+                            $('<input>').attr({
+                                'type': 'hidden',
+                                'name': 't_code',
+                                'value': res.dto.t_code
+                            }).appendTo(form);
+
+                            // t_invoice 입력 필드 추가
+                            $('<input>').attr({
+                                'type': 'hidden',
+                                'name': 't_invoice',
+                                'value': res.dto.t_invoice
+                            }).appendTo(form);
+
+                            // 폼을 body에 추가하고 제출
+                            form.appendTo('body').submit();
+                        }
+                        else{
+                            alert('운송장이 등록되지 않았습니다.')
+                        }
+                    },
+                    error: function (error) {
+                        alert('운송장이 등록되지 않았습니다.')
+                    }
+                });
+            });
+
+            // $("#addDelivery").click(function () {
+            //     $("#menu").hide();
+            //     $("#deliveryModal").modal('show');
+            // });
+            $("#closeBtn").click(function() {
+                $("#deliveryModal").modal('hide');
+            });
+            function addDelivery(){
+                let fdata = new FormData($('#addDeliveryForm')[0]);
+                $.ajax({
+                    url: '/auth/delivery/add',
+                    type: 'POST',
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function (res) {
+                        alert('등록이 완료되었습니다.')
+                        $("#deliveryModal").modal('hide');
+                    },
+                    error: function (error) {
+                        alert('등록에 실패했습니다. 다시 시도해주세요.');
+                    }
+                });
+            }
+
         </script>
         </body>
         </html>

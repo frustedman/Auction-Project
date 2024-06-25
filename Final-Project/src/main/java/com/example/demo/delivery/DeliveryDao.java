@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DeliveryDao extends JpaRepository<Delivery, Integer> {
-    DeliveryDto findByAuction(Auction auction);
+    Delivery findByAuction(Auction auction);
 }

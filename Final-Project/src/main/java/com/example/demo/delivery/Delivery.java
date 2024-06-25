@@ -15,9 +15,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @ToString
 public class Delivery {
     @Id
-    @SequenceGenerator(name = "seq_delivery", sequenceName = "seq_delivery", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_delivery")
-    private int t_invoice;
+    private String t_invoice;
 
     private String t_code;
 
@@ -38,7 +36,7 @@ public class Delivery {
     }
 
     @Builder
-    public Delivery(int t_invoice, String t_code, String t_key, Auction auction) {
+    public Delivery(String t_invoice, String t_code, String t_key, Auction auction) {
         this.t_invoice = t_invoice;
         this.t_code = t_code;
         this.t_key = t_key;

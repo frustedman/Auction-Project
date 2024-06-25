@@ -18,6 +18,10 @@ public class DeliveryService {
     }
 
     public DeliveryDto findByAuction(String id) {
-        return dao.findByAuction(new Auction(Integer.parseInt(id)));
+        Delivery d =  dao.findByAuction(new Auction(Integer.parseInt(id)));
+        if(d == null) {
+            return null;
+        }
+        return DeliveryDto.create(d);
     }
 }

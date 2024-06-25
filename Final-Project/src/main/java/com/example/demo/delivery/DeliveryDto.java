@@ -13,7 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor
 @ToString
 public class DeliveryDto {
-    private int t_invoice;
+    private String t_invoice;
 
     private String t_code;
 
@@ -22,7 +22,7 @@ public class DeliveryDto {
     private Auction auction;
 
     @Builder
-    public DeliveryDto(int t_invoice, String t_code, String t_key, Auction auction) {
+    public DeliveryDto(String t_invoice, String t_code, String t_key, Auction auction) {
         this.t_invoice = t_invoice;
         this.t_code = t_code;
         this.t_key = t_key;
