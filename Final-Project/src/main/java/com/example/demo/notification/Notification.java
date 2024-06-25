@@ -29,4 +29,7 @@ public class Notification implements Serializable {
                 .content(content)
                 .build();
     }
+    public void setTime(){
+        this.time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
 }

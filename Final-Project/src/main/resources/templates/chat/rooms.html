@@ -476,6 +476,10 @@
     <script src="/js/modernizr.js"></script>
     <title>alItem | 상품등록</title>
     <style>
+        .padding-large {
+            padding-top: 7em;
+            padding-bottom: 2em;
+        }
         .container1 {
             max-width: 1000px; /* 원하는 최대 너비 설정 */
             margin: 0 auto; /* 가운데 정렬을 위해 사용 */
@@ -713,12 +717,12 @@
 
 
 <div class="container1">
-    <!--    <div class="row1">-->
-    <!--        <div class="display-header d-flex justify-content-between pb-3">-->
-    <!--            <h2 class="display-7 text-dark text-uppercase" style="margin-bottom: 25px">올톡</h2>-->
-    <!--        </div>-->
-    <!--        <hr style="all: unset; display: block; width: 100%; height: 2px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">-->
-    <!--    </div>-->
+<!--    <div class="row1">-->
+<!--        <div class="display-header d-flex justify-content-between pb-3">-->
+<!--            <h2 class="display-7 text-dark text-uppercase" style="margin-bottom: 25px">올톡</h2>-->
+<!--        </div>-->
+<!--        <hr style="all: unset; display: block; width: 100%; height: 2px; background-color: #000000; border: none; padding: 0; margin-bottom: 41px">-->
+<!--    </div>-->
     <div>
         <!DOCTYPE html>
         <html lang="en" xmlns:th="http://www.thymeleaf.org">
@@ -744,7 +748,7 @@
 
                 #container {
                     display: flex;
-                    height: 80vh;
+                    height: 75vh;
                 }
 
                 #chat-rooms {
@@ -888,8 +892,8 @@
                 #menu {
                     display: none;
                     position: absolute;
-                    bottom: 0px; /* 버튼 위에 위치하도록 조정 */
-                    left: 10; /* 버튼의 왼쪽에 맞추기 */
+                    bottom: 140px; /* 버튼 위에 위치하도록 조정 */
+                    /*left: 10; !* 버튼의 왼쪽에 맞추기 *!*/
                     background-color: white;
                     border: 1px solid #ccc;
                     border-radius: 5px;
@@ -1112,16 +1116,22 @@
                 if (message.contentType === 'image') {
                     if (message.sender === sessionId) {
                         messageElement.addClass('sender')
-                            .append('<span id="read_' + message.id+'"></span>')
+                            .append('<span id="read_' + message.id + '"></span>')
                             .append('<span id="time">' + message.timestamp + '</span>')
                             .append('<span id="image"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>');
                     } else {
                         messageElement.addClass('recipient')
                             .append('<span id="receiver"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>')
                             .append('<span id="time">' + message.timestamp + '</span>')
-                            .append('<span id="read_' + message.id+'"></span>');
+                            .append('<span id="read_' + message.id + '"></span>');
                     }
-                } else {
+                } else if (message.contentType === 'notice'){
+                    messageElement.addClass('sender')
+                        .append('<span id="time">' + message.timestamp + '</span>')
+                        .append('<span id="sender" style="background-color: white">' + message.content + '</span><br/>'
+                        + '<button id="checkDelivery">배송조회</button>');
+                }
+                 else {
                     if (message.sender === sessionId) {
                         messageElement.addClass('sender')
                             .append('<span id="read_' + message.id+'"></span>')
@@ -1357,8 +1367,27 @@
             //     });
             // });
             $(document).on('click', '#addDelivery', function () {
-                $("#menu").hide();
-                $("#deliveryModal").modal('show');
+                let fdata = new FormData($('#addDeliveryForm')[0]);
+                $.ajax({
+                    url: '/auth/delivery/addajax',
+                    type: 'POST',
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function (res) {
+                        if(res.flag) {
+                            $("#menu").hide();
+                            $("#deliveryModal").modal('show');
+                        }
+                        else{
+                            $("#menu").hide();
+                            alert('이미 운송장을 등록했습니다.');
+                        }
+                    },
+                    error: function (error) {
+                    }
+                });
             });
             $(document).on('click', '#checkDelivery', function () {
                 $("#menu").hide();

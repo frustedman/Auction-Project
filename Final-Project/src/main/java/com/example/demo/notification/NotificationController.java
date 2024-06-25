@@ -2,6 +2,9 @@ package com.example.demo.notification;
 
 import com.example.demo.chat.domain.ChatRoom;
 import com.example.demo.notification.repository.NotificationRepository;
+import com.example.demo.user.Member;
+import com.example.demo.user.MemberDto;
+import com.example.demo.user.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +13,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -28,6 +28,7 @@ public class NotificationController {
     private final SimpMessagingTemplate messagingTemplate;
     private final NotificationRepository notificationRepository;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final MemberService memberService;
 
     @MessageMapping("/notice/{member}")
     public void notice(Notification notification) {
@@ -60,4 +61,19 @@ public class NotificationController {
                 .map(notification -> (Notification) notification)
                 .collect(Collectors.toList());
     }
+    @PostMapping("/report/notice")
+    public String noticeAll(Notification notification) {
+        log.debug("notification: {}", notification.getContent());
+        for (MemberDto member: memberService.getAll()){
+            if (member.getType().equals("member")) {
+                notification.setName(member.getId());
+                notification.setTime();
+                notificationRepository.save(notification);
+                log.debug("memberId={}",member.getId());
+                messagingTemplate.convertAndSend("/sub/notice/list/" + member.getId(), notificationRepository.findByName(member.getId()));
+            }
+        }
+        return "index_admin";
+    }
+
 }
