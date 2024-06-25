@@ -85,6 +85,43 @@
         },
       });      
 
+	var swiper = new Swiper(".product-swiper1", {
+        slidesPerView: 4,
+        spaceBetween: 10,
+        pagination: {
+          el: "#mobile-products1 .swiper-pagination",
+          clickable: true,
+        },
+        breakpoints: {
+          0: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          980: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          }
+        },
+      });      
+      var swiper = new Swiper(".product-swiper2", {
+        slidesPerView: 4,
+        spaceBetween: 10,
+        pagination: {
+          el: "#mobile-products2 .swiper-pagination",
+          clickable: true,
+        },
+        breakpoints: {
+          0: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          980: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          }
+        },
+      });      
+		
       var swiper = new Swiper(".product-watch-swiper", {
         slidesPerView: 4,
         spaceBetween: 10,

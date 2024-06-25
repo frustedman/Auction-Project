@@ -12,6 +12,7 @@ import com.example.demo.auction.Auction;
 public interface BidDao extends JpaRepository<Bid, Integer> {
 
 	ArrayList<Bid>findByParentOrderByPrice(Auction parent);
+	ArrayList<Bid>findByParentOrderByNum(Auction parent);
 
 	@Query("select b from Bid b where b.parent.num = :parent order by b.price desc")
 	ArrayList<Bid> findByBuyerByPrice(int parent);
