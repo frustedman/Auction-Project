@@ -71,7 +71,6 @@ public class ChatRoomService {
 //            }
 //        }
         List<Object> messagesByRoomId = messageRepository.getMessagesByRoomId(roomId);
-        log.debug("list all messages by roomId: {}", messagesByRoomId);
         return messageRepository.getMessagesByRoomId(roomId);
     }
 
@@ -101,5 +100,15 @@ public class ChatRoomService {
     public void check2(String roomId) {
         log.info("strings size={}", "ㄹㅇㅋㅋ");
         messageRepository.updateRead(roomId);
+    }
+    public String noticeReceiver(String sender, String roomId){
+        String member = null;
+        ChatRoom roomById = redisChatRoomRepository.findRoomById(roomId);
+        if (roomById.getBuyer().equals(sender)){
+            member = roomById.getSeller();
+        }else {
+            member = roomById.getBuyer();
+        }
+        return member;
     }
 }
