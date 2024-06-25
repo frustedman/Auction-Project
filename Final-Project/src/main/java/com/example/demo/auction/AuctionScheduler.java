@@ -7,7 +7,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import com.example.demo.notification.Notification;
+import com.example.demo.notification.repository.NotificationRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -21,14 +25,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class AuctionScheduler {
 
-	@Autowired
-	private AuctionService service;
-	@Autowired
-	private BidService bidService;
-	@Autowired
-	private ChatRoomService chatRoomService;
+	private final AuctionService service;
+	private final BidService bidService;
+	private final ChatRoomService chatRoomService;
+	private final SimpMessagingTemplate messagingTemplate;
+	private final NotificationRepository notificationRepository;
 
 	@Scheduled(cron = "0 0/5 * * * *") // 매 5분에 실행
 	public void setStatus() {
@@ -37,6 +41,10 @@ public class AuctionScheduler {
 		for (AuctionDto auction : list) {
 			if (auction.getEnd_time().before(date)) {
 				auction.setStatus("경매 마감");
+				Notification notification = Notification.create(auction.getSeller().getId(), auction.getTitle(), "경매 마감되었습니다✅");
+				notificationRepository.save(notification);
+				messagingTemplate.convertAndSend("/sub/notice/list/"+auction.getSeller().getId(), notificationRepository.findByName(auction.getSeller().getId()));
+				log.debug("notification={}", notification);
 				String seller = auction.getSeller().getId();
 				BidDto byBuyer = bidService.getByBuyer(auction.getNum());
 				if (auction.getType().equals(Auction.Type.EVENT)) {
