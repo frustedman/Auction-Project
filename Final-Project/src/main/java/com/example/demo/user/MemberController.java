@@ -135,15 +135,28 @@ public class MemberController {
 	}
 
 	@GetMapping("/auth/member/edit")
-	public ModelAndView editform(String id) {
+	public String editform(String id, ModelMap map) {
+		MemberDto m = service.getUser(id);
+		map.addAttribute("m", m);
+		return "member/edit";
+	}
+
+	@PostMapping("/auth/member/edit")
+	public String edit(MemberDto m) {
+		service.edit(m);
+		return "redirect:/auth/member/list";
+	}
+
+	@GetMapping("/auth/member/edit2")
+	public ModelAndView editform2(String id) {
 		MemberDto m = service.getUser(id);
 		ModelAndView mav = new ModelAndView("member/edit");
 		mav.addObject("m", m);
 		return mav;
 	}
 
-	@PostMapping("/auth/member/edit")
-	public String edit(MemberDto m) {
+	@PostMapping("/auth/member/edit2")
+	public String edit2(MemberDto m) {
 		MemberDto d = service.getUser(m.getId());
 		d.setName(m.getName());
 		d.setEmail(m.getEmail());
