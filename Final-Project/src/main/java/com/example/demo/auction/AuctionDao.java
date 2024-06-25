@@ -1,6 +1,7 @@
 package com.example.demo.auction;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,10 +24,8 @@ public interface AuctionDao extends JpaRepository<Auction, Integer> {
 	// 경매 타입별 목록
 	ArrayList<Auction> findByType(Auction.Type type);
 	// 경매 상태별 목록
-	ArrayList<Auction> findByStatus(String status);
-	
-	
-	
+	ArrayList<Auction> findByStatusOrderByNumDesc(String status);
+	ArrayList<Auction> findAllByOrderByNumDesc();
 	
 	
 	@Query("SELECT a FROM Auction a JOIN a.product p WHERE p.name LIKE %:productName%")

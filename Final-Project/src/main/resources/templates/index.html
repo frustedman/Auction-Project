@@ -169,13 +169,13 @@
                                     <a href="/all/list" class="dropdown-item">All</a>
                                 </li>
                                 <li>
-                                    <a href="" class="dropdown-item">Normal</a>
+                                    <a href="/all/list?atype=NORMAL" class="dropdown-item">Normal</a>
                                 </li>
                                 <li>
-                                    <a href="" class="dropdown-item">Blind</a>
+                                    <a href="/all/list?atype=BLIND" class="dropdown-item">Blind</a>
                                 </li>
                                 <li>
-                                    <a href="" class="dropdown-item">Event</a>
+                                    <a href="/all/list?atype=EVENT" class="dropdown-item">Event</a>
                                 </li>
                             </ul>
                         </li>
@@ -372,62 +372,6 @@
 
 <!-- 배너 밑 섹션 -->
 <section id="company-services" class="padding-large">
-    <!--    <div class="container">-->
-    <!--        <div class="row">-->
-    <!--            <div class="col-lg-3 col-md-6 pb-3">-->
-    <!--                <div class="icon-box d-flex">-->
-    <!--                    <div class="icon-box-icon pe-3 pb-3">-->
-    <!--                        <svg class="cart-outline">-->
-    <!--                            <use xlink:href="#cart-outline" />-->
-    <!--                        </svg>-->
-    <!--                    </div>-->
-    <!--                    <div class="icon-box-content">-->
-    <!--                        <h3 class="card-title text-uppercase text-dark">Free delivery</h3>-->
-    <!--                        <p>Consectetur adipi elit lorem ipsum dolor sit amet.</p>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--            <div class="col-lg-3 col-md-6 pb-3">-->
-    <!--                <div class="icon-box d-flex">-->
-    <!--                    <div class="icon-box-icon pe-3 pb-3">-->
-    <!--                        <svg class="quality">-->
-    <!--                            <use xlink:href="#quality" />-->
-    <!--                        </svg>-->
-    <!--                    </div>-->
-    <!--                    <div class="icon-box-content">-->
-    <!--                        <h3 class="card-title text-uppercase text-dark">Quality guarantee</h3>-->
-    <!--                        <p>Dolor sit amet orem ipsu mcons ectetur adipi elit.</p>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--            <div class="col-lg-3 col-md-6 pb-3">-->
-    <!--                <div class="icon-box d-flex">-->
-    <!--                    <div class="icon-box-icon pe-3 pb-3">-->
-    <!--                        <svg class="price-tag">-->
-    <!--                            <use xlink:href="#price-tag" />-->
-    <!--                        </svg>-->
-    <!--                    </div>-->
-    <!--                    <div class="icon-box-content">-->
-    <!--                        <h3 class="card-title text-uppercase text-dark">Daily offers</h3>-->
-    <!--                        <p>Amet consectetur adipi elit loreme ipsum dolor sit.</p>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--            <div class="col-lg-3 col-md-6 pb-3">-->
-    <!--                <div class="icon-box d-flex">-->
-    <!--                    <div class="icon-box-icon pe-3 pb-3">-->
-    <!--                        <svg class="shield-plus">-->
-    <!--                            <use xlink:href="#shield-plus" />-->
-    <!--                        </svg>-->
-    <!--                    </div>-->
-    <!--                    <div class="icon-box-content">-->
-    <!--                        <h3 class="card-title text-uppercase text-dark">100% secure payment</h3>-->
-    <!--                        <p>Rem Lopsum dolor sit amet, consectetur adipi elit.</p>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
 </section>
 
 <!-- high-bidding -->
@@ -453,7 +397,7 @@
                             <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a  th:onclick="'addscrap(\'' + ${HBA1.num} + '\')'" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <!-- 사진 밑 제품명 -->
@@ -474,7 +418,7 @@
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a th:onclick="'addscrap(\'' + ${HBA2.num} + '\')'" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
@@ -493,7 +437,7 @@
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a th:onclick="'addscrap(\'' + ${HBA3.num} + '\')'" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
@@ -512,7 +456,7 @@
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a th:onclick="'addscrap(\'' + ${HBA4.num} + '\')'" class="btn btn-medium btn-black" >Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
@@ -531,7 +475,7 @@
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a  class="btn btn-medium btn-black" th:onclick="'addscrap(\'' + ${HBA5.num} + '\')'" >Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
@@ -551,7 +495,7 @@
     <div class="swiper-pagination position-absolute text-center"></div>
 </section>
 
-<!-- lastest posts, 최근 게시물 -->
+<!-- lastest posts, 최근 게시물 
 <section id="latest-blog" class="padding-large">
     <div class="container">
         <div class="row">
@@ -614,7 +558,7 @@
         </div>
     </div>
 </section>
-
+-->
 
 <section id="mobile-products1" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
@@ -629,101 +573,101 @@
 
             <div class="swiper product-swiper1">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" th:if="${HBA1 !=null}">
+                    <div class="swiper-slide" th:if="${BA1 !=null}">
                         <div class="product-card position-relative" >
                             <!-- 1번째 사진 -->
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid" style="width: 300px; height: 300px">
+                                <img th:src="@{/all/read-img(img=${BA1.product.img1})}"  alt="product-item" class="img-fluid" style="width: 300px; height: 300px">
                             </div>
                             <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a  class="btn btn-medium btn-black" th:onclick="'addscrap(\'' + ${BA1.num} + '\')'" >Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <!-- 사진 밑 제품명 -->
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/auction/detail(num=${HBA1.num})}" th:text="${HBA1.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${BA1.num})}" th:text="${BA1.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary" th:text="${HBA1.max + '원'}"></span>
+                                <span class="item-price text-primary" th:text="${BA1.max + '원'}"></span>
                             </div>
 
                         </div>
                     </div>
                     <!-- 2번째 사진 -->
-                    <div class="swiper-slide" th:if="${HBA2 !=null}">
+                    <div class="swiper-slide" th:if="${BA2 !=null}">
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                               <img th:src="@{/all/read-img(img=${HBA2.product.img1})}" alt="product-item" class="img-fluid">
+                               <img th:src="@{/all/read-img(img=${BA2.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a  class="btn btn-medium btn-black" th:onclick="'addscrap(\'' + ${BA2.num} + '\')'">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/auction/detail(num=${HBA2.num})}" th:text="${HBA2.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${BA2.num})}" th:text="${BA2.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary" th:text="${HBA2.max + '원'}"></span>
+                                <span class="item-price text-primary" th:text="${BA2.max + '원'}"></span>
                             </div>
                         </div>
                     </div>
                     <!-- 3번째 사진 -->
-                    <div class="swiper-slide" th:if="${HBA3 !=null}" >
+                    <div class="swiper-slide" th:if="${BA3 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA3.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${BA3.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a  class="btn btn-medium btn-black" th:onclick="'addscrap(\'' + ${BA3.num} + '\')'">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/auction/detail(num=${HBA3.num})}" th:text="${HBA3.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${BA3.num})}" th:text="${BA3.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary" th:text="${HBA3.max + '원'}" ></span>
+                                <span class="item-price text-primary" th:text="${BA3.max + '원'}" ></span>
                             </div>
                         </div>
                     </div>
                     <!-- 4번째 사진 -->
-                    <div class="swiper-slide" th:if="${HBA4 !=null}" >
+                    <div class="swiper-slide" th:if="${BA4 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA4.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${BA4.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a  class="btn btn-medium btn-black" th:onclick="'addscrap(\'' + ${BA4.num} + '\')'">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/auction/detail(num=${HBA4.num})}" th:text="${HBA4.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${BA4.num})}" th:text="${BA4.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary"  th:text="${HBA4.max + '원'}"></span>
+                                <span class="item-price text-primary"  th:text="${BA4.max + '원'}"></span>
                             </div>
                         </div>
                     </div>
                     <!-- 5번째 사진 -->
-                    <div class="swiper-slide" th:if="${HBA5 !=null}" >
+                    <div class="swiper-slide" th:if="${BA5 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                               <img th:src="@{/all/read-img(img=${HBA5.product.img1})}" alt="product-item" class="img-fluid">
+                               <img th:src="@{/all/read-img(img=${BA5.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a  class="btn btn-medium btn-black" th:onclick="'addscrap(\'' + ${BA5.num} + '\')'">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/auction/detail(num=${HBA5.num})}" th:text="${HBA5.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${BA5.num})}" th:text="${BA5.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary" th:text="${HBA5.max + '원'}" ></span>
+                                <span class="item-price text-primary" th:text="${BA5.max + '원'}" ></span>
                             </div>
                         </div>
                     </div>
@@ -744,107 +688,107 @@
             <div class="display-header d-flex justify-content-between pb-3">
                 <h2 class="display-7 text-dark text-uppercase">Event Auction</h2>
                 <div class="btn-right">
-                    <a href="/all/lista?atype=EVENT" class="btn btn-medium btn-normal text-uppercase">Go to Auction</a>
+                    <a href="/all/list?atype=EVENT" class="btn btn-medium btn-normal text-uppercase">Go to Auction</a>
                 </div>
             </div>
 
             <div class="swiper product-swiper2">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" th:if="${HBA1 !=null}">
+                    <div class="swiper-slide" th:if="${EA1 !=null}">
                         <div class="product-card position-relative" >
                             <!-- 1번째 사진 -->
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid" style="width: 300px; height: 300px">
+                                <img th:src="@{/all/read-img(img=${EA1.product.img1})}" alt="product-item" class="img-fluid" style="width: 300px; height: 300px">
                             </div>
                             <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a  class="btn btn-medium btn-black" th:onclick="'addscrap(\'' + ${EA1.num} + '\')'">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <!-- 사진 밑 제품명 -->
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/auction/detail(num=${HBA1.num})}" th:text="${HBA1.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${EA1.num})}" th:text="${EA1.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary" th:text="${HBA1.max + '원'}"></span>
+                                <span class="item-price text-primary" th:text="${EA1.max + '원'}"></span>
                             </div>
 
                         </div>
                     </div>
                     <!-- 2번째 사진 -->
-                    <div class="swiper-slide" th:if="${HBA2 !=null}">
+                    <div class="swiper-slide" th:if="${EA2 !=null}">
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                               <img th:src="@{/all/read-img(img=${HBA2.product.img1})}" alt="product-item" class="img-fluid">
+                               <img th:src="@{/all/read-img(img=${EA2.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a  class="btn btn-medium btn-black" th:onclick="'addscrap(\'' + ${EA2.num} + '\')'">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/auction/detail(num=${HBA2.num})}" th:text="${HBA2.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${EA2.num})}" th:text="${EA2.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary" th:text="${HBA2.max + '원'}"></span>
+                                <span class="item-price text-primary" th:text="${EA2.max + '원'}"></span>
                             </div>
                         </div>
                     </div>
                     <!-- 3번째 사진 -->
-                    <div class="swiper-slide" th:if="${HBA3 !=null}" >
+                    <div class="swiper-slide" th:if="${EA3 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA3.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${EA3.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a class="btn btn-medium btn-black"  th:onclick="'addscrap(\'' + ${EA3.num} + '\')'" >Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/auction/detail(num=${HBA3.num})}" th:text="${HBA3.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${EA3.num})}" th:text="${EA3.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary" th:text="${HBA3.max + '원'}" ></span>
+                                <span class="item-price text-primary" th:text="${EA3.max + '원'}" ></span>
                             </div>
                         </div>
                     </div>
                     <!-- 4번째 사진 -->
-                    <div class="swiper-slide" th:if="${HBA4 !=null}" >
+                    <div class="swiper-slide" th:if="${EA4 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA4.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${EA4.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a  class="btn btn-medium btn-black" th:onclick="'addscrap(\'' + ${EA4.num} + '\')'">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/auction/detail(num=${HBA4.num})}" th:text="${HBA4.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${EA4.num})}" th:text="${EA4.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary"  th:text="${HBA4.max + '원'}"></span>
+                                <span class="item-price text-primary"  th:text="${EA4.max + '원'}"></span>
                             </div>
                         </div>
                     </div>
                     <!-- 5번째 사진 -->
-                    <div class="swiper-slide" th:if="${HBA5 !=null}" >
+                    <div class="swiper-slide" th:if="${EA5 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                               <img th:src="@{/all/read-img(img=${HBA5.product.img1})}" alt="product-item" class="img-fluid">
+                               <img th:src="@{/all/read-img(img=${EA5.product.img1})}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a class="btn btn-medium btn-black" th:onclick="'addscrap(\'' + ${EA5.num} + '\')'">Add to Scrap<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a th:href="@{/auth/auction/detail(num=${HBA5.num})}" th:text="${HBA5.title}"></a>
+                                    <a th:href="@{/auth/auction/detail(num=${EA5.num})}" th:text="${EA5.title}"></a>
                                 </h3>
-                                <span class="item-price text-primary" th:text="${HBA5.max + '원'}" ></span>
+                                <span class="item-price text-primary" th:text="${EA5.max + '원'}" ></span>
                             </div>
                         </div>
                     </div>
@@ -1045,8 +989,30 @@
             });
         });
 
-
     });
+    function addscrap(val){
+    	let num=parseInt(val)
+      	 $.ajax({
+               url: '/auth/scrap/scrap', // 서버의 요청 처리 주소
+               type: 'POST',
+               contentType: 'application/x-www-form-urlencoded',
+               dataType: 'json',
+               data:{
+           		member:sessionId,
+          	 	auction:num	
+        	},
+               success: function(response) {
+            	   if(response.state==1){
+                   	alert("추가되었습니다");
+            	   }else{
+            		alert("삭제되었습니다");
+            	   }
+               },
+               error: function() {
+                   alert('스크랩실패; 로그인 필요 ');
+               }
+           });
+      }
     function displayNotifications(notifications) {
         let notificationList = $('#notificationList');
         notificationList.empty(); // 기존 목록 지우기

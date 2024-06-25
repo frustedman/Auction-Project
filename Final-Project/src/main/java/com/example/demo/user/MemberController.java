@@ -64,6 +64,28 @@ public class MemberController {
 				break;
 			}
 		}
+		ArrayList<AuctionDto> l2=aservice.getAll();
+		ArrayList<String> list2= new ArrayList<>();
+		for(int i=0;i<l2.size();i++) {
+			if(l2.get(i).getType().equals(Auction.Type.BLIND) && l2.get(i).getStatus().equals("경매중")) {
+				list2.add(null);
+				map.addAttribute("BA"+(list2.size()),l2.get(i));
+			}
+			if(list2.size()>5) {
+				break;
+			}
+		}
+		ArrayList<AuctionDto> l3=aservice.getAll();
+		ArrayList<String> list3= new ArrayList<>();
+		for(int i=0;i<l2.size();i++) {
+			if(l2.get(i).getType().equals(Auction.Type.EVENT) && l3.get(i).getStatus().equals("경매중")) {
+				list3.add(null);
+				map.addAttribute("EA"+(list3.size()),l3.get(i));
+			}
+			if(list3.size()>5) {
+				break;
+			}
+		}
 		return "index";
 	}
 
@@ -154,12 +176,17 @@ public class MemberController {
 	public String pointform(String id, ModelMap map) {
 		MemberDto m = service.getUser(id);
 		map.addAttribute("member", m);
+		if(m.getCardnum() == null) {
+			map.addAttribute("flag",true);
+			return "member/card";
+		}
 		return "member/point";
 	}
 
 	@PostMapping("/auth/member/point")
 	public String point(String id, String point, String customPoint, ModelMap map) {
 		MemberDto m = service.getUser(id);
+		
 		//point가 한글일때 숫자가 아닐때 오류처리
 		if(point.equals("custom")){
 			m.setPoint(m.getPoint() + Integer.parseInt(customPoint));

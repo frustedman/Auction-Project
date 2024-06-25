@@ -49,7 +49,7 @@ public class AuctionService {
 
 	// 전체목록
 	public ArrayList<AuctionDto> getAll() {
-		List<Auction> l = dao.findAll();
+		List<Auction> l = dao.findAllByOrderByNumDesc();
 		ArrayList<AuctionDto> list = new ArrayList<>();
 		for (Auction a : l) {
 			list.add(AuctionDto.create(a));
@@ -106,7 +106,7 @@ public class AuctionService {
 
 	// 상태로 찾기
 	public ArrayList<AuctionDto> getByStatus(String status) {
-		List<Auction> l = dao.findByStatus(status);
+		List<Auction> l = dao.findByStatusOrderByNumDesc(status);
 		ArrayList<AuctionDto> list = new ArrayList<>();
 		for (Auction a : l) {
 			list.add(AuctionDto.create(a));
