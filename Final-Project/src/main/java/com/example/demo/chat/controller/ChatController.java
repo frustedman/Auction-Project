@@ -6,12 +6,15 @@ import com.example.demo.chat.domain.ChatMessagePublisher;
 import com.example.demo.chat.domain.ChatRoom;
 import com.example.demo.chat.repository.RedisMessageRepository;
 import com.example.demo.chat.service.ChatRoomService;
+import com.example.demo.notification.Notification;
+import com.example.demo.notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +36,8 @@ public class ChatController {
     private final ChatRoomService chatRoomService;
     private final RedisMessageRepository redisMessageRepository;
     private final AuctionService auctionService;
+    private final NotificationRepository notificationRepository;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @GetMapping("/load")
     @ResponseBody
@@ -87,9 +92,15 @@ public class ChatController {
     public ChatMessage sendMessage(@DestinationVariable String roomId, @Payload ChatMessage message) {
         message.setRoomId(roomId);
         message.updateTimestamp();
+
         boolean check = chatRoomService.check(roomId);
         if (check){
             message.setRead(true);
+        }else {
+            String s = chatRoomService.noticeReceiver(message.getSender(), message.getRoomId());
+            Notification notification = Notification.create(s, chatRoomService.getChatroom(roomId).getName(), message.getContent());
+            notificationRepository.save(notification);
+            simpMessagingTemplate.convertAndSend("/sub/notice/list/"+s, notificationRepository.findByName(s));
         }
         chatRoomService.updateChatroom(roomId);
 //        if(chatRoomService.getChatroom(roomId)) {
