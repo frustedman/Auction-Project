@@ -370,9 +370,13 @@
 
 <div class="wrapper">
     <div class="container">
+        <form action="/auth/member/edit" method="get">
+            <input type="hidden" name="id" th:value="${session.loginId}" />
+            <h1 style="margin-top:100px; margin-bottom: 15px">My Page</h1>
+            <button type="submit" class="custom-button">내 정보</button>
+        </form>
         <form th:action="@{/auth/prod/add}" method="get">
             <input type="hidden" name="seller" th:value="${session.loginId}" />
-            <h1 style="margin-top:100px; margin-bottom: 15px">My Page</h1>
             <button type="submit" class="custom-button">상품 등록</button>
         </form>
         <form action="/auth/prod/myprod" method="get">

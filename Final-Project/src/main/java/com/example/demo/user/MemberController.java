@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import com.example.demo.card.CardService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
@@ -32,6 +34,7 @@ public class MemberController {
 	private CardService cservice;
 	@Autowired
 	private AuctionService aservice;
+
 
 	@GetMapping("/join")
 	public String joinForm() {
@@ -86,6 +89,17 @@ public class MemberController {
 				break;
 			}
 		}
+		ArrayList<AuctionDto> l4 = aservice.getAll();
+		ArrayList<String> list4= new ArrayList<>();
+		for(int i=0;i<l4.size();i++) {
+			if(l4.get(i).getStatus().equals("경매중")) {
+				list4.add(null);
+				map.addAttribute("LA"+(list4.size()),l4.get(i));
+			}
+			if(list4.size()>5) {
+				break;
+			}
+		}
 		return "index";
 	}
 
@@ -121,16 +135,21 @@ public class MemberController {
 	}
 
 	@GetMapping("/auth/member/edit")
-	public String editform(String id, ModelMap map) {
+	public ModelAndView editform(String id) {
 		MemberDto m = service.getUser(id);
-		map.addAttribute("m", m);
-		return "member/edit";
+		ModelAndView mav = new ModelAndView("member/edit");
+		mav.addObject("m", m);
+		return mav;
 	}
 
 	@PostMapping("/auth/member/edit")
 	public String edit(MemberDto m) {
-		service.edit(m);
-		return "redirect:/auth/member/list";
+		MemberDto d = service.getUser(m.getId());
+		d.setName(m.getName());
+		d.setEmail(m.getEmail());
+		d.setPwd(m.getPwd());
+		service.save(d);
+		return "/index_member";
 	}
 
 	@GetMapping("/auth/member/card")

@@ -392,7 +392,7 @@
                         <div class="product-card position-relative" >
                             <!-- 1번째 사진 -->
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA1.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <!-- 사진에 마우스 올리면 장바구니로 이동 버튼 뜨는 부분 -->
                             <div class="cart-concern position-absolute">
@@ -414,7 +414,7 @@
                     <div class="swiper-slide" th:if="${HBA2 !=null}">
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA2.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA2.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -433,7 +433,7 @@
                     <div class="swiper-slide" th:if="${HBA3 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA3.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA3.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -452,7 +452,7 @@
                     <div class="swiper-slide" th:if="${HBA4 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA4.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA4.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -471,7 +471,7 @@
                     <div class="swiper-slide" th:if="${HBA5 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${HBA5.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${HBA5.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -495,62 +495,62 @@
     <div class="swiper-pagination position-absolute text-center"></div>
 </section>
 
-<!-- lastest posts, 최근 게시물 
+<!-- lastest posts, 최근 게시물 -->
 <section id="latest-blog" class="padding-large">
     <div class="container">
         <div class="row">
             <div class="display-header d-flex justify-content-between pb-3">
-                <h2 class="display-7 text-dark text-uppercase">Latest Posts</h2>
+                <h2 class="display-7 text-dark text-uppercase">Latest Auction</h2>
                 <div class="btn-right">
                     <a href="/all/list" class="btn btn-medium btn-normal text-uppercase">Go to Auction</a>
                 </div>
             </div>
             <div class="post-grid d-flex flex-wrap justify-content-between">
-                <div class="col-lg-4 col-sm-12">
+                <div class="col-lg-4 col-sm-12" th:if="${LA1 !=null}">
                     <div class="card border-none me-3">
                         <div class="card-image">
-                            <img src="/images/post-item1.jpg" alt="" class="img-fluid">
+                            <img th:src="@{/all/read-img(img=${LA1.product.img1})}" alt="product-item" class="img-fluid custom-img" style="height: 300px; width: 414px">
                         </div>
                     </div>
                     <div class="card-body text-uppercase">
                         <div class="card-meta text-muted">
-                            <span class="meta-date">경매 시작 시간</span>
-                            <span class="meta-category">- 카테고리</span>
+                            <span class="meta-date" th:text="${'시작 시간 : ' + LA1.start_time}"></span><br>
+                            <span class="meta-category" th:text="${'카테고리 : ' + LA1.product.categories}">- 카테고리</span>
                         </div>
                         <h3 class="card-title">
-                            <a href="#">경매 타이틀</a>
+                            <a th:href="@{/auth/auction/detail(num=${LA1.num})}" th:text="${LA1.title}"></a>
                         </h3>
                     </div>
                 </div>
-                <div class="col-lg-4 col-sm-12">
+                <div class="col-lg-4 col-sm-12" th:if="${LA2 !=null}">
                     <div class="card border-none me-3">
                         <div class="card-image">
-                            <img src="/images/post-item2.jpg" alt="" class="img-fluid">
+                            <img th:src="@{/all/read-img(img=${LA2.product.img1})}" alt="product-item" class="img-fluid custom-img" style="height: 300px; width: 414px">
                         </div>
                     </div>
                     <div class="card-body text-uppercase">
                         <div class="card-meta text-muted">
-                            <span class="meta-date">feb 25, 2023</span>
-                            <span class="meta-category">- Technology</span>
+                            <span class="meta-date" th:text="${'시작 시간 : ' + LA2.start_time}"></span>
+                            <span class="meta-category" th:text="${'카테고리 : ' + LA2.product.categories}"></span>
                         </div>
                         <h3 class="card-title">
-                            <a href="#">Technology Hack You Won't Get</a>
+                            <a th:href="@{/auth/auction/detail(num=${LA2.num})}" th:text="${LA2.title}"></a>
                         </h3>
                     </div>
                 </div>
-                <div class="col-lg-4 col-sm-12">
+                <div class="col-lg-4 col-sm-12" th:if="${LA3 !=null}">
                     <div class="card border-none me-3">
                         <div class="card-image">
-                            <img src="/images/post-item3.jpg" alt="" class="img-fluid">
+                            <img th:src="@{/all/read-img(img=${LA3.product.img1})}" alt="product-item" class="img-fluid custom-img" style="height: 300px; width: 414px">
                         </div>
                     </div>
                     <div class="card-body text-uppercase">
                         <div class="card-meta text-muted">
-                            <span class="meta-date">feb 22, 2023</span>
-                            <span class="meta-category">- Camera</span>
+                            <span class="meta-date" th:text="${'시작 시간 : ' + LA3.start_time}"></span>
+                            <span class="meta-category" th:text="${'카테고리 : ' + LA3.product.categories}"></span>
                         </div>
                         <h3 class="card-title">
-                            <a href="#">Top 10 Small Camera In The World</a>
+                            <a th:href="@{/auth/auction/detail(num=${LA3.num})}" th:text="${LA3.title}"></a>
                         </h3>
                     </div>
                 </div>
@@ -558,7 +558,7 @@
         </div>
     </div>
 </section>
--->
+
 
 <section id="mobile-products1" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
@@ -599,7 +599,7 @@
                     <div class="swiper-slide" th:if="${BA2 !=null}">
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                               <img th:src="@{/all/read-img(img=${BA2.product.img1})}" alt="product-item" class="img-fluid">
+                               <img th:src="@{/all/read-img(img=${BA2.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -618,7 +618,7 @@
                     <div class="swiper-slide" th:if="${BA3 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${BA3.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${BA3.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -637,7 +637,7 @@
                     <div class="swiper-slide" th:if="${BA4 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${BA4.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${BA4.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -656,7 +656,7 @@
                     <div class="swiper-slide" th:if="${BA5 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                               <img th:src="@{/all/read-img(img=${BA5.product.img1})}" alt="product-item" class="img-fluid">
+                               <img th:src="@{/all/read-img(img=${BA5.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -720,7 +720,7 @@
                     <div class="swiper-slide" th:if="${EA2 !=null}">
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                               <img th:src="@{/all/read-img(img=${EA2.product.img1})}" alt="product-item" class="img-fluid">
+                               <img th:src="@{/all/read-img(img=${EA2.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -739,7 +739,7 @@
                     <div class="swiper-slide" th:if="${EA3 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${EA3.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${EA3.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -758,7 +758,7 @@
                     <div class="swiper-slide" th:if="${EA4 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img th:src="@{/all/read-img(img=${EA4.product.img1})}" alt="product-item" class="img-fluid">
+                                <img th:src="@{/all/read-img(img=${EA4.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
@@ -777,7 +777,7 @@
                     <div class="swiper-slide" th:if="${EA5 !=null}" >
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                               <img th:src="@{/all/read-img(img=${EA5.product.img1})}" alt="product-item" class="img-fluid">
+                               <img th:src="@{/all/read-img(img=${EA5.product.img1})}" alt="product-item" class="img-fluid" style="height: 300px; width: 300px">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
