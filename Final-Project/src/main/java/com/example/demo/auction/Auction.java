@@ -37,7 +37,6 @@ public class Auction {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member seller;
 
     private int min;

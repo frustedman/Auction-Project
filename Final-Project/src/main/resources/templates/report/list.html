@@ -112,7 +112,7 @@
 
 <div class="search-popup">
     <div class="search-popup-container">
-
+<input id="sessionId" type="hidden" th:value="${session.loginId}">
         <form role="search" method="post" class="search-form" action="/all/getbyprodname">
             <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value="" name="prodname" />
             <button type="submit" class="search-submit"><svg class="search"><use xlink:href="#search"></use></svg></button>
@@ -487,8 +487,10 @@
         });
     }
 </script>
-<script src="/notice.js"> </script>
-<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="/notice.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="/js/plugins.js"></script>

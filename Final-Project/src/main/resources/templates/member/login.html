@@ -242,6 +242,7 @@
                         </div>
                     </div>
                     <span>or use your account</span>
+                    <small style="color: red; display: block;" th:if="${session.msg != null}" >로그인 실패</small>
                     <input type="text" name="id" placeholder="Id">
                     <input type="password" name="pwd" placeholder="Password">
                     <button class="form_btn" type="submit" value="로그인">Sign In</button>

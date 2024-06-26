@@ -73,7 +73,7 @@ public class AuctionService {
 	
 	// 판매자로 찾기
 	public ArrayList<AuctionDto> getBySeller(String seller) {
-		List<Auction> l = dao.findBySeller(new Member(seller, "", "", "", null, 0, "", 0, ""));
+		List<Auction> l = dao.findBySellerOrderByNumDesc(new Member(seller, "", "", "", null, 0, "", 0, ""));
 		ArrayList<AuctionDto> list = new ArrayList<>();
 		for (Auction a : l) {
 			list.add(AuctionDto.create(a));

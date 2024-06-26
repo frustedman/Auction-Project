@@ -38,7 +38,8 @@ public class AuctionScheduler {
 	private final MemberService mservice;
 
 
-	@Scheduled(cron = "0 0/5 * * * *") // 매 5분에 실행
+//	@Scheduled(cron = "0 0/1 * * * *") // 매 1분에 실행
+	@Scheduled(fixedRate = 10000)
 	public void setStatus() {
 		Date date = new Date();
 		ArrayList<AuctionDto> list = service.getByStatus("경매중");
@@ -47,11 +48,8 @@ public class AuctionScheduler {
 				auction.setStatus("경매 마감");
 				Member seller = auction.getSeller();
 				Notification notification = Notification.create(auction.getSeller().getId(), auction.getTitle(), "경매 마감되었습니다✅");
-				Notification mino = Notification.create(auction.getMino().getId(), auction.getTitle(),"입찰되었습니다!");
 				notificationRepository.save(notification);
-				notificationRepository.save(mino);
 				messagingTemplate.convertAndSend("/sub/notice/list/"+auction.getSeller().getId(), notificationRepository.findByName(auction.getSeller().getId()));
-				messagingTemplate.convertAndSend("/sub/notice/list/"+auction.getMino().getId(), notificationRepository.findByName(auction.getMino().getId()));
 				log.debug("notification={}", notification);
 				try {
 					BidDto byBuyer = bidService.getByBuyer(auction.getNum());
@@ -96,6 +94,9 @@ public class AuctionScheduler {
 						byBuyer.setBuyer(winner);
 					}
 					auction.setMino(byBuyer.getBuyer());
+					Notification mino = Notification.create(auction.getMino().getId(), auction.getTitle(),"입찰되었습니다!");
+					notificationRepository.save(mino);
+					messagingTemplate.convertAndSend("/sub/notice/list/"+auction.getMino().getId(), notificationRepository.findByName(auction.getMino().getId()));
 					seller.setPoint(seller.getPoint() + auction.getMax());
 					mservice.edit(MemberDto.create(seller));
 					log.debug("byBuyer:{}", byBuyer);
