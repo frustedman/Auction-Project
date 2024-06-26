@@ -954,9 +954,9 @@
         stompClient.connect({}, function (frame) {
             console.log("frame:"+frame)
             stompClient.subscribe("/sub/notice/list/"+sessionId,function(message) {
-                displayNotifications(message)
-                console.log("Wlahrl")
-                console.log("sessionId : "+sessionId)
+                // displayNotifications(message)
+                // console.log("Wlahrl")
+                // console.log("sessionId : "+sessionId)
                 $.ajax({
                     url: '/auth/notifications', // 서버의 요청 처리 주소
                     type: 'GET',

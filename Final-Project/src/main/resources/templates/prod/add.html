@@ -204,6 +204,11 @@
                         <li class="nav-item" th:if="${session.loginId != null}">
                             <a class="nav-link me-4" href="/auth/logout">Logout</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a id="bell" class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">🔔</a>
+                            <ul class="dropdown-menu" id="notificationList">
+                            </ul>
+                        </li>
                         <li class="nav-item">
                             <div class="user-items ps-5">
                                 <ul class="d-flex justify-content-end list-unstyled">
@@ -499,7 +504,7 @@
         });
     });
 </script>
-
+<script src="/notice.js"></script>
 <script src="/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>

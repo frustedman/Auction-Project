@@ -48,8 +48,11 @@ public class AuctionScheduler {
 				auction.setStatus("경매 마감");
 				Member seller = auction.getSeller();
 				Notification notification = Notification.create(auction.getSeller().getId(), auction.getTitle(), "경매 마감되었습니다✅");
+				Notification mino = Notification.create(auction.getMino().getId(), auction.getTitle(),"입찰되었습니다!");
 				notificationRepository.save(notification);
+				notificationRepository.save(mino);
 				messagingTemplate.convertAndSend("/sub/notice/list/"+auction.getSeller().getId(), notificationRepository.findByName(auction.getSeller().getId()));
+				messagingTemplate.convertAndSend("/sub/notice/list/"+auction.getMino().getId(), notificationRepository.findByName(auction.getMino().getId()));
 				log.debug("notification={}", notification);
 				try {
 					BidDto byBuyer = bidService.getByBuyer(auction.getNum());
