@@ -54,7 +54,7 @@ public class DataroomController {
         return "redirect:/all/qalist";
     }
 
-    @GetMapping("/detail")
+    @RequestMapping("/detail")
     public String detail(int num, ModelMap map){
         DataroomDto dto = service.get(num);
         map.addAttribute("dataroom", dto);

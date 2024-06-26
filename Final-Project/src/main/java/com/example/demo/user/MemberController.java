@@ -43,13 +43,15 @@ public class MemberController {
 	
 	@PostMapping("/join")
 	public String join(MemberDto u) {
+		
 		service.save(u);
 		return "redirect:/";
 	}
 	
 	@GetMapping("/loginform")
-	public String loginForm(String path,ModelMap map,HttpSession session) {
+	public String loginForm(String path,ModelMap map,HttpSession session,String msg) {
 		map.addAttribute("path",path);
+		map.addAttribute("msg",msg);
 		return "member/login";
 	}
 
@@ -160,8 +162,11 @@ public class MemberController {
 		MemberDto d = service.getUser(m.getId());
 		d.setName(m.getName());
 		d.setEmail(m.getEmail());
-		d.setPwd(m.getPwd());
-		service.save(d);
+		if(!m.getPwd().isEmpty()) {
+			service.save(d);
+			return "/index_member";
+		}
+		service.edit(d);
 		return "/index_member";
 	}
 

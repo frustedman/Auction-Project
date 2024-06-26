@@ -38,7 +38,8 @@ public class AuctionScheduler {
 	private final MemberService mservice;
 
 
-	@Scheduled(cron = "0 0/5 * * * *") // 매 5분에 실행
+//	@Scheduled(cron = "0 0/1 * * * *") // 매 1분에 실행
+	@Scheduled(fixedRate = 10000)
 	public void setStatus() {
 		Date date = new Date();
 		ArrayList<AuctionDto> list = service.getByStatus("경매중");
