@@ -1,18 +1,18 @@
-    let stompClient = null;
-    let sessionId = document.getElementById("sessionId").value
-    function connect() {
-    let socket = new SockJS('/ws');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
+    let stompClient1 = null;
+    let sessionId1 = document.getElementById("sessionId").value
+    function connect1() {
+    let socket1 = new SockJS('/ws');
+    stompClient1 = Stomp.over(socket1);
+    stompClient1.connect({}, function (frame) {
     console.log("frame:"+frame)
-    stompClient.subscribe("/sub/notice/list/"+sessionId,function(message) {
+    stompClient1.subscribe("/sub/notice/list/"+sessionId1,function(message) {
     // displayNotifications(message)
     // console.log("Wlahrl")
     // console.log("sessionId : "+sessionId)
     $.ajax({
     url: '/auth/notifications', // 서버의 요청 처리 주소
     type: 'GET',
-    data:{member:sessionId},
+    data:{member:sessionId1},
     success: function(data) {
     console.log(data)
     displayNotifications(data); // 성공적으로 데이터를 받으면 화면에 표시
@@ -30,7 +30,7 @@
         $.ajax({
             url: '/auth/notifications', // 서버의 요청 처리 주소
             type: 'GET',
-            data:{member:sessionId},
+            data:{member:sessionId1},
             success: function(data) {
                 console.log(data)
                 displayNotifications(data); // 성공적으로 데이터를 받으면 화면에 표시
@@ -50,7 +50,7 @@
     contentType: 'application/x-www-form-urlencoded',
     dataType: 'json',
     data:{
-    member:sessionId,
+    member:sessionId1,
     auction:num
 },
     success: function(response) {
@@ -78,9 +78,9 @@
     notificationList.append(listItem);
 });
 }
-    if (sessionId!==null){
+    if (sessionId1!==null){
     console.log("rlahWl")
-    connect()
-    console.log(sessionId)
+    connect1()
+    console.log(sessionId1)
 
 }

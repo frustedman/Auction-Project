@@ -251,7 +251,7 @@
 <header id="header" class="site-header header-scrolled position-fixed text-black bg-light">
   <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
     <div class="container-fluid">
-
+<input id="sessionId" type="hidden" th:value="${session.loginId}">
       <a class="navbar-brand" href="/">
         <img src="/images/logo1.png" class="logo" style="height: 75px; width: 250px; margin-top: 3px; margin-bottom: 1px">
       </a>
@@ -612,8 +612,10 @@
       event.target.value = input.replace(/[^0-9]/g, '');
     }
   </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="/notice.js"></script>
-<script src="/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="/js/plugins.js"></script>
