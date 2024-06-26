@@ -921,6 +921,57 @@
                 .text-right {
                     text-align: right;
                 }
+                .img{
+                    width: auto;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    transition: 0.3s;
+                }
+                /* 이미지 클릭 시, 밝기 조절 */
+                .img:hover {opacity: 0.8;}
+
+                .modal {
+                    display: none; /* 모달창 숨겨 놓기 */
+                    position: fixed;
+                    z-index: 1; /* 모달창을 제일 앞에 두기 */
+                    padding-top: 100px;
+                    left: 0; top: 0;
+                    width: 50%; height: 100%;
+                    overflow: auto; /* 스크롤 허용 auto */
+                    cursor: pointer; /* 마우스 손가락모양 */
+                    background-color: rgba(0, 0, 0, 0.8);
+                }
+                /* 모달창 이미지 */
+                .modal_content {
+                    margin: auto;
+                    display: block;
+                    width: 50%;
+                    /*height: auto;*/
+                    max-width: 10px;
+                    border-radius: 10px;
+                    animation-name: zoom;
+                    animation-duration: 0.8s;
+                }
+                /* 모달창 애니메이션 추가 */
+                @keyframes zoom {
+                    from {transform: scale(0)}
+                    to {transform: scale(1)}
+                }
+                /* 닫기 버튼 꾸미기 */
+                .close {
+                    position: absolute;
+                    top: 15px;
+                    right: 35px;
+                    color: #f1f1f1;
+                    font-size: 40px;
+                    font-weight: bold;
+                    transition: 0.3s;
+                }
+                .close:hover, .close:focus{
+                    color: #bbb;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
             </style>
             <title>Chat Room</title>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -944,6 +995,9 @@
                         <!-- Messages will be loaded here -->
                     </div>
                 </div>
+                <div class="modal">
+                    <span class="close">&times;</span>
+                </div>
                 <div id="messageInputContainer">
                     <button id="plusButton">+</button>
                     <input type="hidden" th:value="${seller}" id="seller">
@@ -957,6 +1011,10 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+            <div id="imageModal" class="modal">
+                <span class="close">&times;</span>
+                <img class="modal-content" id="imgModal">
             </div>
             <!-- 모달 HTML -->
             <div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
@@ -991,7 +1049,6 @@
                 </div>
             </div>
         </div>
-
         <script>
             let stompClient = null;
             let roomId = document.getElementById("room-id").innerText;
@@ -1010,6 +1067,7 @@
             function openChatRoom(newRoomId) {
                 if (currentSubscription !== null) {
                     currentSubscription.unsubscribe();
+                    out()
                 }
                 $.ajax({
                     url: "/auth/rooms/enter/"+newRoomId,
@@ -1118,10 +1176,10 @@
                         messageElement.addClass('sender')
                             .append('<span id="read_' + message.id + '"></span>')
                             .append('<span id="time">' + message.timestamp + '</span>')
-                            .append('<span id="image"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>');
+                            .append('<span id="image"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;" class="img" onclick="openImageModal(\'' + message.content + '\')"></span>')
                     } else {
                         messageElement.addClass('recipient')
-                            .append('<span id="receiver"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;"></span>')
+                            .append('<span id="image"><img src="' + message.content + '" style="max-width: 100px; max-height: 100px;" class="img" onclick="openImageModal(\'' + message.content + '\')"></span>')
                             .append('<span id="time">' + message.timestamp + '</span>')
                             .append('<span id="read_' + message.id + '"></span>');
                     }
@@ -1316,56 +1374,6 @@
                 $("#menu").toggle();
             });
 
-            // $("#checkDelivery").click(function () {
-            //     $("#menu").hide();
-            //     let fdata = new FormData($('#addDeliveryForm')[0]);
-            //     $.ajax({
-            //         url: '/auth/delivery/check',
-            //         type: 'POST',
-            //         data: fdata,
-            //         contentType: false,
-            //         processData: false,
-            //         dataType: 'json',
-            //         success: function (res) {
-            //             if(res.dto!=null) {
-            //                 let form = $('<form>', {
-            //                     'action': 'https://info.sweettracker.co.kr/tracking/5',
-            //                     'method': 'POST'
-            //                 });
-            //
-            //                 // t_key 입력 필드 추가
-            //                 $('<input>').attr({
-            //                     'type': 'hidden',
-            //                     'name': 't_key',
-            //                     'value': res.dto.t_key  // 이미 제공된 API key를 사용
-            //                 }).appendTo(form);
-            //
-            //                 // t_code 입력 필드 추가
-            //                 $('<input>').attr({
-            //                     'type': 'hidden',
-            //                     'name': 't_code',
-            //                     'value': res.dto.t_code
-            //                 }).appendTo(form);
-            //
-            //                 // t_invoice 입력 필드 추가
-            //                 $('<input>').attr({
-            //                     'type': 'hidden',
-            //                     'name': 't_invoice',
-            //                     'value': res.dto.t_invoice
-            //                 }).appendTo(form);
-            //
-            //                 // 폼을 body에 추가하고 제출
-            //                 form.appendTo('body').submit();
-            //             }
-            //             else{
-            //                 alert('운송장이 등록되지 않았습니다.')
-            //             }
-            //         },
-            //         error: function (error) {
-            //             alert('운송장이 등록되지 않았습니다.')
-            //         }
-            //     });
-            // });
             $(document).on('click', '#addDelivery', function () {
                 let fdata = new FormData($('#addDeliveryForm')[0]);
                 $.ajax({
@@ -1465,7 +1473,25 @@
                     }
                 });
             }
+            function openImageModal(imageUrl) {
+                let modal = document.getElementById('imageModal');
+                let modalImg = document.getElementById("imgModal");
+                modal.style.display = "block";
+                modalImg.src = imageUrl;
+            }
 
+            // Close the image modal when the close button is clicked
+            document.querySelector("#imageModal .close").addEventListener("click", function() {
+                document.getElementById('imageModal').style.display = "none";
+            });
+
+            // Close the image modal when clicking outside the modal content
+            window.onclick = function(event) {
+                let modal = document.getElementById('imageModal');
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            };
         </script>
         </body>
         </html>
