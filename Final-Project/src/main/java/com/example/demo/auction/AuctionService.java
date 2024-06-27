@@ -17,9 +17,7 @@ public class AuctionService {
 	private AuctionDao dao;
 
 	public void save(AuctionDto dto) {
-		System.out.println(Auction.create(dto));
 		dao.save(Auction.create(dto));
-
 	}
 
 	// end 타임 설정
@@ -60,7 +58,7 @@ public class AuctionService {
 
 	// 전체목록
 		public ArrayList<AuctionDto> getAllByBids(String status) {
-			List<Auction> l = dao.findByStatusOrderByBidcountDesc(status);
+			List<Auction> l = dao.findByStatusOrderByBcntDesc(status);
 			ArrayList<AuctionDto> list = new ArrayList<>();
 			for (Auction a : l) {
 				list.add(AuctionDto.create(a));

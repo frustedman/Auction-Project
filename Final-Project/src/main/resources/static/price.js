@@ -11,7 +11,11 @@ stompClient.onConnect = (frame) => {
     stompClient.subscribe('/sub/bid', (max) => {
 		let response=JSON.parse(max.body);
 		if(response.parent == $('#num').val()){
+			alert(response)
 			if(response.msg != null ){
+				if(response.mino != null){
+					window.location.href = '/auth/auction/event?mino='+response.mino;
+				}
 				disconnect();
 				flag=false;
 				return;
@@ -56,12 +60,15 @@ function sendPrice() {
 	let price = parseInt($('#price').val());
 	let max=parseInt($('#max').text());
 	let point=parseInt($('#point').val());
+	let type=$('type').val();
 	if(point < price){
 		alert("포인트가 모자랍니다.")
 	}
-	if(isNaN(price) || price <= max ){
-		alert("최금 낮")
-		return
+	if(type == "NORMAL"){
+		if(isNaN(price) || price <= max ){
+			alert("최금 낮")
+			return
+		}
 	}
 	let parent = $('#num').val();
 	let buyer = $("#buyer").val();

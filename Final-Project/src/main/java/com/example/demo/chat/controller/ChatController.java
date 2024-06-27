@@ -139,6 +139,12 @@ public class ChatController {
     public Map<String,Object> lastMessage(String roomId) {
         log.debug("roomId={}", roomId);
         Set<Object> lastMessage = redisMessageRepository.getLastMessage(roomId);
+        for (Object o : lastMessage) {
+            ChatMessage chatMessage = (ChatMessage) o;
+            if (chatMessage.getContent().length()>8){
+                chatMessage.setContent(chatMessage.getContent().substring(0,8)+"...");
+            }
+        }
         log.info("lastMessage={}", lastMessage);
         Map<String, Object> content = new HashMap<>();
         content.put("content",lastMessage);
