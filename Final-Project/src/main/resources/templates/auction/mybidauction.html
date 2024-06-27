@@ -277,6 +277,7 @@
         <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">상품</h4>
         <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">제목</h4>
         <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">카테고리</h4>
+        <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">입찰 포인트</h4>
         <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">현재가</h4>
         <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">유형</h4>
         <h4 style="flex:1; margin-bottom: 0; font-weight: lighter; text-align: center;">종료시간</h4>
@@ -300,6 +301,7 @@
             </a>
 
             <h4 th:text="${p.parent.product.categories}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
+            <h4 th:text="${p.price}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
             <h4 th:text="${p.parent.max}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
             <h4 th:text="${p.parent.type}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
             <h4 th:text="${p.parent.end_time}" style="flex: 1; margin-bottom: 0; font-weight: lighter; text-align: center;"></h4>
