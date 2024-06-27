@@ -159,6 +159,13 @@ public class AuctionController {
 		return "auction/myauction";
 	}
 
+	@GetMapping("/mybidauction")
+	public String mybidauction(ModelMap map,HttpSession session) {
+		String buyer = (String) session.getAttribute("loginId");
+		map.addAttribute("list", bservice.getByBuyer2(buyer));
+		return "auction/mybidauction";
+	}
+
 	@GetMapping("/stop")
 	public String stop(int num){
 		AuctionDto auction=aservice.get(num);
