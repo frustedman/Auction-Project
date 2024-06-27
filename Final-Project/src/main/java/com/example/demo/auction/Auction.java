@@ -17,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.Builder;
@@ -58,9 +59,9 @@ public class Auction {
     private String content;
     private String title;
     private int time;
-    @Column(columnDefinition = "INT DEFAULT 0", insertable = false, updatable = false)
-    private int bidcount;
-    @OneToOne
+    @Column(columnDefinition = "INT DEFAULT 0")
+    private int bcnt;
+    @ManyToOne
     private Member mino;
     
     public enum Type {
@@ -81,14 +82,14 @@ public class Auction {
     			.content(dto.getContent())
     			.title(dto.getTitle())
     			.time(dto.getTime())
-    			.bidcount(dto.getBidcount())
+    			.bcnt(dto.getBcnt())
     			.mino(dto.getMino())
     			.build();
     }
 
     @Builder
 	public Auction(int num, Member seller, int min, int max, Product product, String status, Date start_time, Date end_time,
-                   Type type,String content,String title,int time,int bidcount,Member mino) {
+                   Type type,String content,String title,int time,int bcnt,Member mino) {
 		this.num = num;
 		this.seller = seller;
 		this.min = min;
@@ -101,7 +102,7 @@ public class Auction {
 		this.content=content;	
 		this.title=title;
 		this.time=time;
-		this.bidcount=bidcount;
+		this.bcnt=bcnt;
 		this.mino=mino;
     }
     public Auction(int num) {

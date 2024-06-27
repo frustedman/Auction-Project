@@ -31,6 +31,8 @@
     position: relative;
     text-align: center;
     z-index: 1;
+    opacity: 0; /* 초기에는 투명하게 설정 */
+    animation: fadeIn 1s 4s forwards; /* 4초 후에 서서히 나타나기 */
   }
 
   .winner-name {
@@ -41,12 +43,14 @@
   }
 
   /* 애니메이션 효과 */
-  @keyframes rotate {
+  @keyframes firework {
     0% {
-      transform: rotate(0deg);
+      transform: scale(1);
+      opacity: 1;
     }
     100% {
-      transform: rotate(360deg);
+      transform: scale(2);
+      opacity: 0;
     }
   }
 
@@ -62,25 +66,50 @@
 </head>
 <body>
   <div class="svg-container">
-    <!-- SVG 그래픽 애니메이션 -->
-    <svg width="100%" height="100%" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="250" cy="250" r="100" fill="none" stroke="#00bcd4" stroke-width="5" stroke-dasharray="314" stroke-dashoffset="314" style="animation: drawCircle 3s ease-out forwards;"></circle>
-      <text x="50%" y="50%" text-anchor="middle" font-size="32" fill="#00bcd4" dy=".3em" style="opacity: 0; animation: fadeIn 2s 1s forwards;">축하합니다!</text>
+    <!-- 폭죽 애니메이션 -->
+    <svg class="firework" width="100%" height="100%" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="250" cy="250" r="10" fill="#ff5722">
+        <animate attributeName="r" from="10" to="200" dur="1s" begin="0s" fill="freeze" />
+        <animate attributeName="opacity" from="1" to="0" dur="1s" begin="0s" fill="freeze" />
+      </circle>
+      <circle cx="250" cy="250" r="10" fill="#ffeb3b">
+        <animate attributeName="r" from="10" to="180" dur="1.2s" begin="0.2s" fill="freeze" />
+        <animate attributeName="opacity" from="1" to="0" dur="1.2s" begin="0.2s" fill="freeze" />
+      </circle>
+      <circle cx="250" cy="250" r="10" fill="#4caf50">
+        <animate attributeName="r" from="10" to="160" dur="1.4s" begin="0.4s" fill="freeze" />
+        <animate attributeName="opacity" from="1" to="0" dur="1.4s" begin="0.4s" fill="freeze" />
+      </circle>
+      <circle cx="250" cy="250" r="10" fill="#2196f3">
+        <animate attributeName="r" from="10" to="140" dur="1.6s" begin="0.6s" fill="freeze" />
+        <animate attributeName="opacity" from="1" to="0" dur="1.6s" begin="0.6s" fill="freeze" />
+      </circle>
+      <circle cx="250" cy="250" r="10" fill="#9c27b0">
+        <animate attributeName="r" from="10" to="120" dur="1.8s" begin="0.8s" fill="freeze" />
+        <animate attributeName="opacity" from="1" to="0" dur="1.8s" begin="0.8s" fill="freeze" />
+      </circle>
     </svg>
   </div>
 
   <!-- 당첨자 이름 -->
   <div class="winner-container">
-    <div class="winner-name" id="winnerName">John Doe</div>
+  <input type="hidden" th:value="${mino}" id="mino">
+    <div class="winner-name" id="winnerName" ></div>
+  </div>
+
+  <!-- 축하 메시지 -->
+  <div class="winner-container">
+    <div class="winner-name">축하합니다!</div>
   </div>
 
   <script>
     // JavaScript를 사용하여 당첨자 이름을 동적으로 설정합니다.
-    var winnerName = "John Doe"; // 실제 당첨자 이름
-
+    var winnerName = document.getElementById("mino").value; // 실제 당첨자 이름
+	var msg=winnerName+" 님 ";
     // winnerName을 표시할 요소에 설정합니다.
     var winnerNameElement = document.getElementById("winnerName");
-    winnerNameElement.textContent = winnerName;
+    winnerNameElement.textContent = msg;
   </script>
 </body>
 </html>
+

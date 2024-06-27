@@ -49,11 +49,20 @@ public class AuctionController {
 		map.addAttribute("prod", prod);
 		return "/auction/add";
 	}
+	@GetMapping("/event")
+	public String eventform(String mino,ModelMap map) {
+		System.out.println(mino);
+		map.addAttribute("mino", mino);
+		return "/auction/event";
+	}
 	
 	@PostMapping("/add")
 	public String add(AuctionDto a) {
 		a.setMax(a.getMin());
 		a.setStatus("경매중");
+		if(a.getType().equals(Auction.Type.EVENT)) {
+			a.setMax(0);
+		}
 		a.setStart_time(new Date());
 		aservice.setTime(a, a.getTime());
 		aservice.save(a);
@@ -74,7 +83,7 @@ public class AuctionController {
 				map.put("msg","end");
 				return map;
 			}
-			if(bservice.getByParent(b.getParent()).size()>0 && !auction.getType().equals(Auction.Type.BLIND)) {
+			if(bservice.getByParent(b.getParent()).size()>0 && !(auction.getType().equals(Auction.Type.BLIND))) {
 				BidDto pbid=bservice.getByBuyer(auction.getNum());
 				int getPoint=pbid.getPrice();
 				System.out.println(getPoint);
@@ -87,16 +96,18 @@ public class AuctionController {
 		}
 		buyer.setPoint(buyer.getPoint()-b.getPrice());
 		bservice.save(dto);
-		auction.setBidcount(auction.getBidcount()+1);
+		auction.setBcnt(auction.getBcnt()+1);
 		if((auction.getType().equals(Auction.Type.EVENT))) {
+			System.out.println(b.getPrice());
 			auction.setMax(auction.getMax()+b.getPrice());
 		}else {
 			auction.setMax(b.getPrice());
 		}
+		System.out.println(3);
 		aservice.save(auction);
 		mservice.edit(buyer);
 		String price=""+b.getPrice();
-		map.put("price", price);
+		map.put("price", auction.getMax());
 		return map;
 	}
 	

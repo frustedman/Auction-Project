@@ -558,6 +558,9 @@ img5: <img th:if="${s.product.img5 != null}" th:src="@{/auth/prod/read-img(img=$
             <form id="scrap">
                 <input type="hidden" th:value="${s.num}" id="num" name="auction">
                 <input type="hidden" th:value="${session.loginId}" id="buyer" name="member">
+                <input type="hidden" th:value="${s.seller.id}" id="seller" >
+                <input type="hidden" th:value="${point}" id="point" >
+                <input type="hidden" th:value="${s.type}" id="type" > 
             </form>
             <!--            <div class="image-wrapper slideshow-container">-->
             <!--                <div class="slideshow-images">-->
