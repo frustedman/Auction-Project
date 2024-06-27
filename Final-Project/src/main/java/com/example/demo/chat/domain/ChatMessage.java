@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
+@Setter
 public class ChatMessage implements Serializable {
     @Setter
     private String id;
